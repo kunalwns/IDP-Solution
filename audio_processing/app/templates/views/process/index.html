@@ -1,0 +1,214 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+<!-- Content Header (Page header) -->
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0">Process Document</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Dashboard v1</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- left column -->
+
+            <div class="col-md-12">
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title">Run Process to Extract Information</h3>
+                        <div class="card-tools">
+                            <div class="input-group input-group-sm">
+                                <i class="fa fa-filter" style="margin-top:7px;margin-right:10px;"></i>
+                                <select id="drp_doc_type" class="dropdown form-control form-control-sm"
+                                    style="margin-right:20px;">
+                                    <option value="0">PO Invoice</option>
+                                    <option value="1">Non PO Invoice</option>
+                                </select>
+
+                                <input type="text" class="form-control" placeholder="Search">
+                                <div class="input-group-append">
+                                    <div class="btn btn-primary">
+                                        <i class="fas fa-search"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="card-body p-0">
+                        <div class="mailbox-controls">
+
+                            <button type="button" onclick="raise_new_request()" class="btn btn-default btn-sm checkbox-toggle">
+                                <i class="far fa-square"></i>
+                            </button>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-default btn-sm">
+                                    <i class="far fa-trash-alt"></i>
+                                </button>
+
+                            </div>
+
+                            <button type="button" class="btn btn-default btn-sm">
+                                <i class="fas fa-sync-alt"></i>
+                            </button>
+                            <div class="float-right">
+                                1-50/200
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-default btn-sm">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-default btn-sm">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </button>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div class="table-responsive mailbox-messages">
+                            <table class="table table-hover table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <div class="icheck-primary">
+                                                <input type="checkbox" value="" id="check1">
+                                                <label for="check1"></label>
+                                            </div>
+                                        </th>
+
+                                        <th class="mailbox-name">Document Name</th>
+                                        <th class="mailbox-subject">
+                                            Template/Batch
+                                        </th>
+                                        <th class="mailbox-name">Uploaded By</th>
+                                        <th class="mailbox-star" style="text-align:center">Doc Type</th>
+                                        <th class="mailbox-date">Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <div class="icheck-primary">
+                                                <input type="checkbox" value="" id="check1">
+                                                <label for="check1"></label>
+                                            </div>
+                                        </td>
+
+                                        <td class="mailbox-name">
+                                            <div onclick="show_detail()">Sample Document for PO</div>
+                                        </td>
+                                        <td class="mailbox-subject">
+                                            <b>Template PO</b> - Batch_001_20_2022...
+                                        </td>
+                                        <td class="mailbox-name"><a href="read-mail.html">Tarun Kumar</a></td>
+                                        <td class="mailbox-star" style="text-align:center;color:#323232;"><i
+                                                class="fas fa-file-pdf"></i></td>
+                                        <td class="mailbox-date">20, May 2022</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="icheck-primary">
+                                                <input type="checkbox" value="" id="check1">
+                                                <label for="check1"></label>
+                                            </div>
+                                        </td>
+
+                                        <td class="mailbox-name"><a href="read-mail.html">Sample Document for PO</a>
+                                        </td>
+                                        <td class="mailbox-subject">
+                                            <b>Template PO</b> - Batch_001_20_2022...
+                                        </td>
+                                        <td class="mailbox-name"><a href="read-mail.html">Tarun Kumar</a></td>
+                                        <td class="mailbox-star" style="text-align:center;color:#323232;"><i
+                                                class="fas fa-file-pdf"></i></td>
+                                        <td class="mailbox-date">20, May 2022</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+
+        </div>
+    </div>
+    <!-- /.container-fluid -->
+
+
+</section>
+
+
+<aside id="div_process_detail" class="" style="top: 57px;right: 0px;width:300px; bottom: 33px;
+top: 57px;
+height: 700px;
+ display:none;position: absolute;background-color: #343a40;z-index:1031;color: #fff;right: 0;
+ transition: width 2s, height 4s;">
+    Tar
+</aside>
+
+<script>
+    function show_detail() {
+
+        $("#div_process_detail").toggle()
+    }
+
+
+
+    function raise_new_request() {
+
+        function add_new_layout() {
+
+            info = {}
+            info["config_id"] = "1"
+            info["user_id"] = "1"
+            info["document_name"] = "sample.pdf"
+            info["organization_id"] = "1"
+            
+            info = JSON.stringify(info)
+            var api_url = $("#SITEROOTURL").val() + "/run_extraction";
+            alert(api_url)
+
+            $.ajax({
+                url: api_url,
+                headers: { "X-CSRFToken": '{{ csrf_token }}', 'Content-Type': undefined },
+                type: "POST",
+                crossDomain: true,
+                dataType: "json",
+                data: { info },
+                success: function (result_outputdata) {
+                    
+                },
+                error: function (error) {
+
+                    console.log(error);
+                }
+            });
+
+
+        }
+
+    }
+</script>
+{% endblock %}

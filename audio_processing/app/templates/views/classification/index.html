@@ -1,0 +1,358 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+<style>
+  .ft-20 {
+    font-size: 18px;
+    color: #323232
+  }
+</style>
+
+<div class="midde_cont">
+  <div class="container-fluid">
+    <div class="row column_title">
+      <div class="col-md-12 col-lg-12 col-sm-12">
+        <div class="page_title">
+          <h2 style="font-size:26px;width: 600px;"><i class="fa fa-plus   red_color"
+              style="font: size 26px;margin-top:4px;margin-right: 15px;"></i>List of Classifiers</h2>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <!-- left column -->
+  <div class="col-md-4">
+    <div class="card card-primary">
+
+      <div class="card-body p-0">
+
+        <div class="table-responsive mailbox-messages">
+
+          <table id="layout_list" class="table">
+            <thead>
+              <tr>
+                <th class="mailbox-name" style="font-size:20px;">Title</th>
+
+                <th class="mailbox-date" style="font-size:20px">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <input type="hidden" value="{{lst_classification.result.0.id}}" id="hdn_current_id" />
+              <input type="hidden" value="{{lst_classification.result.0.id}}" id="hdn_firstrec" />
+              <input type="hidden" value="{{lst_classification.root_download}}" id="hdn_download" />
+              {% for doc_item in lst_classification.result %}
+
+              <tr>
+                <td>
+                  <input type="hidden" id="hdn_title_{{doc_item.id}}" value="{{doc_item.title}}">
+                  <input type="hidden" id="hdn_created_date_{{doc_item.id}}" value="{{doc_item.created_date}}">
+                  <input type="hidden" id="hdn_uuid_{{doc_item.id}}" value="{{doc_item.classification_uuid}}">
+                  <input type="hidden" id="hdn_id_{{doc_item.id}}" value="{{doc_item.id}}">
+                  <input type="hidden" id="hdn_folder_location_{{doc_item.id}}" value="{{doc_item.folder_location}}">
+                  <input type="hidden" id="hdn_status_{{doc_item.id}}" value="{{doc_item.status}}">
+                  <input type="hidden" id="hdn_running_status_{{doc_item.id}}" value="{{doc_item.running_status}}">
+                  <input type="hidden" id="hdn_categories_{{doc_item.id}}" value="{{doc_item.category_list}}">
+                  <button type="button" onclick="get_modal_detail('{{doc_item.id}}')" class="btn btn-link"
+                    style="font-size:18px ;color:#455a64">{{doc_item.title}}</button>
+                </td>
+
+                <td style="text-align: center">
+
+                  {% if doc_item.status == 0 %}
+                  <span class="right badge badge-default">Inactive</span>
+
+                  {% elif doc_item.status == 1 %}
+                  <span class="right badge badge-info">Active</span>
+
+                  {% endif %}
+                </td>
+              </tr>
+              {% endfor %}
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+  <div class="col-md-8">
+    <div class="card ">
+      <div class="card-header">
+        <h3 style="float: left;margin-top: 5px;color:#455a64" id="config_name"></h3>
+        <div style="text-align:right">
+          <button type="button" class="btn btn-info btn-sm" style="margin-right:10px;font-size: 22px;color:red;">
+            <i class="fa fa-refresh"></i>
+          </button>
+          
+          <div class="btn-group">
+
+            <a href="{% url 'add_classification_layout' %}"><button type="button" class="btn btn-success btn-sm "
+                style="margin-right:10px;font-size: 22px;color:red;">
+                <i class="fa fa-plus-circle"></i>
+              </button></a>
+          </div>
+          <button onclick="raise_new_request();" type="button" class="btn btn-info btn-sm" style="margin-right:10px;font-size:18px;">
+            Raise New Request
+          </button>
+        </div>
+      </div>
+
+      <div class="card-body p-0">
+
+        <div class=" ">
+          <div class="col-12" style="margin-top:10px;">
+
+            <div class="p-3 mb-3" style="color:#000">
+
+              <div class="row invoice-info">
+                <div class="col-sm-6 invoice-col ft-18">
+                  <h4 style="color: #455a64;">Layout ID</h4>
+
+                  <strong><span class="ft-20" id="span_layout_id">--</span></strong><br>
+
+
+                </div>
+                <div class="col-sm-4 invoice-col">
+                  <h4 style="color: #455a64;">Created Date</h4>
+                  <address>
+                    <strong><span class="ft-20" id="span_created_date">--</span></strong><br>
+
+                  </address>
+                </div>
+                <div class="col-sm-2 invoice-col">
+                  <h4 style="color: #455a64;">Status</h4>
+                  <address id="layout_status">
+
+                  </address>
+                </div>
+
+              </div>
+
+              <div class="row invoice-info" style="margin-top:20px;">
+                <div class="col-sm-6 invoice-col">
+                  <h4 style="color: #455a64;">Categories</h4>
+                  <address>
+                    <strong><span class="ft-20" id="span_category">--</span></strong><br>
+
+                  </address>
+                </div>
+                <div class="col-sm-6 invoice-col">
+                  <h4 style="color: #455a64;">Folder Root</h4>
+                  <address>
+                    <strong><span class="ft-20" id="span_folder_root">--</span></strong><br>
+
+                  </address>
+                </div>
+              </div>
+
+              <div class="row" style="margin-top: 30px;">
+                <div class="col-12 ">
+                  <div class="" style="padding: 10px">
+                    <div class="breadcomb-wp">
+
+                      <div class="breadcomb-ctn">
+                        <h1 class="m-0"><i class="  fa fa-th-large" style="margin-right: 10px ;"></i>Trained Modals</h1>
+                        <p>You can download trained Modals</p>
+                      </div>
+                    </div>
+
+                    <div class="">
+                      <div class="table-responsive mailbox-messages">
+                        <table class="table   table-striped">
+                          <thead>
+                            <tr>
+                              <th class="mailbox-name ft-18">Modal Name</th>
+
+                              <th class="mailbox-name ft-18">Download</th>
+                              <th class="mailbox-name ft-18">Status</th>
+                            </tr>
+                          </thead>
+                          <tbody id="tr_modal_detail" style="color:#000;font-size: 18px;">
+
+
+
+                            <tr id="form_no_data">
+                              <td colspan="5">
+                                <div>
+                                  No Data Available
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+
+                      </div>
+
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+  $(document).ready(function () {
+    get_modal_detail($("#hdn_firstrec").val())
+  });
+
+  function get_modal_detail(id) {
+
+    $("#hdn_current_id").val(id)
+    var dict_item = { "id": id };
+
+    var uuid = $("#hdn_uuid_" + id).val()
+    var status = $("#hdn_status_" + id).val()
+    var categories = $("#hdn_categories_" + id).val()
+    var running_status = $("#hdn_running_status_" + id).val()
+    var status = $("#hdn_status_" + id).val()
+    var folder_location = $("#hdn_folder_location_" + id).val()
+    var created_date = $("#hdn_created_date_" + id).val()
+
+
+    $("#span_layout_id").html(uuid)
+    $("#span_running_status").html(running_status)
+
+    $("#span_running_status").html(running_status)
+
+    $("#span_folder_root").html(folder_location)
+
+    $("#span_category").html("")
+    arr_category = categories.split(",");
+    arr_category.forEach(element => {
+      var sp = "<span style='margin-bottom:8px;margin-right:10px;border-radius:5px;color:#fff;padding:5px; background-color: #34495e '>" + element + "<span>"
+      $("#span_category").append(sp)
+    });
+    $("#span_created_date").html(created_date)
+    $("#config_name").html($("#hdn_title_" + id).val())
+
+    if (status == "1") {
+
+      $("#layout_status").html("<small ><i class='fa fa-circle text-success' style='font-size:22px;color:green'></i></small>")
+
+    }
+    else {
+      $("#layout_status").html("<small ><i class='fa fa-circle text-success' style='font-size:22px;color:default'></i></small>")
+    }
+    info = JSON.stringify(dict_item)
+    fetch_classification_detail(info)
+
+  }
+
+  function bind_model_details(results) {
+    $("#tr_modal_detail").html("");
+
+    results.forEach(element => {
+      var html = "<tr><td>" + element.modal_name + "</td>"
+      $("#form_no_data").hide()
+      if (element.train_status == "0") {
+        html = html + "<td><span style='border-radius:5px;color:#fff;padding:5px; background-color: #34495e '>New<span></td>"
+        html = html + "<td style='color:#323232'>Not Yet Ready</td>"
+      }
+      if (element.train_status == "1") {
+        html = html + "<td style='color:#323232'>Not Yet Ready</td>"
+        html = html + "<td><span style='border-radius:5px;color:#fff;padding:5px; background-color: #e74c3c '>Running<span></td>"
+      }
+      if (element.train_status == "2") {
+
+        root_folder = $("#hdn_download").val() + "/classified_trained_modal/" + element.trained_model_path
+        http://127.0.0.1:8000/static/media/classified_trained_modal/wow.h5
+        html = html + "<td><a style='color:#000' href='" + root_folder + "' download>Download</td>"
+        html = html + "<td><span style='border-radius:5px;color:#fff;padding:5px; background-color: #27ae60  '>Completed<span></td>"
+      }
+
+      html = html + "</tr>"
+      $("#tr_modal_detail").append(html)
+    });
+
+
+  }
+
+
+  function fetch_classification_detail(info) {
+
+    var api_url = $("#SITEROOTURL").val() + "/get_trained_model_list";
+
+    $.ajax({
+      url: api_url,
+      headers: { "X-CSRFToken": '{{ csrf_token }}', 'Content-Type': undefined },
+      type: "POST",
+      crossDomain: true,
+      dataType: "json",
+      data: { info },
+      success: function (result_outputdata) {
+        bind_model_details(result_outputdata.result)
+      },
+      error: function (error) {
+
+        toastr.error(error)
+      }
+    });
+
+
+  }
+
+
+  function raise_new_request() {
+
+    
+    obj_dict = {}
+    obj_dict["classifier_id"] = $("#hdn_current_id").val()
+    let modal_name = prompt("Please enter Modal Name");
+    if (modal_name != "") {
+      obj_dict["modal_name"] = modal_name
+      modal_info = JSON.stringify(obj_dict)
+      var api_url = $("#SITEROOTURL").val() + "/raise_request_train_modal";
+
+      $.ajax({
+        url: api_url,
+        headers: { "X-CSRFToken": '{{ csrf_token }}', 'Content-Type': undefined },
+        type: "POST",
+        crossDomain: true,
+        dataType: "json",
+        data: { modal_info },
+        success: function (result_outputdata) {
+          if(result_outputdata.status == "1")
+          {
+            toastr.success("Request Raised Successfully.") 
+          }
+          else{
+            toastr.success("Error : Please raise the request again") 
+          }
+          
+        },
+        error: function (error) {
+
+          toastr.error(error)
+        }
+      });
+
+      }
+    else{
+      toastr.error("Please enter Modal Name to train")
+    }
+   
+
+  }
+
+
+
+</script>
+
+
+<!-- /.content -->
+{% endblock %}

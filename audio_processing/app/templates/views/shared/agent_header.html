@@ -1,0 +1,124 @@
+{% block sidebar %}
+{% load static %}
+<style>
+   .header-logo img {
+
+       height: 21px;
+
+       width: 56px;
+
+       margin-right: 20px;
+
+   }
+
+   .site-name {
+
+       font-weight: 500;
+
+       font-size: 14px;
+
+       line-height: 140%;
+
+       color: #231F20;
+
+       margin-left: 3px;
+
+   }
+
+   .username {
+
+       margin-bottom: 0;
+
+       margin-bottom: 0;
+
+       color: #1A1A1A;
+
+       font-weight: 600;
+
+       font-size: 14px;
+
+   }
+
+   .userpermissions {
+
+       font-weight: 400;
+
+       font-size: 12px;
+
+       line-height: 140%;
+
+       color: #4F4F4F;
+
+   }
+   .sticky-header {
+
+position: sticky;
+
+top: 0;
+
+z-index: 1;
+
+background: #FFF;
+
+height: 45px;
+
+line-height: 40px;
+
+}
+   .flname {
+
+       background: linear-gradient(180deg, rgba(54, 207, 201, 0.12) 0%, rgba(54, 207, 201, 0.08) 100%);
+
+       border: 1px solid #D1EEEB;
+
+       height: 40px;
+
+       width: 40px !important;
+
+       line-height: 40px;
+
+       border-radius: 20px;
+
+       color: #137D7D;
+
+   }
+</style>
+<header class="sticky-header">
+
+   <div class="row " style="background-color: #e5e5e5;">
+
+       <div class="col-sm-6 mt-lg-2">
+
+           <a href="#" style="text-decoration: none;" class="header-logo" title="Medical Bill Review">
+            <img src="{% static 'images/logo/wnslogo.png' %}" alt="detail-form">
+
+           </a>
+           <span class="site-name"> Medical Bill Review</span>
+
+       </div>
+
+       <div class="col-sm-6 text-right ">
+
+           <div class="row">
+
+               <div class="col-sm-11">
+
+                   <p class="username ">Tarun Kumar</p>
+ 
+
+               </div>
+
+               <div class="col-sm-1 flname">
+
+                   <p class="initial">MB</p>
+
+               </div>
+
+           </div>
+
+       </div>
+
+   </div>
+
+</header>
+{% endblock %}

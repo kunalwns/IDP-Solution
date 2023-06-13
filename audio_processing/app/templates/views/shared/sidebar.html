@@ -1,0 +1,49 @@
+{% block sidebar %}
+{% load static %}
+<nav id="sidebar" class="ps active">
+   <div class="sidebar_blog_1">
+      <div class="sidebar-header">
+      
+      </div>
+      <div class="sidebar_user_info">
+         <div class="icon_setting"></div>
+         <div class="user_profle_side">
+            <div class="user_img"><img class="img-responsive" src="/static/media/images/1/7/ajay.jfif" alt="#" />
+            </div>
+            <div class="user_info">
+               <h6>{{request.session.user_info.0.username|title}}</h6>
+               <p><span class="online_animation"></span> Online</p>
+            </div>
+         </div>
+      </div>
+   </div> 
+    
+   <div class="sidebar_blog_2">
+      <h4><i class="fa fa-file-o" style="margin-right:10px;color: #fff;"></i>Document</h4>
+      <ul class="list-unstyled components">
+         <li><a href="{% url "dashboard" %}"><i class="fa fa-dashboard yellow_color"
+                  style="font-size:18px;margin-top:4px;"></i>
+               <span style="font-size:15px">Dashboard</span></a></li>
+               <li><a target="_blank" href="{% url "check_api_response" %}"><i class="fa fa-check-circle-o green_color"
+                  style="font-size:18px;margin-top:4px;"></i> <span style="font-size:15px">Check</span></a>
+         </li>
+         <li><a href="{% url "layout" %}"><i class="fa fa-cogs purple_color2" style="font-size:18px;margin-top:4px;"></i>
+               <span style="font-size:15px">Configure</span></a></li>
+
+         <li><a href="{% url "upload" %}"><i class="fa fa-cloud-upload blue2_color"
+                  style="font-size:18px;margin-top:4px;"></i>
+               <span style="font-size:15px">Upload</span></a></li>
+        
+
+         <li> <a href="{% url "extraction" %}"><i class="fa fa-rocket red_color"
+                  style="font-size:18px;margin-top:4px;"></i> <span style="font-size:15px">Run</span></a>
+         </li>
+         <li><a href="{% url "document" %}"><i class="fa fa-file yellow_color"
+            style="font-size:18px;margin-top:4px;"></i>
+         <span style="font-size:15px">Docs</span></a></li>
+        
+      </ul>
+
+   </div>
+</nav>
+{% endblock %}

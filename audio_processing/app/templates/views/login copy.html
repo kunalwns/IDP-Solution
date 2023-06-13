@@ -1,0 +1,68 @@
+{% extends "base_login.html" %}
+{% load static %}
+{% block content %}
+<div class="login_form">
+  <form>
+     <fieldset>
+      
+      <div class="field">
+           <label class="label_field">Email Address</label>
+           <input type="email" id="user_email_id" name="user_email_id" placeholder="E-mail" />
+        </div>
+        <div class="field">
+           <label class="label_field">Password</label>
+           <input type="password" name="user_password" id="user_password" placeholder="Password" />
+        </div>
+        <div class="field">
+           <label class="label_field hidden">hidden label</label>
+           <label class="form-check-label"><input type="checkbox" class="form-check-input"> Remember Me</label>
+           <a class="forgot" href="">Forgotten Password?</a>
+        </div>
+        <div class="field margin_0">
+           <label class="label_field hidden">hidden label</label>
+           <button class="main_bt" onclick="user_authenticate()"   type="button">Sign In</button>
+        </div>
+     </fieldset>
+  </form>
+</div>
+
+<script>
+  function user_authenticate() {
+
+    info = {}
+    info["user_email_id"] = $("#user_email_id").val()
+    info["user_password"] =  $("#user_password").val()
+     
+    info = JSON.stringify(info)
+    console.log(info)
+     
+    var api_url = $("#SITEROOTURL").val() + "/login_user";
+    console.log(api_url)
+
+    $.ajax({
+      url: api_url,
+      headers: { "X-CSRFToken": '{{ csrf_token }}', 'Content-Type': undefined },
+      type: "POST",
+      crossDomain: true,
+      dataType: "json",
+      data: { info },
+      success: function (result_outputdata) {
+        console.log(result_outputdata)
+        if (result_outputdata["status"] == "1") {
+          toastr.success(result_outputdata["message"]);
+          window.location.href = $("#SITEROOTURL").val() + "/documents";
+        }
+        else {
+          toastr.error(result_outputdata["message"]);
+        }
+      },
+      error: function (error) {
+         
+        console.log(error);
+      }
+    });
+
+
+  }
+</script>
+{% endblock %}

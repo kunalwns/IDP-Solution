@@ -1,0 +1,351 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+{% load static %}
+<style>
+   .text_right {
+      text-align: right;
+   }
+
+   .mg-r-10 {
+      margin-right: 10px;
+   }
+</style>
+<input type="hidden" value="{{rec_id}}" id="hdn_file_id" />
+<div class="midde_cont">
+   <div class="container-fluid">
+      <div class="row column_title">
+         <div class="col-md-12">
+            <div class="page_title">
+               <h2>Media Analysis - Dashboard</h2>
+
+               <input type="hidden" value="{{dashboard_stats.result.stats.positive}}" id="hdn_postive">
+               <input type="hidden" value="{{dashboard_stats.result.stats.negative}}" id="hdn_negative">
+               <input type="hidden" value="{{dashboard_stats.result.stats.nutral}}" id="hdn_nutral">
+            </div>
+         </div>
+      </div>
+
+      <div class="row column1">
+         <div class="col-md-6 col-lg-3">
+            <div class="full counter_section margin_bottom_30">
+               <div class="couter_icon">
+                  <div>
+                     <i class="fa fa-user yellow_color"></i>
+                  </div>
+               </div>
+               <div class="counter_no">
+                  <div>
+                     <p class="total_no">{{dashboard_stats.result.stats.speaksers}}</p>
+                     <p class="head_couter">Speakers</p>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="col-md-6 col-lg-3">
+            <div class="full counter_section margin_bottom_30">
+               <div class="couter_icon">
+                  <div>
+
+                     {% if dashboard_stats.result.overall_details.audio_sentiment == 'negative' %}
+                     <i class="fa fa-smile-o red_color"></i>
+                     {% elif dashboard_stats.result.overall_details.audio_sentiment == 'positive' %}
+                     <i class="fa fa-smile-o blue1_color"></i>
+                     {% elif dashboard_stats.result.overall_details.audio_sentiment == 'nutral' %}
+                     <i class="fa fa-smile-o" style="color:black"></i>
+                     {% endif %}
+
+                  </div>
+               </div>
+               <div class="counter_no">
+                  <div>
+                     <p class="total_no">{{dashboard_stats.result.overall_details.audio_sentiment|title}}</p>
+                     <p class="head_couter">Sentiments</p>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="col-md-6 col-lg-3">
+            <div class="full counter_section margin_bottom_30">
+               <div class="couter_icon">
+                  <div>
+                     <i class="fa fa-question purple_color2"></i>
+                  </div>
+               </div>
+               <div class="counter_no">
+                  <div>
+                     <p class="total_no">{{dashboard_stats.result.overall_details.Question}}</p>
+                     <p class="head_couter">Questions</p>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="col-md-6 col-lg-3">
+            <div class="full counter_section margin_bottom_30">
+               <div class="couter_icon">
+                  <div>
+                     <i class="fa fa-info blue1_color"></i>
+                  </div>
+               </div>
+               <div class="counter_no">
+                  <div>
+                     <p class="total_no">{{dashboard_stats.result.overall_details.Sentence}}</p>
+                     <p class="head_couter">Sentence</p>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="col-md-6 col-lg-3">
+            <div class="full counter_section margin_bottom_30">
+               <div class="couter_icon">
+                  <div>
+                     <i class="fa fa-flag orange_color"></i>
+                  </div>
+               </div>
+               <div class="counter_no">
+                  <div>
+                     <p class="total_no">{{dashboard_stats.result.overall_details.Clarity}}</p>
+                     <p class="head_couter">Clarity</p>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="col-md-6 col-lg-3">
+            <div class="full counter_section margin_bottom_30">
+               <div class="couter_icon">
+                  <div>
+                     <i class="fa fa fa-magic green_color"></i>
+                  </div>
+               </div>
+               <div class="counter_no">
+                  <div>
+                     <p class="total_no">{{dashboard_stats.result.stats.file_size}}</p>
+                     <p class="head_couter">Audio Size</p>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="col-md-12 col-lg-6 col-sm-6">
+            <div class="full counter_section margin_bottom_30">
+               <ul class="list-unstyled components">
+                 
+                  {% for doc_item in dashboard_stats.result.speakers_stats %}
+                  <li style="border-bottom: solid 1px #e5e5e5;"><span
+                        style="font-size:20px;padding-bottom: 10px;">{{doc_item.speaker_display|title}}</span> <a
+                        target: '_blank' style="float:right;" href="app/{% static " media/audio" %}/{{doc_item.url}}"><i
+                           class="fa fa-cloud-download green_color"
+                           style="font-size:22px;margin-top:4px;margin-left:40px;"></i> </a></li>
+                  {% endfor %}
+
+               </ul>
+
+
+            </div>
+         </div>
+      </div>
+
+
+      <div class="row" style="margin-top: 10px;">
+
+
+         {% for doc_item in dashboard_stats.result.speakers_stats %}
+
+         <div class="col-md-6">
+            <div class="full white_shd">
+               <div class="full graph_head">
+                  <div class="heading1 margin_0">
+                     <h2> {{doc_item.speaker_display|title}}</h2>
+                  </div>
+               </div>
+               <div class="full padding_infor_info" style="padding:10px;">
+                  <div class="price_table">
+                     <div class="table-responsive">
+                        <table class="table">
+                           <tbody>
+                              <tr>
+                                 <th><i class="fa fa-calendar-o mg-r-10 green_color"></i>Time Spent</th>
+                                 <td class="text_right"> {{doc_item.time_spent}}</td>
+                              </tr>
+                              <tr>
+                                 <th><i class="fa fa-smile-o mg-r-10 yellow_color"></i>Positive Statements</th>
+                                 <td class="text_right"> {{doc_item.positive}}</td>
+                                 <td class="text_right">
+                                    <i class="fa fa-info" style="font-size:20px;cursor: pointer;"
+                                       onclick='set_params("{{doc_item.speaker}}","Positive")'></i>
+
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <th><i class="fa fa-smile-o mg-r-10 yellow_color"></i>Negative Statements</th>
+                                 <td class="text_right"> {{doc_item.negative}}</td>
+                                 <td class="text_right">
+                                    <i class="fa fa-info" style="font-size:20px;cursor: pointer;"
+                                       onclick='set_params("{{doc_item.speaker}}","Negative")'></i>
+
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <th><i class="fa fa-smile-o mg-r-10 yellow_color"></i>Nutral Statements</th>
+                                 <td class="text_right"> {{doc_item.nutral}}</td>
+                                 <td class="text_right">
+                                    <i class="fa fa-info" style="font-size:20px;cursor: pointer;"
+                                       onclick='set_params("{{doc_item.speaker}}","Nutral")'></i>
+
+                                 </td>
+                              </tr>
+
+                              <tr>
+                                 <th><i class="fa fa-question mg-r-10 purple_color"></i>Questions Asked</th>
+                                 <td class="text_right"> {{doc_item.Question}}</td>
+                                 <td class="text_right">
+                                    <i class="fa fa-info" style="font-size:20px;cursor: pointer;"
+                                       onclick='set_params("{{doc_item.speaker}}","question")'></i>
+
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <th><i class="fa fa-info mg-r-10 blue1_color"></i>Sentence</th>
+                                 <td class="text_right">{{doc_item.Sentence}}</td>
+                                 <td class="text_right">
+                                    <i class="fa fa-info" style="font-size:20px;cursor: pointer;"
+                                       onclick='set_params("{{doc_item.speaker}}","Sentence")'></i>
+
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <th><i class="fa fa-flag mg-r-10 orange_color"></i>Clarity</th>
+                                 <td class="text_right">{{doc_item.Clarity}}</td>
+                                 <td class="text_right">
+                                    <i class="fa fa-info" style="font-size:20px;cursor: pointer;"
+                                       onclick='set_params("{{doc_item.speaker}}","Clarity")'></i>
+
+                                 </td>
+                              </tr>
+
+                           </tbody>
+                        </table>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+
+         {% endfor %}
+
+
+      </div>
+
+
+      <!-- Button trigger modal -->
+      <button id="btn_detail_modal" type="button" class="btn btn-primary" style="display:none;" data-toggle="modal"
+         data-target="#exampleModal">
+
+      </button>
+
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+         <div class="modal-dialog" role="document">
+            <div class="modal-content">
+               <div class="modal-header">
+
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                     <span aria-hidden="true">&times;</span>
+                  </button>
+               </div>
+               <div class="modal-body" id="nlp_results" style="height:500px;overflow-y: auto;">
+                  <table id="tbl_nlp_results" class="table" style="width: 100%;">
+                     <thead>
+                        <th style="font-weight: 500;
+                        border-top: none;
+                        padding-top: 0px;
+                        font-size: 20px;">#</th>
+
+                        <th id="th_head" style="font-weight: 500;
+                           border-top: none;
+                           padding-top: 0px;
+                           font-size: 20px;"></th>
+
+                     </thead>
+                     <tbody id="tbl_row">
+
+                     </tbody>
+                  </table>
+               </div>
+               <div class="modal-footer">
+
+                  <i class="fa fa-cloud-download green_color" style="font-size:22px;">Download</i>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+
+</div>
+
+<script>
+
+   function download(filename, text) {
+      var element = document.createElement('a');
+      element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+      element.setAttribute('download', filename);
+
+      element.style.display = 'none';
+      document.body.appendChild(element);
+
+      element.click();
+
+      document.body.removeChild(element);
+   }
+
+   function set_params(speaker, info_type) {
+      info = {}
+      info["speaker_id"] = speaker
+      info["type"] = info_type
+      $("#th_head").html(info_type)
+      info["file_id"] = $("#hdn_file_id").val()
+      info = JSON.stringify(info)
+      get_details(info)
+   }
+
+
+   function display_nlp_details(results) {
+      $("#tbl_row").html("")
+      $.each(results, function (key, value) {
+         $("#tbl_row").append("<tr><td>" + parseInt(key + 1).toString() + "</td><td>" + value + "</td></tr>");
+      });
+   }
+   function get_details(info) {
+
+
+      var api_url = $("#SITEROOTURL").val() + "/get_nlp_detail";
+      $.ajax({
+         url: api_url,
+         headers: { "X-CSRFToken": '{{ csrf_token }}', 'Content-Type': undefined },
+         type: "POST",
+         async: false,
+         crossDomain: true,
+         dataType: "json",
+         data: { info },
+         success: function (result_outputdata) {
+            if (result_outputdata.status == "1") {
+               $("#btn_detail_modal").click();
+               display_nlp_details(result_outputdata.results)
+            }
+            else {
+
+            }
+
+
+         },
+         error: function (error) {
+            toastr.error("error")
+            console.log(error);
+         }
+      });
+
+
+   }
+</script>
+
+{% endblock %}

@@ -1,0 +1,80 @@
+{% extends "base_generic.html" %}
+
+{% block content %} 
+<style>
+   
+</style>
+<div class="midde_cont">
+  <div class="container-fluid">
+     <div class="row column_title">
+        <div class="col-md-12">
+           <div class="page_title">
+              <h2>Processed Media - Ready for Analysis</h2>
+           </div>
+        </div>
+     </div>
+     <!-- row -->
+     <div class="row">
+        <!-- table section -->
+        <div class="col-md-12">
+           <div class="white_shd full margin_bottom_30">
+              <div class="full graph_head">
+                 <div class="heading1 margin_0">
+                    <h2>Audio/Video Processed</h2>
+                 </div>
+              </div>
+              <div class="table_section padding_infor_info" style="padding: 15px 15px">
+                 <div class="table-responsive-sm">
+                    <table class="table" style="font-size: 20px;">
+                       <thead>
+                          <tr>
+                             <th style="width: 25%">Document Name</th>
+                             <th style="text-align:center;">Type</th>
+                             <th>Started Date</th>
+                             <th>Completed Date</th>
+                             <th>Uploaded By</th>
+                             <th style="text-align:center;">Status</th>
+                             
+                          </tr>
+                       </thead>
+                       <tbody>
+                       
+                        {% for doc_item in doc_list.result %}
+                        <tr class="odd">
+                          <td class="dtr-control sorting_1" tabindex="0">
+                          <a href="{% url 'analysis' doc_item.id  %}"> {{doc_item.doc_name}}</a>
+                           </td>
+                          <td style="text-align:center;">
+                            {{doc_item.doc_type}}
+                          </td>
+                         
+                          <td>{{doc_item.process_start|date:'Y/m/d'}}</td>
+                          <td>{{doc_item.process_end|date:'Y/m/d'}}</td>
+                          <td>{{doc_item.username}}</td>
+                          <td style="text-align: center">
+                            
+                            {% if doc_item.process_status == 0 %}
+                            <i class="fa fa-circle-o" title="Inactive" style='font-size:32px;color:#000000'></i>
+                            {% elif doc_item.process_status  == 1 %}
+                            <i class="fa fa-spinner" title="In Progress" style='font-size:32px;color:#ffc107;font-weight: 600;'></i>
+                            {% elif doc_item.process_status  == 2  %}
+                            <i class="fa fa-check-circle-o" title="Completed" style='font-size:32px;color:green'></i>
+                            {% endif %}
+                        </td>
+                        
+                        </tr>
+                        {% endfor %}
+                          
+                       </tbody>
+                    </table>
+                 </div>
+              </div>
+           </div>
+        </div>
+        
+     </div>
+  </div>
+  <!-- footer -->
+  
+</div>
+{% endblock %}

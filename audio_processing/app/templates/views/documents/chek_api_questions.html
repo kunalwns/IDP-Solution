@@ -1,0 +1,358 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<style>
+   input[type="file"] {
+      display: none;
+   }
+
+   .custom-file-upload {
+      border: 1px solid #ccc;
+      display: inline-block;
+      padding: 10px;
+      cursor: pointer;
+      width: 100%;
+      font-size: 16px;
+   }
+
+   h1 h2 h3 h4 h5 h6 {
+      color: #1f1f1f !important
+   }
+</style>
+
+<div class="midde_cont">
+   <div class="">
+      <div class=" column_title">
+         <div class="col-md-12">
+            <div class="page_title">
+               <h1 style="font-size: 18px;"> <i class="fa fa-cloud-upload green_color"
+                     style="font-size:18px;margin-top:4px;margin-right: 10px;"></i>Test Document Questions</h1>
+            </div>
+         </div>
+      </div>
+      <div id="reload" style="display:none;text-align: right;margin-bottom:10px ;">
+         <a class="btn btn-primary" href="javascript:window.location.reload(true)">Test More Document</a>
+
+      </div>
+      <!-- row -->
+      <div class="row">
+         <div class="col-md-6">
+            <div id="img_panel"  class="white_shd full margin_bottom_30" style="display: none;border: solid 1px #ababab;">
+              
+               <img id="img_src" style="width: 100%;" src="/static/media/document/dump/claim_6.jpg">
+               <embed id="pdf_src" src="/static/media/document/dump/claim_6.jpg" type="application/pdf"   height="700px" width="500">
+            </div>
+
+            <div id="upload_panel" class="white_shd full margin_bottom_30">
+               <div class="full graph_head">
+                  <div class="heading1 margin_0">
+                     <h4 style="font-weight: 400;">Select Document(s) to Upload</h4>
+                     <input type="hidden" id="selected_config" value="" />
+                  </div>
+               </div>
+               <div class="full progress_bar_inner">
+
+                  <div class="row">
+                     <div class="col-md-12">
+                        <div class="msg_section">
+                           <div class="msg_list_main">
+                              <ul class="msg_list">
+                                 <li>
+                                    <label for="file-upload" class="custom-file-upload">
+                                       <i class="fa fa-cloud-upload"></i> Document Upload
+                                    </label>
+                                    <input id="file-upload" name="file-upload[]" multiple
+                                       aria-describedby="inputGroupFileAddon01" onchange="preview_image()" type="file"
+                                       style="width: 100%;" />
+                                 </li>
+                                 <li>
+                                    <div style="text-align: right;width:100%;">
+                                       <button onclick="start_upload()" type="button"
+                                          style="background-color: #ff5722;color:#fff;" class="btn btn-warning">Start
+                                          Upload</button>
+                                    </div>
+                                 </li>
+
+                              </ul> 
+                           </div> 
+                        </div>
+                     </div> 
+                  </div> 
+               </div>
+            </div>
+            <div id="progress_panel" class="white_shd full" style="margin-bottom: 10px;">
+               <div class="full graph_head">
+                  <div class="heading1 margin_0">
+                     <h4 style="font-weight: 400;">Uploaded Files</h4>
+                  </div>
+               </div>
+               <div class="table_section padding_infor_info">
+                  <div class="table-responsive-sm">
+                     <table class="table" style="color:#000;font-size: 1 rem">
+                        <thead>
+                           <tr>
+                              <th style="width: 60px;border-top: none;">#</th>
+                              <th style="border-top: none;"> File Name </th>
+                              <th style="border-top: none;display: none"> File Size </th>
+                              <th style="border-top: none;"> Upload Progress</th>
+                              <th style="width: 100px;border-top: none;display: none;"> Action </th>
+                           </tr>
+                        </thead>
+                        <tbody id="image_preview">
+
+                        </tbody>
+                     </table>
+                  </div>
+               </div>
+            </div>
+
+         </div>
+         <div class="col-md-6">
+            <div class="white_shd full margin_bottom_30">
+               <div class="full graph_head" style="background-color: #1f1f1f;">
+                  <div class="">
+                     <h4 style="font-weight: 400;color: #fff;">Enter Question</h4>
+                     <div class="row">
+                        <div class="col-md-10">
+                           <input id="question" name="question" type="text" class="form-control form-control-lg">
+                        </div>
+                        <div class="col-md-2">
+                           <button onclick="test_fun()" type="button"
+                              style="margin-top:10px;background-color: #ccc;color:#000;border: none;"
+                              class="btn btn-warning">Send</button>
+                        </div>
+
+
+                     </div>
+                  </div>
+
+               </div>
+
+            </div>
+            <div class="white_shd full margin_bottom_30">
+               <div class="full graph_head" style="overflow-y: scroll ;background-color: #1f1f1f;color: #fff !important;">
+                  <div class="heading1 margin_0" style="height: 150px;">
+                     <h4 style="font-weight: 400;color: #fff;">JSON Response</h4>
+                     <div style="width: 100%;">
+                     <pre id="div_api_response" style="color: #fff;min-height:200px;overflow-y: scroll;overflow-x: scroll;">
+                        <div id="output"></div>
+                        <div id="div_process" style="display: none;">Processing...</div>
+                     </pre>
+                  </div>
+                  </div>
+               </div>
+            </div>
+            <div class="full graph_head " style="background-color: #1f1f1f;color: #fff !important;">
+               <div id="form_fields">
+               
+                  <div class="form-group row">
+                     <label  class="col-sm-3 col-form-label txt_css" >Answer</label>
+                     <div class="col-sm-9">
+                        <div  class="form-control val_css" id="txt_answer" style="min-height: 40px;" placeholder="" value=""></div>
+                         
+                     </div>
+                      
+                  </div>
+                  <div class="form-group row">
+                     <label  class="col-sm-3 col-form-label txt_css" >Confidence</label>
+                     <div class="col-sm-9">
+                        <input type="text" class="form-control val_css" id="txt_confidence" placeholder="" value="">
+                         
+                     </div>
+                      
+                  </div>
+                  <div class="form-group row">
+                     <label  class="col-sm-3 col-form-label txt_css" >Question</label>
+                     <div class="col-sm-9">
+                        <input type="text" class="form-control val_css" id="txt_question" placeholder="" value="">
+                         
+                     </div>
+                      
+                  </div>
+               </div>
+            </div>
+           
+         </div>
+      </div>
+
+   </div>
+   <input type="hidden" id="hdn_uploaded_file_name" value="">
+</div>
+
+<script>
+   var dyn_id = 1;
+   var upl_id = 1;
+
+
+
+   function bind_fields(json_res)
+   {
+      $("#txt_answer").html(json_res.answer)
+      
+      $("#txt_confidence").val(parseFloat(json_res.confidence))
+      $("#txt_question").val(json_res.question)
+   }
+   function test_fun() {
+
+
+      $("#txt_answer").val("")
+      $("#txt_confidence").val("")
+      $("#txt_question").val("")
+
+      var api_url = "http://127.0.0.1:8000/app/check_api";
+      $("#div_process").show()
+      $("#div_process").show()
+      $("#output").html("")
+      info = {}
+      info["file_name"] = $("#hdn_uploaded_file_name").val()
+      info["question"] = $("#question").val()
+      info = JSON.stringify(info)
+      $.ajax({
+         url: api_url,
+         headers: { "X-CSRFToken": '{{ csrf_token }}', 'Content-Type': undefined },
+         type: "POST",
+         crossDomain: true,
+         dataType: "json",
+         data: { info },
+         success: function (result_outputdata) {
+            delete result_outputdata.api_response.data[0]["context"]
+            result_outputdata.api_response.data[0]["confidence"] = parseFloat(result_outputdata.api_response.data[0]["confidence"]).toFixed(2)
+            JSON.stringify(result_outputdata.api_response.data[0])
+            
+            bind_fields(result_outputdata.api_response.data[0])
+            
+            $("#output").html(JSON.stringify(result_outputdata.api_response.data[0], 'undefined', 2))
+            $("#div_process").hide()
+         },
+         error: function (error) {
+            toastr.success("error")
+            console.log(error);
+         }
+      });
+
+   }
+
+   function randomIntFromInterval(min, max) { // min and max included 
+      return Math.floor(Math.random() * (max - min + 1) + min);
+   }
+   function getExtension(filename) {
+      return filename.split('.').pop().toLowerCase();
+   }
+   function set_current_template() {
+      item = $('#drp_template').val()
+
+      $("#selected_config").val(item)
+   }
+   function preview_image() {
+      var total_file = document.getElementById("file-upload").files.length;
+      for (var i = 0; i < total_file; i++) {
+
+         var uploadRow = '';
+         var _size = event.target.files[i].size;
+         var fSExt = new Array('Bytes', 'KB', 'MB', 'GB'),
+            s = 0; while (_size > 900) { _size /= 1024; s++; }
+         var exactSize = (Math.round(_size * 100) / 100) + ' ' + fSExt[s];
+
+         var fileExt = getExtension(event.target.files[i].name).toLowerCase();
+
+         if(fileExt == 'pdf')
+         {
+            
+            $("#pdf_src").attr("src","/static/media/document/dump/" + event.target.files[i].name) 
+            $("#pdf_src").show()
+            $("#img_src").hide()
+         }
+         else{ 
+            $("#img_src").attr("src","/static/media/document/dump/" + event.target.files[i].name) 
+            $("#pdf_src").hide()
+            $("#img_src").show()
+         }
+          
+
+         if (fileExt == 'pdf' || fileExt == 'jpg' || fileExt == 'jpeg' || fileExt == 'png') {
+            id = "file_" + (upl_id)
+            $("#hdn_uploaded_file_name").val(event.target.files[i].name)
+            file_name = "tr_" + (upl_id)
+            small_id = "small_" + (upl_id)
+            rec_id = "uuid_" + (upl_id)
+            span_file_name = "uuid_" + (upl_id)
+            progressbar = "<td class='project_progress'><div class='progress progress-sm'><div class='progress-bar bg-green' id = '" + id + "' role='progressbar' style='width: 0%' aria-volumemax='100' aria-volumemin='0'></div></div><small id=" + small_id + ">0% Complete</small><span id= span_" + rec_id + " style='display:none'>" + event.target.files[i].name + "</span><span  style='display:none' id= " + rec_id + "></span></td>"
+            uploadRow += "<tr id = " + file_name + " ><td><div >" + (upl_id) + "</div> </td><td >" + event.target.files[i].name + "</td><td style='display:none'>" + exactSize + " </td>" + progressbar + "<td style='text-align:center;display:none'> <i style='display:none' id='btndelete_" + id + "' onclick = Delete_file('" + rec_id + "')  class='fa fa-remove'></i>  <i id='btncancel_" + id + "' class='fa fa-remove'></i></td></tr>";
+
+         } else {
+            toastr.error("Only PDF, JPG, JPEG,PNG file allowed.");
+         }
+
+         $('#image_preview').append(uploadRow);
+         upl_id = upl_id + 1
+      }
+
+   }
+
+   function start_upload() {
+      $("#img_panel").show()
+      $("#upload_panel").hide()
+      $("#progress_panel").hide() 
+      $("#reload").show()
+      upload_files()
+   }
+   function upload_files() {
+
+      var total_file = document.getElementById("file-upload").files.length;
+
+      for (var filestart = 0; filestart < total_file; filestart++) {
+         calc_percentage = "";
+         var file_data = $("#file-upload").prop("files")[filestart];
+         file_id = "file_" + dyn_id
+         small_id = "small_" + dyn_id
+
+         calc_percentage = randomIntFromInterval(30, 80) + "%"
+         $('#' + file_id).width(calc_percentage)
+         $('#' + small_id).html(calc_percentage + "Completed")
+         var fd = new FormData();
+         console.log("File_id " + file_id + "**************************")
+         fd.append("file", file_data);
+         fd.append("file_index", (dyn_id));
+         fd.append("config_id", ($("#selected_config").val()));
+
+         upload_request(fd)
+
+         dyn_id = dyn_id + 1;
+      }
+
+   }
+   function upload_request(fd) {
+
+      var UPLOAD_URL = $("#SITEROOTURL").val() + "/upload_api_check_file"; 
+      $.ajax({
+         url: UPLOAD_URL,
+         type: 'POST',
+         data: fd,
+         crossDomain: true,
+         processData: false,
+         contentType: false,
+         headers: { "X-CSRFToken": '{{csrf_token}}', 'Content-Type': undefined },
+
+         success: function (result) {
+            console.log(result)
+            if (result.status = "1") {
+               $('#file_' + result.fileindex).width("100%")
+               $('#small_' + result.fileindex).html("100% Completed")
+               $('#btndelete_file_' + result.fileindex).show()
+               $('#btncancel_file_' + result.fileindex).hide()
+
+            }
+            else {
+               toastr.error(result.message)
+            }
+
+
+         }
+      });
+   }
+
+
+
+
+</script>
+{% endblock %}

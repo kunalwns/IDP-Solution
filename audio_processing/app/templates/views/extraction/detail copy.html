@@ -1,0 +1,336 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+<style>
+  .dataTables_filter {
+    text-align: right;
+    margin: 10px 10px 0px 0px !important;
+  }
+
+  .dataTables_info {
+    padding: 10px;
+  }
+
+  .pagination {
+    padding: 10px;
+  }
+</style>
+<div class="midde_cont">
+  <div class="container-fluid">
+    <div class="row column_title">
+      <div class="col-md-12">
+        <div class="page_title">
+          <h1 class="m-0"><i class="fa fa-file green_color" style="margin-right:10px;"></i>Processed Document Detail-
+            <span id="sp_file_name" style="color:green"></span></h1>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+    <div class="card" style="padding: 10px;">
+      <div class="breadcomb-wp">
+
+        <div class="breadcomb-ctn">
+          <h1 class="m-0"> <i class="  fa fa-cogs" style="margin-right: 10px;"></i>Extracted Details</h1>
+          <p>Document Standard And Custom Fields</p>
+        </div>
+      </div>
+      <input type="hidden" value="" id="hdn_config_id">
+      <form id="frm_standard_fields">
+
+      </form>
+    </div>
+  </div>
+  <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+    <div class="card">
+      <div>
+        <iframe id="doc_load" src="#" style="width:100%;height:783px;border: solid 1px #ababab;"></iframe>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="content-header" style="padding-top:0px !important;">
+  <div class="row" style="margin-top: 20px;">
+
+    <div class="col-lg-12 col-sm-12 col-md-12">
+
+      <div class="card">
+        <div class="breadcomb-wp">
+
+          <div class="breadcomb-ctn" style="padding:5px 10px 5px 10px;">
+            <h1 class="m-0"> <i class="  fa fa-cogs" style="margin-right: 10px;"></i>Extracted Line Items</h1> 
+          </div>
+        </div>
+        <div class="card-body p-0">
+          <table class="table table-striped">
+            <thead id="thead_table">
+
+            </thead>
+            <tbody id="tbody_rows">
+
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+<!-- /.row -->
+<input type="hidden" value="" id="current_selected">
+<input type="hidden" value="{{process_id}}" id="hdn_process_id">
+<input type="hidden" value="{{doc_root_path}}" id="hdn_doc_root">
+
+<script>
+
+  var hide_fields = ["doc_id", "process_id", "created_date", "id"];
+
+  load_standard_fields()
+
+
+  function getnerate_standard_field_template(display_name, field, field_value, confidence_score, is_hide) {
+
+    if (is_hide) {
+      html_control_template = "<div class='form-row' style='padding-top:10px;display:none;'>"
+    }
+    else {
+      html_control_template = "<div class='form-row' style='padding-top:10px'>"
+    }
+    html_control_template = html_control_template + "<div class='col-4'>"
+    html_control_template = html_control_template + " <label   id='email' style='margin-top:7px' >" + display_name + "</label>"
+    html_control_template = html_control_template + "  </div> "
+    html_control_template = html_control_template + "  <div class='col-6'>"
+    html_control_template = html_control_template + " <input type='text' value = '" + field_value + "' class='form-control' id='" + field + "'>"
+    html_control_template = html_control_template + " </div>"
+    html_control_template = html_control_template + " <div class='col-2'>"
+    html_control_template = html_control_template + "   <input id='conf_" + field + "'  value='' type='text' class='form-control' style='border: none;color:white !important;text-align: center;'>"
+    html_control_template = html_control_template + "  </div></div>"
+    return html_control_template
+
+  }
+
+
+  function line_item_header_template(header_keys) {
+
+    tbl_header = "<thead>"
+    tbl_header = tbl_header + "<tr>"
+    tds = ""
+
+    $.each(header_keys, function (index, value) {
+      format_display_label = toTitleCase(value.replaceAll('_', ' '))
+      display_name = format_display_label
+
+      check_is_hide = hide_fields.indexOf(value)
+      if (check_is_hide < 0) {
+        tds = tds + "<th >" + display_name + "</th>"
+      }
+
+
+    });
+
+    tbl_header = tds + "</tr>"
+    tbl_header = tbl_header + "</thead>"
+    return tbl_header
+  }
+
+  function line_item_row_template(lineitem_rows, row_number) {
+    row = ""
+    tbody = "<tr id='tbl_row_" + row_number + "'>"
+
+    $.each(lineitem_rows, function (index, value) {
+      row = row + "<td>" + value + "</td>"
+    });
+
+    tbody = tbody + row + "</tr>"
+    return tbody
+  }
+
+
+
+  function toTitleCase(str) {
+    return str.replace(
+      /\w\S*/g,
+      function (txt) {
+        return txt.charAt(0).toUpperCase() + txt.substr(1).toUpperCase();
+      }
+    );
+  }
+
+
+  function populate_lineitems_fields(obj_lineitems_fields) {
+
+
+    tbl_headers = ""
+    tbl_rows = ""
+    var arr_header_keys = new Array();
+    var arr_lineitem_row = new Array();
+    var row = 0;
+
+    var hide_column_indexs = new Array();
+
+
+    $.each(obj_lineitems_fields[0], function (key, value) {
+      arr_header_keys.push(key);
+    });
+
+    tbl_headers = line_item_header_template(arr_header_keys)
+    $("#thead_table").append(tbl_headers)
+
+
+    for (row = 0; row < (obj_lineitems_fields.length); row++) {
+      $.each(obj_lineitems_fields[row], function (key, value) {
+        check_is_hide = hide_fields.indexOf(key)
+        if (check_is_hide < 0) {
+          arr_lineitem_row.push(value);
+        }
+
+      });
+
+
+      tbl_rows = line_item_row_template(arr_lineitem_row, obj_lineitems_fields[row].id)
+      $("#tbody_rows").append(tbl_rows)
+    }
+
+
+  }
+
+
+  function populate_standard_fields(obj_standard_fields) {
+
+
+    $.each(obj_standard_fields, function (key, value) {
+
+      if (key.indexOf("conf_") < 0) {
+        format_display_label = toTitleCase(key.replaceAll('_', ' '))
+        display_name = format_display_label
+        field = key
+        field_value = value
+        confidence_score = "conf_" + key
+
+        check_is_hide = hide_fields.indexOf(key)
+        if (check_is_hide >= 0) {
+          fields = getnerate_standard_field_template(display_name, field, field_value, confidence_score, true);
+        }
+        else {
+          fields = getnerate_standard_field_template(display_name, field, field_value, confidence_score, false);
+        }
+
+        if (key == "config_id") {
+          $("#hdn_config_id").val(value)
+        }
+        else {
+
+          $("#frm_standard_fields").append(fields)
+        }
+      }
+    });
+
+
+    $.each(obj_standard_fields, function (key, value) {
+
+      if (key.indexOf("conf_") >= 0) {
+        $("#" + key).val(value)
+        if (parseFloat(value) > 70) {
+          $("#" + key).css("background-color", "mediumseagreen")
+        }
+        else {
+          $("#" + key).css("background-color", "tomato")
+        }
+
+      }
+    });
+
+
+
+  }
+
+  function load_standard_fields() {
+
+    call_api_standard_fields();
+    call_api_standard_lineitems_fields();
+
+  }
+
+  function call_api_standard_fields() {
+
+    var api_url = $("#SITEROOTURL").val() + "/get_processed_standard_item_detail";
+    info = {}
+    info["process_id"] = $("#hdn_process_id").val()
+    info = JSON.stringify(info)
+    $.ajax({
+      url: api_url,
+      headers: { "X-CSRFToken": '{{ csrf_token }}', 'Content-Type': undefined },
+      type: "POST",
+      async: false,
+      crossDomain: true,
+      dataType: "json",
+      data: { info },
+      success: function (result_outputdata) {
+        if (result_outputdata.status == "1") {
+          console.log(result_outputdata.result[0])
+          populate_standard_fields(result_outputdata.result[0])
+          docpath = $("#hdn_doc_root").val() + "/" + $("#hdn_config_id").val() + "/" + $("#file_name").val()
+
+          $("#doc_load").attr("src", docpath);
+          $("#file_name").attr('disabled', 'disabled');
+          $("#sp_file_name").html($("#file_name").val())
+        }
+        else {
+
+        }
+
+
+      },
+      error: function (error) {
+        toastr.error("error")
+        console.log(error);
+      }
+    });
+
+  }
+
+  function call_api_standard_lineitems_fields() {
+
+    var api_url = $("#SITEROOTURL").val() + "/get_processed_standard_line_item_detail";
+    info = {}
+    info["process_id"] = $("#hdn_process_id").val()
+    info = JSON.stringify(info)
+    $.ajax({
+      url: api_url,
+      headers: { "X-CSRFToken": '{{ csrf_token }}', 'Content-Type': undefined },
+      type: "POST",
+      crossDomain: true,
+      dataType: "json",
+      data: { info },
+      success: function (result_outputdata) {
+        if (result_outputdata.status == "1") {
+          console.log(result_outputdata.result[0])
+          populate_lineitems_fields(result_outputdata.result)
+
+        }
+        else {
+
+        }
+
+
+      },
+      error: function (error) {
+        toastr.success("error")
+        console.log(error);
+      }
+    });
+
+  }
+
+</script>
+
+{% endblock %}

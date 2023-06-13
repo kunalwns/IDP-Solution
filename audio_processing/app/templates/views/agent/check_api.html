@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>
+    <meta charset=utf-8 />
+    <title>JS Bin</title>
+    <!--[if IE]>
+  <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+    <style>
+        #img {
+            width: 100%;
+            height: auto;
+            min-height: 100vh;
+            overflow-x: scroll;
+            max-height: 100%;
+        }
+
+        .hideme {
+            display: none;
+        }
+
+        .fileupload {
+            background-image: url(img/fileupload.PNG);
+            height: 100vh;
+            width: 100%;
+        }
+
+        ::-webkit-file-upload-button {
+            display: none;
+        }
+
+        .rikai-right {
+            background: #1b1b1b;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            padding: 16px 20px;
+        }
+
+        .time-container {
+            align-items: center;
+            border: 1px solid #979797;
+            border-radius: 12px;
+            display: flex;
+            height: 3.25em;
+            margin-bottom: 10px;
+            margin-top: 28px;
+        }
+
+        .results-container {
+            background: #000;
+            border-radius: 12px;
+            box-sizing: border-box;
+            flex: 2 1;
+            margin-bottom: 16px;
+            padding: 35px 10px;
+        }
+
+        .custom-input {
+            background: none;
+            border: 1px solid #fff;
+            border-right: none;
+            border-top: none;
+            color: #fff;
+            font-size: 28px;
+            height: 32px;
+            outline: none;
+            padding: 2px 20px;
+            width: calc(100% - 40px);
+        }
+
+        .question-container p {
+            font-size: 21px;
+        }
+
+        .custom-btn {
+            background: #414141;
+            border: 1px solid #909090;
+            color: #51ffc8;
+            cursor: pointer;
+            height: 3em;
+            transition: .2s;
+            width: 100%;
+        }
+
+        .send-btn {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-6">
+                <input type='file' id="file-upload" name="file-upload[]" class="fileupload" />
+                <img class="hideme uolodedimage" id="img" src="#" alt="your image" />
+            </div>
+            <div class="col-sm-6">
+                <div class="rikai-right">
+                    <div class="results-container inactive-container"></div>
+                    <div class="question-container">
+                        <p class="text-white">Ask a question...</p>
+                        <form><input class="custom-input" value=" ">
+                            <!-- <button type="submit" class="custom-btn send-btn">Send</button> -->
+                            <button onclick="test_fun()" type="button" class="custom-btn send-btn">Check</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+
+<script> 
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#img')
+                    .attr('src', e.target.result).show();
+                $(".fileupload").hide();
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
+
+</html>

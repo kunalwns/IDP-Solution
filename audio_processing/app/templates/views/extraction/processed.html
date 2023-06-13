@@ -1,0 +1,167 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<style>
+    label{font-size:17px;color:#000}
+    .lbl {
+    color:#323232 ;
+font-size: 17px;
+  }
+  thead tr th {
+    font-size: 16px !important;
+    color: #323232;
+  }
+  tbody tr td {
+    font-size: 16px !important;
+    color: #323232;
+  }
+</style>
+<div class="midde_cont">
+    <div class="container-fluid">
+       <div class="row column_title">
+          <div class="col-md-12">
+             <div class="page_title">
+                <h2 style="font-size:18px;"><i class="fa fa-check-circle-o green_color" style="font-size: 18px; margin-top:4px;margin-right: 15px;"></i>Processed Documents</h2>
+  
+               
+             </div>
+          </div>
+       </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-3">
+    
+        <div class="card" style="background-color: #e5e5e5;">
+          <div class="card-header">
+            <div class="breadcomb-wp">
+              
+              <div class="">
+                <h3 class="m-0" style="font-size:16px;color:#323232;font-weight: 400;"> <i class="fa fa-filter" style="margin-right:10px;"></i>Fiter Documents</h3>
+                 
+              </div>
+            </div>
+          </div>
+          <div class="card-body p-0">
+            <ul class="nav nav-pills flex-column">
+              
+              <li class="nav-item active" style="padding:10px">
+                <div class="form-group">
+                  <label for="inputStatus">Layout / Template</label>
+                  <select id="inputStatus" class="form-control custom-select" style="height: 42px;">
+                    <option selected="" disabled="">Select one</option>
+                    <option>All</option>
+                    <option>Invoice PO</option>
+                    <option>Sales Invoice</option>
+                  </select>
+                </div>
+              </li>
+              <li class="nav-item active" style="padding:10px">
+                <div class="form-group">
+                  <label for="inputStatus">Date Range</label>
+                  <input type="text" id="inputName"  style="font-size:14px !important;" class="form-control" placeholder="From Date ( MM/DD/YYYY)">                
+                </div>
+                <div class="form-group">
+                  
+                  <input type="text" id="inputName"  style="font-size: 14px !important;"  class="form-control" placeholder="To Date ( MM/DD/YYYY)">
+                  
+                </div>
+              </li>
+              
+               
+              
+            </ul>
+            <div class="form-group" style="margin-top:10px;padding: 10px;text-align: right;">
+              <button id="filter" class="btn btn-sm btn-info">Search</button>
+              <button id="filter" class="btn btn-sm btn-info">Reset</button>
+             </div>
+          </div>
+          <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+      
+        <!-- /.card -->
+      </div>
+    <!-- /.col -->
+    <div class="col-md-9">
+      <div class="card">
+        
+      
+        <div class="card-body p-0">
+        
+          <div class="table-responsive mailbox-messages">
+            <table id="doc_list" class="table">
+              <thead>
+                <tr> 
+                  <th>#</th>
+                  <th class="mailbox-star">Document</th>
+                  
+                  <th class="mailbox-subject" style="text-align:center">Type</th>
+                  <th class="mailbox-attachment">Start Date</th>
+                  <th class="mailbox-attachment">End Date</th>
+                  <th class="mailbox-date" style="text-align: center">Status</th>
+                   
+                </tr>
+              </thead>
+              <tbody>
+                 
+                {% for doc_item in doc_list.result %}
+
+                <tr> 
+                  <td> {{forloop.counter}}.
+                  </td>
+                  <td ><a  style="color:#000"  href={% url 'extraction_detail' doc_item.id  %} >{{doc_item.doc_name}}
+                  <span style="font-weight:500;color:#323232">({{doc_item.config_name}})</span>
+                  </a>
+                    <input type="hidden" value="{{doc_item.config_id}}" id="hdn_config_id_{{doc_item.id}}">
+                    <input type="hidden" value="{{doc_item.doc_name}}" id="hdn_doc_name_{{doc_item.id}}">                      
+                    <input type="hidden" value="{{doc_item.id}}" id="hdn_doc_id_{{doc_item.id}}">
+                  </td>
+                 
+                  <td class="mailbox-subject" style="text-align:center;">
+                   
+                    {% if doc_item.doc_type == 'pdf' %}
+                    <i class="fa fa-file-pdf-o" style="font-size: 22px;"></i>
+
+                    {% else %}
+                    <i class="fa fa-file-picture-o" style="font-size: 22px;"></i>
+                    {% endif %} 
+                  </td>
+                  <td class="mailbox-attachment">
+                    {{doc_item.process_start|date:"SHORT_DATE_FORMAT"}} {{doc_item.uploaded_date|time:"h:i a"}}
+                    </td>
+                    <td class="mailbox-attachment">
+                      {{doc_item.process_end|date:"SHORT_DATE_FORMAT"}} {{doc_item.uploaded_date|time:"h:i a"}}
+                      </td>
+                  <td class="mailbox-date" style="text-align: center">
+                   
+                    {% if doc_item.process_status == 0 %}
+                    <span class="right badge badge-default">New</span>
+                   
+                    {% elif doc_item.process_status  == 1 %}
+                    <span class="right badge badge-warning">Running</span>
+                    {% elif doc_item.process_status  == 2 %}
+                    <span class="right badge badge-success">Done</span>
+                    {% endif %}
+                  </td>
+                </tr>
+                {% endfor %}
+             
+              
+              </tbody>
+            </table>
+            <!-- /.table -->
+          </div>
+          <!-- /.mail-box-messages -->
+        </div>
+        <!-- /.card-body -->
+        
+      </div>
+      <!-- /.card -->
+    </div>
+
+    <!-- /.col -->
+  </div>
+{% endblock %}
+

@@ -1,0 +1,231 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+
+<div class="midde_cont">
+    <div class="container-fluid">
+        <div class="row column_title">
+            <div class="col-md-12 col-lg-12 col-sm-12">
+                <div class="page_title">
+                    <h2 style="font-size:26px;width: 600px;"><i class="fa fa-plus   red_color"
+                            style="font: size 26px;margin-top:4px;margin-right: 15px;"></i>Classifier configuration Details</h2>
+                    <span style="float: right;
+             margin-top: -34px;"><button type="button" onclick="save_classifier()" class="btn btn-lg btn-info"
+                            style="float:right">Save
+                            Layout</button>
+                        <button type="button" class="btn  btn-lg btn-default"
+                            style="float:right; margin-right:10px;">Discard</button></span>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+                <div class="row">
+                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                        <!-- general form elements -->
+
+                        <div class="card ">
+
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <h4 for="exampleInputEmail1">Layout Basic Information</h4>
+                                    <p>Enter layout basic information</p>
+
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="txt_title"
+                                        placeholder="Enter Layout Name">
+                                </div>
+
+                                <div class="form-group">
+
+                                    <textarea type="text" rows="3" class="form-control" id="txt_description"
+                                        placeholder="Layout Description"></textarea>
+
+                                </div>
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12" style="margin-top: 20px;">
+                        <!-- general form elements -->
+
+                        <div class="card ">
+
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <h4 for="exampleInputEmail1">Document Root Directory</h4>
+                                    <p>Enter location of files to train for classification </p>
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="folder_location"
+                                        placeholder="Enter Location">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+                <div class="row">
+                    <div class="col-md-12 col-lg-12 col-sm-12">
+                        <div class="card card-default">
+                            <div class="card-header">
+                                <h4>Add Category to classify</h4>
+                            </div>
+
+                            <!-- /.card-header -->
+                            <!-- form start -->
+                            <form>
+                                <div class="card-body">
+
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+
+                                                <div class="form-group">
+
+                                                    <div class="form-check" style="margin-bottom:10px;">
+                                                        <label class="form-check-label">Category 1</label>
+                                                        <input class="form-control classify_category" id="txt_class_1"
+                                                            type="text">
+
+                                                    </div>
+                                                    <div class="form-check" style="margin-bottom:10px;">
+                                                        <label class="form-check-label">Category 2</label>
+                                                        <input class="form-control classify_category" id="txt_class_2"
+                                                            type="text">
+
+                                                    </div>
+                                                    <div class="form-check" style="margin-bottom:10px;">
+                                                        <label class="form-check-label">Category 3</label>
+                                                        <input class="form-control classify_category" id="txt_class_3"
+                                                            type="text">
+
+                                                    </div>
+                                                    <div class="form-check" style="margin-bottom:10px;">
+                                                        <label class="form-check-label">Category 4</label>
+                                                        <input class="form-control classify_category" id="txt_class_4"
+                                                            type="text">
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+
+                                                <div class="form-group">
+
+                                                    <div class="form-check" style="margin-bottom:10px;">
+                                                        <label class="form-check-label">Category 5</label>
+                                                        <input class="form-control classify_category" id="txt_class_5"
+                                                            type="text">
+                                                    </div>
+                                                    <div class="form-check" style="margin-bottom:10px;">
+                                                        <label class="form-check-label">Category 6</label>
+                                                        <input class="form-control classify_category" id="txt_class_6"
+                                                            type="text">
+
+                                                    </div>
+                                                    <div class="form-check" style="margin-bottom:10px;">
+                                                        <label class="form-check-label">Category 7</label>
+                                                        <input class="form-control classify_category" id="txt_class_7"
+                                                            type="text">
+
+                                                    </div>
+                                                    <div class="form-check" style="margin-bottom:10px;">
+                                                        <label class="form-check-label">Category 8</label>
+                                                        <input class="form-control classify_category" id="txt_class_8"
+                                                            type="text">
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    <!-- /.container-fluid -->
+
+
+</section>
+
+
+<script>
+
+    function save_classifier() {
+        doc_fields = {};
+        doc_fields["title"] = $("#txt_title").val();
+        doc_fields["description"] = $("#txt_description").val();
+        doc_fields["folder_location"] = $("#folder_location").val();
+        var list = [];
+        $('.classify_category').each(
+            function (index) {
+                var input = $(this);
+                if (input.val() != "") {
+                    list.push(input.val()); 
+                }
+            }
+        );
+        doc_fields["category_names"] = list.join(",");
+        info = JSON.stringify(doc_fields)
+        Call_api(info)
+    }
+
+    function Call_api(info) 
+    { 
+        var api_url = $("#SITEROOTURL").val() + "/add_new_classifier";
+
+        $.ajax({
+            url: api_url,
+            headers: { "X-CSRFToken": '{{ csrf_token }}', 'Content-Type': undefined },
+            type: "POST",
+            crossDomain: true,
+            dataType: "json",
+            data: { info },
+            success: function (result_outputdata) {
+                if (result_outputdata["status"] == "1") {
+                    toastr.success(result_outputdata["message"])
+                }
+                else {
+                    toastr.error(result_outputdata["message"])
+                }
+            },
+            error: function (error) {
+
+                toastr.error(error)
+            }
+        });
+
+
+    }
+</script>
+
+<!-- /.content -->
+{% endblock %}

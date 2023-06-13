@@ -1,0 +1,185 @@
+{% extends "base_ais.html" %}
+
+{% block content %}
+<style>
+   .green {
+      background-color: #abebc6;
+      text-align: center;
+      font-size: 11px;
+      padding: 7px;
+      font-weight: 600;
+      color: #323232;
+   }
+
+   .red {
+      background-color: #fdebd0;
+      text-align: center;
+      font-size: 11px;
+      padding: 7px;
+      font-weight: 600;
+      color: #323232;
+   }
+   .txt_css {font-family: 'poppins';
+font-size: 11px;
+text-align: left;
+font-weight: 600;
+color: #151515;}
+
+.val_css {font-family: 'poppins';
+font-size: 13px;
+text-align: left;
+ 
+color: #151515;}
+
+.green_border{border-color: #389e0d;}
+.red_border{border-color: #c10d0d;}
+</style>
+<div class="" style="margin-top:10px;">
+
+   <input id="hdn_document_id" type="hidden" value="{{document_id}}" />
+   <input id="hdn_config_id" type="hidden" value="{{config_id}}" />
+   <input id="hdn_CONFIDENCE_LIMIT" type="hidden" value="{{CONFIDENCE_LIMIT}}" />
+
+
+   <div class="row mb-xl-6">      
+      
+      <div class="col-sm-7 left-content">
+         <a href="/app/documents/" class="btn" style="font-size: 15px;padding-left: 0px;">Back to List</a>  
+         <div class="col-md-12" style="border: solid 1px #ababab;background-color: #323232;padding:20px;">
+         
+            <div id="img_panel"  class="white_shd full margin_bottom_30" style="border: solid 1px #ababab;">
+              
+               <img id="img_src" style="width: 100%;" src="">
+               <embed id="pdf_src" src="" type="application/pdf"   height="700px" width="100%">
+            </div>
+            {{root_page_path}}
+            <input type="hidden" id="hdn_file_name" value="{{file_name}}" > 
+            <input type="hidden" id="root_page_path" value="{{root_page_path}}" > 
+             
+         </div>
+      </div>
+      <div class="col-sm-5 right-content">
+         <div style="margin-bottom: 20px;">
+            <h3><b>Medical Report Extraction</b></h3>
+         </div>
+         <form>
+            <div style="text-align: right;">
+               <span style="text-align: right;font-weight: 600;font-size:11px;">Accuracy</span>
+            </div>
+            
+            <div id="form_fields"> 
+               <div class="form-group row">
+                  <label style="text-indent: 20px;" for="$FIELD_ID$" class="col-sm-4 col-form-label txt_css" >$LABEL$</label>
+                  <div class="col-sm-6">
+                     <input type="text" class="form-control val_css $BORDER$" id="$FIELD_ID$" placeholder="" value="$FIELD_VALUE$">
+                     <input type="hidden" class="form-control" id="$FIELD_ID_QUESTION$" placeholder=""
+                        value="$FIELD_QUESTION$">
+                  </div>
+                  <div class="col-sm-2">
+                     
+                     <input type="text" readonly class="form-control-plaintext $COLOR-CLASS$" id="$CONF_FIELD_ID$"
+                        value="$FIELD_CONF$">
+                  </div>
+               </div>
+            </div>
+         </form>
+      </div>
+   </div>
+</div>
+
+<script>
+   bind_file()
+   get_extracted_output()
+
+
+   function bind_file()
+   {
+      var_file = $("#hdn_file_name").val()
+      var_root = "/static/media/document/3/1" //$("#root_page_path").val()
+
+      fileExt = var_file.split('.').pop().toLowerCase();
+      
+      console.log(var_root)
+      if(fileExt == 'pdf')
+      {
+          
+         $("#pdf_src").attr("src",(var_root + "/" +var_file)) 
+         $("#pdf_src").show()
+         $("#img_src").hide()
+      }
+      else{ 
+         $("#img_src").attr("src",(var_root + "/" +var_file)) 
+         $("#pdf_src").hide()
+         $("#img_src").show()
+      }
+   }
+   function sentenceCase(str) {
+      if ((str === null) || (str === ''))
+         return false;
+      else
+         str = str.toString();
+
+      return str.replace(/\w\S*/g,
+         function (txt) {
+            return txt.charAt(0).toUpperCase() +
+               txt.substr(1).toLowerCase();
+         });
+   }
+   function dynamic_form_design(lst_fields) {
+
+      conf_thresold = $("#hdn_CONFIDENCE_LIMIT").val()
+      _html_field_template = $("#form_fields").html()
+
+      $("#form_fields").html("")
+
+      $.each(lst_fields, function (index, val) {
+
+         field_id = val.field_name
+         field_label = sentenceCase(val.field_name.replace(/_/g, " "))
+         generated_html = _html_field_template.replace("$LABEL$", field_label)
+         generated_html = generated_html.replace("$FIELD_ID$", field_id)
+         generated_html = generated_html.replace("$FIELD_VALUE$", val.value)
+         generated_html = generated_html.replace("$FIELD_CONF$", val.confidence+"%")
+         generated_html = generated_html.replace("$FIELD_QUESTION$", val.questions)
+
+
+         if (parseInt(val.confidence) > parseInt(conf_thresold)) {
+            generated_html = generated_html.replace("$COLOR-CLASS$", "green")
+            generated_html = generated_html.replace("$BORDER$", "green_border")
+         }
+         else {
+            generated_html = generated_html.replace("$COLOR-CLASS$", "red")
+            generated_html = generated_html.replace("$BORDER$", "red_border")
+         }
+
+         generated_html = generated_html.replace("$FIELD_ID_QUESTION$", "quest_" + field_id)
+         generated_html = generated_html.replace("$CONF_FIELD_ID$", "conf_" + field_id)
+         $("#form_fields").append(generated_html)
+      });
+
+   }
+   function get_extracted_output() {
+      var api_url = $("#SITEROOTURL").val() + "/get_document_field_data";
+      info = {}
+      info["config_id"] = $("#hdn_config_id").val()
+      info["document_id"] = $("#hdn_document_id").val()
+      info = JSON.stringify(info)
+      $.ajax({
+         url: api_url,
+         headers: { "X-CSRFToken": '{{ csrf_token }}', 'Content-Type': undefined },
+         type: "POST",
+         crossDomain: true,
+         dataType: "json",
+         data: { info },
+         success: function (result_outputdata) {
+            dynamic_form_design(result_outputdata.field_values)
+            console.log(result_outputdata)
+         },
+         error: function (error) {
+            toastr.success("error")
+            console.log(error);
+         }
+      });
+   }
+</script>
+{% endblock %}

@@ -1,0 +1,325 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+{% load static %}
+{% load speaker_name %}
+
+<style>
+   .text_right {
+      text-align: right;
+   }
+
+   .mg-r-10 {
+      margin-right: 10px;
+   }
+ .price_table table th, .price_table table td {
+   font-size: 16px !important;
+ }
+
+</style>
+<input type="hidden" value="{{rec_id}}" id="hdn_file_id" />
+<div class="midde_cont">
+   <div>
+      <div class="row column_title">
+         <div class="col-md-12">
+            <div class="page_title">
+ 
+               <h2>Media Analysis - Dashboard</h2>
+
+               <input type="hidden" value="{{dashboard_stats.result.stats.positive}}" id="hdn_postive">
+               <input type="hidden" value="{{dashboard_stats.result.stats.negative}}" id="hdn_negative">
+               <input type="hidden" value="{{dashboard_stats.result.stats.nutral}}" id="hdn_nutral">
+            </div>
+         </div>
+      </div>
+      
+      {{speaker_data}}
+      <div class="row">
+         <!-- table section -->
+         <div class="col-md-9">
+            
+            {% for key in speaker_data%} 
+            
+            <div class="full white_shd" style="margin-bottom: 20px;">
+               <div class="full graph_head"  style="background-color: #455a64;color:#fff">
+                  <div class="heading1 margin_0">
+                    
+                     {% for key,value in key.items%} 
+                   
+                     <h2 style="color:#fff"> {{key|format_name}}  
+                        
+                        
+                     </h2>
+                       
+                     
+                  </div>
+               </div>
+               <div class="full padding_infor_info" style="padding:10px;">
+                  <div class="price_table">
+                     <div class="table-responsive">
+                        <table class="table table-striped">
+                           <thead>
+                              <tr >
+                                 
+                                 <th style="width:60%;font-size:18px !important;font-weight: 600;">Line</th>
+                                 <!-- <th>Polarity</th> -->
+                                 
+                                 <th style="font-size:18px !important;font-weight: 600;">Statement Type</th>
+                                 <th style="font-size:18px !important;font-weight: 600;">Analysis</th>
+                                  
+                              </tr>
+                           </thead>
+                           <tbody>
+                              
+                              {% for  rows in value %}
+          
+                                 
+                                 <tr>
+                                    
+                                    <td style="color:#000;font-size: 18px !important;">
+                                       {{rows.2}}
+                                    </td>
+                                    <!-- <td>
+                                       {{rows.4|floatformat:1}} 
+                                    </td> -->
+                                    <td>
+                                       {% if  rows.6 == "Question"  %}
+                                       <span style="border-radius:10%;padding:7px;background-color: #455a64;color: #fff;">
+                                          {{rows.6}} 
+                                       </span>   
+                                       {% elif  rows.6 == "Clarify"  %}
+                                       <span style="border-radius:10%;padding:7px;background-color: #ff5722 ;color: #fff;">
+                                          {{rows.6}} 
+                                       </span>   
+                                       {% elif  rows.6 == "Statement"  %}
+                                       <span style="border-radius:10%;padding:7px;background-color: #2196f3 ;color: #fff;">
+                                          Sentence
+                                       </span>   
+                                       {% else   %}
+                                       <span style="border-radius:10%;padding:7px;background-color: #ababab;color: #fff;">
+                                          {{rows.6}} 
+                                       </span>   
+                                       {% endif  %}
+                                       
+                                    </td>
+                                    <td>
+
+                                       {% if  rows.5 == "Positive"  %}
+                                       <span style="border-radius:10%;padding:7px;background-color: #009688;color: #fff;">
+                                          {{rows.5}} 
+                                       </span>   
+                                       
+                                       {% elif rows.5 == "Negative"   %}
+                                       <span style="border-radius:10%;padding:7px;background-color: #ff9800 ;color: #fff;">
+                                          {{rows.5}} 
+                                       </span> 
+                                       {% else   %}
+                                       <span style="border-radius:10%;padding:7px;background-color: #455a64 ;color: #fff;">
+                                          {{rows.5}} 
+                                       </span> 
+                                       {% endif  %}
+
+                                       
+                                    </td>
+                                    
+                                 
+                                 </tr>
+                                 {% endfor %}
+                              
+                             
+                           </tbody>
+                        </table>
+                     </div>
+                  </div>
+               </div>
+               {% endfor %}
+            </div>
+          
+            {% endfor %}
+
+         </div>
+         <div class="col-md-3">
+            {% for doc_item in dashboard_stats.result.speakers_stats %} 
+            <div class="card" style="margin-bottom: 30px;">
+               <div class="card-header" style="font-size: 22px;background-color: #455a64;color:#fff">
+                 <span style="color:#ababab">Summary </span> : {{doc_item.speaker|format_name}}
+               </div>
+               <div class="card-body">
+                  <div class="row">
+                     <div class="col-md-6 col-sm-12 col-lg-6" style="margin-bottom: 20px;">
+                        
+                        <div class="orange_color" style="text-align: center; font-size: 22px;font-weight: bold;"> 
+                           {% if doc_item.time_spent  %}
+                              {{doc_item.time_spent}} Sec
+                           {% else  %}
+                              0  Sec
+                           {% endif  %} 
+                        </div>
+                        <div style="text-align: center;font-size: 18px; color:#455a64"> 
+                           Time Spent
+                        </div>
+                     </div>
+
+                     <div class="col-md-6 col-sm-12 col-lg-6" style="margin-bottom: 20px;">
+                        
+                        <div class="green_color" style="text-align: center;font-size:22px;font-weight: bold"> 
+                           {% if  doc_item.Positive  %}
+                           {{doc_item.Positive}} 
+                          {% else  %}
+                           0 
+                          {% endif  %}
+                        </div>
+                        <div style="text-align: center;font-size: 18px; color:#455a64"> 
+                          Positive
+                        </div>
+                     </div>
+
+                     <div class="col-md-6 col-sm-12 col-lg-6" style="margin-bottom: 20px;">
+                        
+                        <div class="red_color" style="text-align: center;font-size:22px;font-weight: bold"> 
+                           {% if doc_item.Negative  %}
+                                        {{doc_item.Negative}} 
+                                       {% else  %}
+                                        0 
+                                       {% endif  %} 
+                        </div>
+                        <div style="text-align: center;font-size: 18px; color:#455a64"> 
+                          Negative
+                        </div>
+                     </div>
+
+                     <div class="col-md-6 col-sm-12 col-lg-6" style="margin-bottom: 20px;">
+                        
+                        <div style="color:#000;text-align: center;font-size:22px;font-weight: bold"> 
+                           {% if doc_item.Neutral  %}
+                           {{doc_item.Neutral}} 
+                          {% else  %}
+                           0 
+                          {% endif  %}  
+                        </div>
+                        <div style="text-align: center;font-size: 18px; color:#455a64"> 
+                          Nutral
+                        </div>
+                     </div>
+
+                     <div class="col-md-6 col-sm-12 col-lg-6" style="margin-bottom: 20px;">
+                        
+                        <div class="purple_color" style="text-align: center;font-size:22px;font-weight: bold"> 
+                           {% if doc_item.Question  %}
+                           {{doc_item.Question}} 
+                          {% else  %}
+                           0 
+                          {% endif  %} 
+                        </div>
+                        <div style="text-align: center;font-size: 18px; color:#455a64"> 
+                          Questions
+                        </div>
+                     </div>
+
+                     <div class="col-md-6 col-sm-12 col-lg-6" style="margin-bottom: 20px;">
+                        
+                        <div class="blue1_color" style="text-align: center;font-size:22px;font-weight: bold"> 
+                           {% if doc_item.Sentence  %}
+                           {{doc_item.Sentence}} 
+                          {% else  %}
+                           0 
+                          {% endif  %} 
+                        </div>
+                        <div style="text-align: center;font-size: 18px; color:#455a64"> 
+                           Sentence
+                        </div>
+                     </div>
+
+                     <div class="col-md-6 col-sm-12 col-lg-6" style="margin-bottom: 20px;">
+                        
+                        <div  style="color: slateblue;text-align: center;font-size:22px;font-weight: bold"> 
+                           {% if doc_item.Clarity  %}
+                           {{doc_item.Clarity}} 
+                          {% else  %}
+                           0 
+                          {% endif  %} 
+                        </div>
+                        <div style="text-align: center;font-size: 18px; color:#455a64"> 
+                           Clarity
+                        </div>
+                     </div>
+                  </div>
+               </div>
+             </div>
+             {% endfor %}
+           
+   
+         </div>
+        </div>  
+      
+     
+   </div>
+
+</div>
+
+<script>
+
+   function download(filename, text) {
+      var element = document.createElement('a');
+      element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+      element.setAttribute('download', filename);
+
+      element.style.display = 'none';
+      document.body.appendChild(element);
+
+      element.click();
+
+      document.body.removeChild(element);
+   }
+
+   function set_params(speaker, info_type) {
+      info = {}
+      info["speaker_id"] = speaker
+      info["type"] = info_type
+      $("#th_head").html(info_type)
+      info["file_id"] = $("#hdn_file_id").val()
+      info = JSON.stringify(info)
+      get_details(info)
+   }
+
+
+   function display_nlp_details(results) {
+      $("#tbl_row").html("")
+      $.each(results, function (key, value) {
+         $("#tbl_row").append("<tr><td>" + parseInt(key + 1).toString() + "</td><td>" + value + "</td></tr>");
+      });
+   }
+   function get_details(info) {
+
+
+      var api_url = $("#SITEROOTURL").val() + "/get_nlp_detail";
+      $.ajax({
+         url: api_url,
+         headers: { "X-CSRFToken": '{{ csrf_token }}', 'Content-Type': undefined },
+         type: "POST",
+         async: false,
+         crossDomain: true,
+         dataType: "json",
+         data: { info },
+         success: function (result_outputdata) {
+            if (result_outputdata.status == "1") {
+               $("#btn_detail_modal").click();
+               display_nlp_details(result_outputdata.results)
+            }
+            else {
+
+            }
+
+
+         },
+         error: function (error) {
+            toastr.error("error")
+            console.log(error);
+         }
+      });
+
+
+   }
+</script>
+
+{% endblock %}

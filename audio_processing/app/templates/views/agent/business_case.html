@@ -1,0 +1,692 @@
+{% extends "base_ais.html" %}
+
+{% block content %}
+<style>
+   .green {
+      background-color: #abebc6;
+      text-align: center;
+      font-size: 11px;
+      padding: 7px;
+      font-weight: 600;
+      color: #323232;
+   }
+
+   .red {
+      background-color: #fdebd0;
+      text-align: center;
+      font-size: 11px;
+      padding: 7px;
+      font-weight: 600;
+      color: #323232;
+   }
+   .txt_css {font-family: 'poppins';
+font-size: 11px;
+text-align: left;
+font-weight: 600;
+color: #151515;}
+
+.val_css {font-family: 'poppins';
+font-size: 13px;
+text-align: left;
+ 
+color: #151515;}
+
+.green_border{border-color: #389e0d;}
+.red_border{border-color: #c10d0d;}
+
+input{
+   width: 100%; border: transparent;border: none;font-size: 16px;
+}
+textarea:focus, input:focus{
+    outline: none !important;
+}
+
+.validatecheck {display: none !important;}
+</style>
+<div class="" style="margin-top:10px;">
+
+   <input id="hdn_document_id" type="hidden" value="{{document_id}}" />
+   <input id="hdn_config_id" type="hidden" value="{{config_id}}" />
+   <input id="hdn_CONFIDENCE_LIMIT" type="hidden" value="{{CONFIDENCE_LIMIT}}" />
+
+
+   <div class="row mb-xl-6">      
+      
+      <div class="col-sm-7 left-content">
+         <a href="/app/documents/" class="btn" style="font-size: 15px;padding-left: 0px;">Back to List</a>  
+         <div class="col-md-12" style="border: solid 1px #ababab;background-color: #323232;padding:20px;">
+            <div id="jar" style="display: none;">
+               {% for doc_item in page_list %}
+               <div class="content"><img src="{{root_page_path}}/{{doc_item}}" alt="detail-form"></div>
+               {% endfor %}
+            </div>
+            <div class="pagination" style="margin-top: 20px;"></div>
+         </div>
+      </div>
+      <div class="col-sm-5 right-content">
+         <div style="margin-bottom: 20px;">
+            <h3><b>Medical Report Extraction</b></h3>
+         </div>
+         <form> 
+            
+            <div id="form_fields" style="text-align: left !important;"> 
+               <div class="col-md-12 box-shadow2">
+                  <div class="row sticky-header">
+                     <div class="col-sm-6">Patient & Provider</div>
+                     <div class="col-sm-6 text-right"><i class='fas fa-exclamation-circle'></i>
+                        <span id="error_field_count">6</span> fields with low accuracy
+                     </div>
+                  </div>
+                  <hr>
+                  <div class="row" style="text-align: left;">
+                     <h5><span class="badge">1</span>Patient Information</h5>
+                      
+                     <div class="col-sm-12 pad-left-0">
+                        <fieldset class="scheduler-border">
+                           <legend class="scheduler-border">Patient Name</legend>
+                           <div class="control-group">
+                              <div class="controls">
+                                 <input type="text"   value="" id="patient_name" value="" name="name" />
+                                 <i class="icon-time"></i>
+                              </div>
+                           </div>
+                        </fieldset>
+                     </div>
+                     <div class="col-sm-1 pad-0 validatecheck " ><i class="fas fa-check-circle"></i></div>
+                     <div class="col-sm-6 pad-left-0">
+                        <fieldset class="scheduler-border">
+                           <legend class="scheduler-border">DOB</legend>
+                           <div class="control-group">
+                              <div class="controls">
+                                 <input type="date" class="datePicker" id="patient_dob"  />
+                                 <i class="icon-time"></i>
+                              </div>
+                           </div>
+                        </fieldset>
+                     </div>
+                     <div class="col-sm-1 pad-0 validatecheck "><i class="fas fa-check-circle"></i></div>
+                     <div class="col-sm-6">
+                        <fieldset class="scheduler-border">
+                           <legend class="scheduler-border">Gender</legend>
+                           <div class="control-group">
+                              <div class="controls">
+                                 <select >
+                                    <option selected>Male</option>
+                                    <option value="1">Female</option>
+                                    <option value="2">Others</option>
+                                 </select>
+                                 <i class="icon-time"></i>
+                              </div>
+                           </div>
+                        </fieldset>
+                     </div>
+                     <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+                  </div>
+                  <div class="row">
+                     <p class="">Patient Address</p>
+                     <div class="col-sm-12 pad-left-0">
+                        <fieldset class="scheduler-border">
+                           <legend class="scheduler-border">Line 1</legend>
+                           <div class="control-group">
+                              <div class="controls">
+                                 <input type="text" class="address1" value="" id="street_line_1" name="street_line_1" />
+                                 <i class="icon-time"></i>
+                              </div>
+                           </div>
+                        </fieldset>
+                     </div>
+                     <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+                     <div class="col-sm-12 pad-left-0">
+                        <fieldset class="scheduler-border">
+                           <legend class="scheduler-border">Line 2</legend>
+                           <div class="control-group">
+                              <div class="controls">
+                                 <input type="text" class="address"2 value="" id="street_line_2" name="street_line_2" />
+                                 <i class="icon-time"></i>
+                              </div>
+                           </div>
+                        </fieldset>
+                     </div>
+                     <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+                     <div class="col-sm-6  pad-left-0">
+                        <fieldset class="scheduler-border">
+                           <legend class="scheduler-border">City</legend>
+                           <div class="control-group">
+                              <div class="controls">
+                                 <input type="text" class="city" value="" id="patient_city" name="patient_city" />
+                                 <i class="icon-time"></i>
+                              </div>
+                           </div>
+                        </fieldset>
+                     </div>
+                     <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+                     <div class="col-sm-6  pad-left-0">
+                        <fieldset class="scheduler-border">
+                           <legend class="scheduler-border">Zip</legend>
+                           <div class="control-group">
+                              <div class="controls">
+                                 <input type="number" class="zip" value="" id="patient_zip" name="patient_zip" />
+                                 <i class="icon-time"></i>
+                              </div>
+                           </div>
+                        </fieldset>
+                     </div>
+                     <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+                  </div>
+                  <div class="row">
+                     <h5><span class="badge">2</span>Document Information</h5>
+                     <div class="col-sm-6 pad-left-0">
+                        <fieldset class="scheduler-border">
+                           <legend class="scheduler-border">label</legend>
+                           <div class="control-group">
+                              <div class="controls">
+                                 <select>
+                                    <option selected>Medical Report</option>
+                                    <option value="1">One</option>
+                                    <option value="2">Two</option>
+                                    <option value="3">Three</option>
+                                 </select>
+                              </div>
+                           </div>
+                        </fieldset>
+                     </div>
+                     <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+                     <div class="col-sm-6 pad-left-0">
+                        <fieldset class="scheduler-border">
+                           <legend class="scheduler-border">Form Type</legend>
+                           <div class="control-group">
+                              <div class="controls">
+                                 <select id="form_type" name="form_type">
+                                    <option selected>CMS</option>
+                                    <option value="1">One</option>
+                                    <option value="2">Two</option>
+                                    <option value="3">Three</option>
+                                 </select>
+                                 <i class="icon-time"></i>
+                              </div>
+                           </div>
+                        </fieldset>
+                     </div>
+                     <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+                     <div class="col-sm-6 pad-left-0">
+                        <fieldset class="scheduler-border">
+                           <legend class="scheduler-border">Claim No</legend>
+                           <div class="control-group">
+                              <div class="controls">
+                                 <input type="number" class="Claimno" value="" id="claim_no" name="claim_no" />
+                                 <i class="icon-time"></i>
+                              </div>
+                           </div>
+                        </fieldset>
+                     </div>
+                     <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+                     <div class="col-sm-6 pad-left-0">
+                        <fieldset class="scheduler-border">
+                           <legend class="scheduler-border">DOL</legend>
+                           <div class="control-group">
+                              <div class="controls">
+                                 <input type="date" class="datePicker" id="DOL" name="DOL" />
+                                 <i class="icon-time"></i>
+                              </div>
+                           </div>
+                        </fieldset>
+                     </div>
+                     <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+                     <div class="col-sm-6 pad-left-0">
+                        <fieldset class="scheduler-border">
+                           <legend class="scheduler-border">DOS</legend>
+                           <div class="control-group">
+                              <div class="controls">
+                                 <input type="date" class="datePicker" id="DOS" name="DOS" />
+                                 <i class="icon-time"></i>
+                              </div>
+                           </div>
+                        </fieldset>
+                     </div>
+                     <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+                     <div class="col-sm-6 pad-right-0">
+                        <div class="control-group">
+                           <div class="controls">
+                              <p>Auto accident ( Box 10b on CMS)</p>
+                              <div class="radio-inline">
+                                 <label><input type="radio" id="is_auto_accident" name="is_auto_accident" checked>Yes</label>
+                              </div>
+                              <div class="radio-inline">
+                                 <label><input type="radio" id="is_auto_accident"  name="is_auto_accident">No</label>
+                              </div>
+                              <i class="icon-time"></i>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+                  </div>
+                  <div class="row">
+                     <h5 style="clear: both;"><span class="badge">3</span>Service Provider</h5>
+                      
+                     <div class="col-sm-12 pad-left-0">
+                        <fieldset class="scheduler-border">
+                           <legend class="scheduler-border">Provider Name</legend>
+                           <div class="control-group">
+                              <div class="controls">
+                                 <input type="text" class="providername" value="" id="provider_name" name="provider_name" />
+                                 <i class="icon-time"></i>
+                              </div>
+                           </div>
+                        </fieldset>
+                     </div>
+                     <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+                     <div class="col-sm-6 pad-left-0">
+                        <fieldset class="scheduler-border">
+                           <legend class="scheduler-border">Group Name</legend>
+                           <div class="control-group">
+                              <div class="controls">
+                                 <input type="string" class="groupname" value="" id="group_name" name="group_name" />
+                              </div>
+                           </div>
+                        </fieldset>
+                     </div>
+                     <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+                     <div class="col-sm-6 pad-left-0">
+                        <fieldset class="scheduler-border">
+                           <legend class="scheduler-border">TIN</legend>
+                           <div class="control-group">
+                              <div class="controls">
+                                 <input type="string" class="tin"  value="" id="tin" name="tin" />
+                              </div>
+                           </div>
+                        </fieldset>
+                     </div>
+                     <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+                  </div>
+                  <div class="row">
+                     <p class="">Provider Address</p>
+                     <div class="col-sm-12 pad-left-0">
+                        <fieldset class="scheduler-border ">
+                           <legend class="scheduler-border">Line 1</legend>
+                           <div class="control-group">
+                              <div class="controls">
+                                 <input type="text" class="address1" value="" id="service_provider_address" name="service_provider_address" />
+                                 <i class="icon-time"></i>
+                              </div>
+                           </div>
+                        </fieldset>
+                     </div>
+                     <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-exclamation-circle"></i></div>
+                     <div class="col-sm-12 pad-left-0">
+                        <fieldset class="scheduler-border">
+                           <legend class="scheduler-border">Line 2</legend>
+                           <div class="control-group">
+                              <div class="controls">
+                                 <input type="text" class="address2"  value="" id="address2" name="address2" />
+                                 <i class="icon-time"></i>
+                              </div>
+                           </div>
+                        </fieldset>
+                     </div>
+                     <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-exclamation-circle"></i></div>
+                     <div class="col-sm-6 pad-left-0">
+                        <fieldset class="scheduler-border">
+                           <legend class="scheduler-border">City</legend>
+                           <div class="control-group">
+                              <div class="controls">
+                                 <input type="text" class="city" value="" id="service_provider_city_name" name="service_provider_city_name" />
+                                 <i class="icon-time"></i>
+                              </div>
+                           </div>
+                        </fieldset>
+                     </div>
+                     <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-exclamation-circle"></i></div>
+                     <div class="col-sm-6 pad-left-0">
+                        <fieldset class="scheduler-border">
+                           <legend class="scheduler-border">Zip</legend>
+                           <div class="control-group">
+                              <div class="controls">
+                                 <input type="string" class="zip" value="" id="service_provider_zip_code" name="service_provider_zip_code" />
+                                 <i class="icon-time"></i>
+                              </div>
+                           </div>
+                        </fieldset>
+                     </div>
+                     <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-exclamation-circle"></i></div>
+                  </div>
+                  <div class="row">
+                     <h5 style="clear: both;"><span class="badge">4</span>Billing Provider</h5>
+                     
+                     <div class="col-sm-12 pad-left-0">
+                        <fieldset class="scheduler-border">
+                           <legend class="scheduler-border">Provider Name</legend>
+                           <div class="control-group">
+                              <div class="controls">
+                                 <input type="text" class="providername" value="" id="billing_provider_name" name="billing_provider_name" />
+                                 <i class="icon-time"></i>
+                              </div>
+                           </div>
+                        </fieldset>
+                     </div>
+                     <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+                     <div class="col-sm-6 pad-left-0">
+                        <fieldset class="scheduler-border">
+                           <legend class="scheduler-border">Group Name</legend>
+                           <div class="control-group">
+                              <div class="controls">
+                                 <input type="string" class="groupname" value="" id="billing_provider_group_name" name="billing_provider_group_name" />
+                                 <i class="icon-time"></i>
+                              </div>
+                           </div>
+                        </fieldset>
+                     </div>
+                     <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+                     <div class="col-sm-6 pad-left-0">
+                        <fieldset class="scheduler-border">
+                           <legend class="scheduler-border">TIN</legend>
+                           <div class="control-group">
+                              <div class="controls">
+                                 <input type="string" class="tin" value="" id="billing_provider_TIN" name="billing_provider_TIN" />
+                                 <i class="icon-time"></i>
+                              </div>
+                           </div>
+                        </fieldset>
+                     </div>
+                     <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+                     <div class="col-sm-6 pad-left-0">
+                        <fieldset class="scheduler-border">
+                           <legend class="scheduler-border">Licese Type</legend>
+                           <div class="control-group">
+                              <div class="controls">
+                                 <select id="billing_provider_license_type">
+                                    <option selected>MD</option>
+                                    <option value="1">One</option>
+                                    <option value="2">Two</option>
+                                    <option value="3">Three</option>
+                                 </select>
+                                 <i class="icon-time"></i>
+                              </div>
+                           </div>
+                        </fieldset>
+                     </div>
+                     <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+                     <div class="col-sm-6 pad-left-0">
+                        <fieldset class="scheduler-border">
+                           <legend class="scheduler-border">Speciality</legend>
+                           <div class="control-group">
+                              <div class="controls">
+                                 <select id="billing_provider_speciality">
+                                    <option selected>General Insurance</option>
+                                    <option value="1">Life Insurance</option>
+                                    <option value="2">car Insurance</option>
+                                    <option value="3">stock </option>
+                                 </select>
+                                 <i class="icon-time"></i>
+                              </div>
+                           </div>
+                        </fieldset>
+                     </div>
+                     <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+                     <div class="col-sm-6 pad-left-0">
+                        <fieldset class="scheduler-border">
+                           <legend class="scheduler-border">Bill Type</legend>
+                           <div class="control-group">
+                              <div class="controls">
+                                 <select id="billing_provider_bill_type">
+                                    <option selected>Life Insurance</option>
+                                    <option value="1">General Insurance</option>
+                                    <option value="2">car Insurance</option>
+                                    <option value="3">stock </option>
+                                 </select>
+                                 <i class="icon-time"></i>
+                              </div>
+                           </div>
+                        </fieldset>
+                     </div>
+                     <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+                  </div>
+                  <div class="row">
+                     <p class="clearclass">Provider Address</p>
+                     <div class="col-sm-12 pad-left-0">
+                        <fieldset class="scheduler-border ">
+                           <legend class="scheduler-border">Line 1</legend>
+                           <div class="control-group">
+                              <div class="controls">
+                                 <input type="text" class="address1" value=""  id="provider_address" name="provider_address" />
+                                 <i class="icon-time"></i>
+                              </div>
+                           </div>
+                        </fieldset>
+                     </div>
+                     <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-exclamation-circle"></i></div>
+                     <div class="col-sm-12 pad-left-0 ">
+                        <fieldset class="scheduler-border ">
+                           <legend class="scheduler-border">Line 2</legend>
+                           <div class="control-group">
+                              <div class="controls">
+                                 <input type="text" class="address"2 value="" id="provider_address" name="provider_address" />
+                                 <i class="icon-time"></i>
+                              </div>
+                           </div>
+                        </fieldset>
+                     </div>
+                     <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-exclamation-circle"></i></div>
+                     <div class="col-sm-6 pad-left-0">
+                        <fieldset class="scheduler-border ">
+                           <legend class="scheduler-border">City</legend>
+                           <div class="control-group">
+                              <div class="controls">
+                                 <input type="text" class="city" value=""  id="provider_city" name="provider_city" />
+                                 <i class="icon-time"></i>
+                              </div>
+                           </div>
+                        </fieldset>
+                     </div>
+                     <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-exclamation-circle"></i></div>
+                     <div class="col-sm-6 pad-left-0 ">
+                        <fieldset class="scheduler-border ">
+                           <legend class="scheduler-border">Zip</legend>
+                           <div class="control-group">
+                              <div class="controls">
+                                 <input type="text" class="zip"  value="" id="provider_zip_code" name="provider_zip_code" />
+                                 <i class="icon-time"></i>
+                              </div>
+                           </div>
+                        </fieldset>
+                     </div>
+                     <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-exclamation-circle"></i></div>
+                  </div>
+                  <div class="row">
+                     <p class="clearclass">Billing Details</p>
+                     <div class="col-sm-6 pad-left-0">
+                        <fieldset class="scheduler-border">
+                           <legend class="scheduler-border">Process Zip Code</legend>
+                           <div class="control-group">
+                              <div class="controls">
+                                 <input type="text" class="zip"  value=""  id="billing_zip_code" name="billing_zip_code" />
+                                 <i class="icon-time"></i>
+                              </div>
+                           </div>
+                        </fieldset>
+                     </div>
+                     <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+                     <div class="col-sm-6 pad-left-0">
+                        <fieldset class="scheduler-border">
+                           <legend class="scheduler-border">Pickup Zip Code</legend>
+                           <div class="control-group">
+                              <div class="controls">
+                                 <input type="text" class="zip" value="" id="billing_pickup_zip_code" name="billing_pickup_zip_code" />
+                                 <i class="icon-time"></i>
+                              </div>
+                           </div>
+                        </fieldset>
+                     </div>
+                     <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+                     <div class="col-sm-6 pad-left-0">
+                        <fieldset class="scheduler-border">
+                           <legend class="scheduler-border">Post Mark Date</legend>
+                           <div class="control-group">
+                              <div class="controls">
+                                 <input type="date" class="datePicker" value="" id="billing_post_mark_date" name="billing_post_mark_date" />
+                                 <i class="icon-time"></i>
+                              </div>
+                           </div>
+                        </fieldset>
+                     </div>
+                     <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+                     <div class="col-sm-6 pad-left-0">
+                        <fieldset class="scheduler-border">
+                           <legend class="scheduler-border">Type of bill </legend>
+                           <div class="control-group">
+                              <div class="controls">
+                                 <select id="billing_type_of_bill">
+                                    <option selected>34 JQ</option>
+                                    <option value="1">12B</option>
+                                    <option value="2">140 CD</option>
+                                    <option value="3">stock </option>
+                                 </select>
+                                 <i class="icon-time"></i>
+                              </div>
+                           </div>
+                        </fieldset>
+                     </div>
+                     <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+                     <div class="col-sm-6 pad-left-0">
+                        <fieldset class="scheduler-border">
+                           <legend class="scheduler-border">Box 14 on UB</legend>
+                           <div class="control-group">
+                              <div class="controls">
+                                 <input type="text" class="boxub" value="" id="box_14_on_ub" name="box_14_on_ub" />
+                                 <i class="icon-time"></i>
+                              </div>
+                           </div>
+                        </fieldset>
+                     </div>
+                     <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+                     <div class="col-sm-6 pad-left-0">
+                        <fieldset class="scheduler-border">
+                           <legend class="scheduler-border">Bill Date</legend>
+                           <div class="control-group">
+                              <div class="controls">
+                                 <input type="date" class="billdate" id="bill_date" name="bill_date" />
+                                 <i class="icon-time"></i>
+                              </div>
+                           </div>
+                        </fieldset>
+                     </div>
+                     <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-exclamation-circle"></i></div>
+                     <div class="col-sm-6 pad-left-0">
+                        <fieldset class="scheduler-border">
+                           <legend class="scheduler-border">Tin Suffix</legend>
+                           <div class="control-group">
+                              <div class="controls">
+                                 <select id="tin_suffix">
+                                    <option selected>34 JQ</option>
+                                    <option value="1">12B</option>
+                                    <option value="2">140 CD</option>
+                                    <option value="3">stock </option>
+                                 </select>
+                                 <i class="icon-time"></i>
+                              </div>
+                           </div>
+                        </fieldset>
+                     </div>
+                     <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+                     <div class="col-sm-6 pad-left-0">
+                        <fieldset class="scheduler-border">
+                           <legend class="scheduler-border">NPI no</legend>
+                           <div class="control-group">
+                              <div class="controls">
+                                 <input type="string" class="npi_no" id="npi_no" name="npi_no" />
+                                 <i class="icon-time"></i>
+                              </div>
+                           </div>
+                        </fieldset>
+                     </div>
+                     <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+                  </div> 
+               </div>
+            </div>
+         </form>
+      </div>
+   </div>
+</div>
+
+<script>
+
+   var total_error_fields = 0
+   get_extracted_output()
+   function sentenceCase(str) {
+      if ((str === null) || (str === ''))
+         return false;
+      else
+         str = str.toString();
+
+      return str.replace(/\w\S*/g,
+         function (txt) {
+            return txt.charAt(0).toUpperCase() +
+               txt.substr(1).toLowerCase();
+         });
+   }
+   function dynamic_form_design(lst_fields) {
+
+      conf_thresold = $("#hdn_CONFIDENCE_LIMIT").val()
+      _html_field_template = $("#form_fields").html()
+
+      
+ 
+
+      $.each(lst_fields, function (index, val) {
+         
+          
+         $("#"+val.key_name).val(val.value)
+         if (parseInt(val.confidence) > parseInt(conf_thresold)) {
+            $("#"+val.key_name).closest('fieldset').removeClass("error")
+         }
+         else{
+            $("#"+val.key_name).closest('fieldset').addClass("error")
+            total_error_fields = total_error_fields + 1
+            $("#error_field_count").html(total_error_fields)
+         }
+         // generated_html = _html_field_template.replace("$LABEL$", field_label)
+         // generated_html = generated_html.replace("$FIELD_ID$", field_id)
+         // generated_html = generated_html.replace("$FIELD_VALUE$", val.value)
+         // generated_html = generated_html.replace("$FIELD_CONF$", val.confidence+"%")
+         // generated_html = generated_html.replace("$FIELD_QUESTION$", val.questions)
+
+
+         // if (parseInt(val.confidence) > parseInt(conf_thresold)) {
+         //    generated_html = generated_html.replace("$COLOR-CLASS$", "green")
+         //    generated_html = generated_html.replace("$BORDER$", "green_border")
+         // }
+         // else {
+         //    generated_html = generated_html.replace("$COLOR-CLASS$", "red")
+         //    generated_html = generated_html.replace("$BORDER$", "red_border")
+         // }
+
+         // generated_html = generated_html.replace("$FIELD_ID_QUESTION$", "quest_" + field_id)
+         // generated_html = generated_html.replace("$CONF_FIELD_ID$", "conf_" + field_id)
+         //$("#form_fields").append(generated_html)
+      });
+
+   }
+   function get_extracted_output() {
+      var api_url = $("#SITEROOTURL").val() + "/get_document_field_data";
+      info = {}
+      info["config_id"] = $("#hdn_config_id").val()
+      info["document_id"] = $("#hdn_document_id").val()
+      info = JSON.stringify(info)
+      $.ajax({
+         url: api_url,
+         headers: { "X-CSRFToken": '{{ csrf_token }}', 'Content-Type': undefined },
+         type: "POST",
+         crossDomain: true,
+         dataType: "json",
+         data: { info },
+         success: function (result_outputdata) {
+            dynamic_form_design(result_outputdata.field_values)
+            console.log(result_outputdata)
+         },
+         error: function (error) {
+            toastr.success("error")
+            console.log(error);
+         }
+      });
+   }
+</script>
+{% endblock %}
