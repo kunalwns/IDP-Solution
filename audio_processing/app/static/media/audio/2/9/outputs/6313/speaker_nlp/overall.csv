@@ -1,0 +1,9 @@
+﻿user,statement,sentiment,type
+speaker_2,what are you doing,positive,Question
+speaker_2,How are you doing,positive,Clarity
+speaker_2,this is the test,positive,Statement
+speaker_2,Where you were in next month,negative,Question
+speaker_1,what are you doing,negative,Question
+speaker_1,How are you doing,negative,Clarity
+speaker_1,this is the test,negative,Statement
+speaker_1,Where you were in next month,nutral,Question

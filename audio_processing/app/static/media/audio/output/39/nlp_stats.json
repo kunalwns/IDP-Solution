@@ -1,0 +1,17 @@
+{
+    "speakers": "2",
+    "speakers_name": [
+        "speaker_0",
+        "speaker_1"
+    ],
+    "speakers_time_spent": [
+        {
+            "speaker_0": "40 Sec",
+            "speaker_1": "40 Sec"
+        }
+    ],
+    "file_size": "40 KB",
+    "positive": 10,
+    "negative": 20,
+    "nutral": 20
+}
