@@ -1,0 +1,221 @@
+/*------------------------------------------------------------------
+    File Name: custom.css
+-------------------------------------------------------------------*/
+
+/** ADD YOUR AWESOME CODES HERE **/
+.small-box {
+    border-radius: 0.25rem;
+    box-shadow: 0 0 1px rgba(0,0,0,.125), 0 1px 3px rgba(0,0,0,.2);
+    display: block;
+    margin-bottom: 20px;
+    position: relative;
+  }
+  .small-box.bg-info {
+    background: #17a2b8!important;
+  }
+  .small-box>.inner {
+    padding: 10px;
+  }
+  .small-box .icon {
+    color: rgba(0,0,0,.15);
+    z-index: 0;
+  }
+  .small-box>.small-box-footer {
+    background-color: rgba(0,0,0,.1);
+    color: rgba(255,255,255,.8);
+    display: block;
+    padding: 3px 0;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    z-index: 10;
+  }
+  .bg-info, .bg-info>a,
+  .bg-danger, .bg-danger>a,
+  .bg-success, .bg-success>a {
+    color: #fff!important;
+  }
+  .bg-warning, .bg-warning>a {
+    color: #1f2d3d!important;
+  }
+  .small-box p{
+    font-size: 17px;
+    color: #FFF !important;
+  }
+  .small-box .icon>i {
+    font-size: 70px;
+    position: absolute;
+    right: 19px;
+    top: 5px;
+    transition: -webkit-transform .3s linear;
+    transition: transform .3s linear;
+    transition: transform .3s linear,-webkit-transform .3s linear;
+    color: #FFF;
+  }
+  .card {
+    box-shadow: 0 0 1px rgba(0,0,0,.125), 0 1px 3px rgba(0,0,0,.2);
+    margin-bottom: 1rem;
+    position: relative;
+      display: -ms-flexbox;
+      display: flex;
+      -ms-flex-direction: column;
+      flex-direction: column;
+      min-width: 0;
+      word-wrap: break-word;
+      background-color: #fff;
+      background-clip: border-box;
+      border: 0 solid rgba(0,0,0,.125);
+      border-radius: 0.25rem;
+  }
+  .card-header {
+    background-color: transparent;
+    border-bottom: 1px solid rgba(0,0,0,.125);
+    padding: 0.75rem 1.25rem;
+    position: relative;
+    border-top-left-radius: 0.25rem;
+    border-top-right-radius: 0.25rem;
+  }
+  .card-title {
+    float: left;
+    font-size: 1.1rem;
+    font-weight: 400;
+    margin: 0;
+  }
+  .card-header>.card-tools {
+    float: right;
+    margin-right: -0.625rem;
+  }
+  .direct-chat .card-body {
+    overflow-x: hidden;
+    padding: 0;
+    position: relative;
+  }
+  .card-body {
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    min-height: 1px;
+    padding: 1.25rem;
+  }
+  .direct-chat-contacts, .direct-chat-messages {
+    transition: -webkit-transform .5s ease-in-out;
+    transition: transform .5s ease-in-out;
+    transition: transform .5s ease-in-out,-webkit-transform .5s ease-in-out;
+  }
+  .direct-chat-messages {
+    -webkit-transform: translate(0,0);
+    transform: translate(0,0);
+    height: 350px;
+    overflow: auto;
+    padding: 10px;
+  }
+  .direct-chat-msg, .direct-chat-text {
+    display: block;
+  }
+  .direct-chat-infos {
+    display: block;
+    font-size: .875rem;
+    margin-bottom: 2px;
+  }
+  
+  .badge{
+    display: inline-block;
+    min-width: 10px;
+    padding: 3px 7px;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    background-color: #777;
+    border-radius: 10px;
+  }
+  .direct-chat-primary .right>.direct-chat-text {
+    background-color: #007bff;
+    border-color: #007bff;
+    color: #fff;
+  }
+  .right .direct-chat-text {
+    margin-left: 0;
+    margin-right: 50px;
+  }
+  .direct-chat-text {
+    border-radius: 0.3rem;
+    background-color: #d2d6de;
+    border: 1px solid #d2d6de;
+    color: #444;
+    margin: 5px 0 0 50px;
+    padding: 5px 10px;
+    position: relative;
+  }
+  .direct-chat-text::after, .direct-chat-text::before {
+    border: solid transparent;
+    border-right-color: #d2d6de;
+    content: " ";
+    height: 0;
+    pointer-events: none;
+    position: absolute;
+    right: 100%;
+    top: 15px;
+    width: 0;
+  }
+  .direct-chat-text::before {
+    border-width: 6px;
+    margin-top: -6px;
+  }
+  .right .direct-chat-text::after, .right .direct-chat-text::before {
+    border-left-color: #d2d6de;
+    border-right-color: transparent;
+    left: 65%;
+  }
+  .direct-chat-primary .right>.direct-chat-text::after, .direct-chat-primary .right>.direct-chat-text::before {
+    border-left-color: #007bff;
+  }
+  .badge {
+    display: inline-block;
+    padding: 0.25em 0.4em;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.25rem;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+  }
+  .fa.fa-user{
+    border-radius: 50%;
+      float: left;
+      height: 40px;
+      width: 40px;
+      font-size: 30px;
+  }
+  .fa.fa-female{
+    border-radius: 50%;
+    float: right;
+    height: 40px;
+    width: 40px;
+    font-size: 30px;
+  }
+  .title{
+    color: #151515;
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 15px;
+  }
+  /*just a bit of style*/
+  * {
+    margin: 0;
+    padding: 0;
+  }
+  #chart-container,
+  #pie-container{
+    position: relative;
+    height: 77vh;
+    overflow: hidden;
+  }
+  h3{
+    color: #fff;
+  }
+  
