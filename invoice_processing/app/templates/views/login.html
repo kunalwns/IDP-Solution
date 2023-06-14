@@ -1,0 +1,183 @@
+{% extends "base_login.html" %}
+{% load static %}
+{% block content %}
+<style>
+  .container-left{
+  background: #000;
+  color: #fff;
+  border-radius: 10px 0 0 10px;
+  -webkit-box-shadow: 0 0 9px 6px #ccc;
+  -moz-box-shadow: 0 0 9px 6px #ccc;
+  box-shadow: 0 0 9px 6px #ccc;
+  padding: 41px 10px;
+  }
+  .logo img{
+  height: auto;
+  width: auto;
+  }
+  .logo{
+  text-align: center;
+  }
+  .description{
+  font-size: 21px;
+  color: #FFF ;
+  padding: 20px 41px;
+  }
+  .description p{
+  text-align: center;
+  }
+  .container-right{
+  box-sizing: border-box;
+  background: aliceblue;
+  border-radius: 0 10px 10px 0;
+  -webkit-box-shadow: 4px 0 8px 4px #ccc;
+  -moz-box-shadow: 4px 0 8px 4px #ccc;
+  box-shadow: 4px 0 8px 4px #ccc;
+  padding: 46px;
+  }
+  .box-height{
+  height: 459px;
+  width: 90%;
+  margin: 0 auto;
+  }
+  .center-box{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  }
+  .signetext{
+  text-align: center;
+  margin-bottom: 30px;
+  font-weight: normal;
+  }
+  #input_img .font_icon {
+  height: 100%;
+  display: block;
+  text-align: center;
+  padding-top: 6px;
+  box-sizing: border-box;
+  font-size: 20px;
+  }
+  #input_img {
+  position: absolute;
+  width: 50px;
+  height: 34px;
+  top: 0;
+  border-radius: 4px 0 0 4px!important;
+  background-color: #d4dbea;
+  border: 1px solid #d4dbea;
+  color: #555;
+  }
+  .field{
+  position: relative;
+  width: 100%;
+  margin-bottom: 20px;
+  }
+  #user_password,
+  #user_email_id {
+  height: 34px!important;
+  width: 100%!important;
+  margin: 0!important;
+  padding: 0 0 0 65px!important;
+  border: 1px solid #ccc!important;
+  box-sizing: border-box;
+  border-radius: 4px!important;
+  color: #312e2e!important;
+  font-size: 15px!important;
+  }
+  .forgot{
+  text-align: right;
+  text-decoration: none;
+  }
+  .main_bt{
+  width: 100%;
+  background: #ed1c24!important;
+  color: #fff;
+  line-height: 40px;
+  font-size: 18px;
+  border: none;
+  border-radius: 5px;
+  }
+</style>
+<div class="container center-box">
+  <div class="row box-height">
+     <div class="col-sm-6 container-left">
+        <div class="logo">
+           <img src="/static/images/logo/WNS_Logo_White.png" alt="Glogo" width="200" height="200">
+        </div>
+        <div class="description" >
+           <p style="font-size: 21px;line-height: 27px; color:#fff;padding-top: 20px;">WNS (Holdings) Limited (NYSE: WNS),is a leading Business Process Management (BPM) company. We combine our deep industry knowledge with technology and analytics expertise to co-create innovative,digital-led transformational solutions with clients across 10 industries.</p>
+        </div>
+     </div>
+     <div class="col-sm-6 container-right">
+        <h2 class="signetext">Sign In</h2>
+        <fieldset>
+           <div class="field">
+              <input id="user_email_id"  name="user_email_id" type="email" autocomplete="off" class="form-control login_input" placeholder="Email Address" required="">
+              <div id="input_img">
+                 <i class="fa fa-user font_icon" aria-hidden="true"></i>
+              </div>
+           </div>
+           <div class="field">
+              <div id="input_container">
+                 <input id="user_password" name="user_password" type="password" autocomplete="off" class="form-control login_input" placeholder="Password" required="">
+                 <div id="input_img">
+                    <i class="fa fa-lock font_icon" aria-hidden="true"></i>
+                 </div>
+              </div>
+           </div>
+           <div class="field text-right">
+              <!-- <label class="label_field hidden">hidden label</label>
+                 <label class="form-check-label"><input type="checkbox" class="form-check-input"> Remember Me</label> -->
+              <p class="forgot"><a  href="">Forgotten Password?</a></p>
+           </div>
+           <div class="field margin_0">
+              <!-- <label class="label_field hidden">hidden label</label> -->
+              <button class="main_bt" onclick="user_authenticate()"   type="button">Sign In</button>
+           </div>
+        </fieldset>
+     </div>
+  </div>
+</div>
+
+<script>
+  function user_authenticate() {
+
+    info = {}
+    info["user_email_id"] = $("#user_email_id").val()
+    info["user_password"] =  $("#user_password").val()
+     
+    info = JSON.stringify(info)
+    console.log(info)
+     
+    var api_url = $("#SITEROOTURL").val() + "/login_user";
+    console.log(api_url)
+
+    $.ajax({
+      url: api_url,
+      headers: { "X-CSRFToken": '{{ csrf_token }}', 'Content-Type': undefined },
+      type: "POST",
+      crossDomain: true,
+      dataType: "json",
+      data: { info },
+      success: function (result_outputdata) {
+        console.log(result_outputdata)
+        if (result_outputdata["status"] == "1") {
+          toastr.success(result_outputdata["message"]);
+          window.location.href = $("#SITEROOTURL").val() + "/documents";
+        }
+        else {
+          toastr.error(result_outputdata["message"]);
+        }
+      },
+      error: function (error) {
+         
+        console.log(error);
+      }
+    });
+
+
+  }
+</script>
+{% endblock %}

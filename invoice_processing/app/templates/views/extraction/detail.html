@@ -1,0 +1,33 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+<style>
+  .dataTables_filter {
+    text-align: right;
+    margin: 10px 10px 0px 0px !important;
+  }
+
+  .dataTables_info {
+    padding: 10px;
+  }
+
+  .pagination {
+    padding: 10px;
+  }
+</style>
+<div class="midde_cont">
+  <div class="container-fluid">
+    <div class="row column_title">
+      <div class="col-md-12">
+        <div class="page_title">
+          <h1 class="m-0" style="font-size: 18px;"><i class="fa fa-file green_color" style="margin-right:10px;"></i>Processed Document Detail-
+            <span id="sp_file_name" style="color:green"></span></h1>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

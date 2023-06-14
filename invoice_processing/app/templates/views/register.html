@@ -1,0 +1,87 @@
+{% extends "base_login.html" %}
+{% load static %}
+{% block content %}
+
+<div class="login_form">
+  <input type="hidden" id="SITEROOTURL" value="http://127.0.0.1:8000/app">
+  <form>
+    
+    <div class="form-outline mb-4">
+      <label class="form-label" for="user_name">User Name</label>
+      <input type="text" value="Ajay" id="user_name" class="form-control" placeholder="User Name" /> 
+    </div>
+
+    <div class="form-outline mb-4">
+      <label class="form-label" for="user_email_id">Email Id</label>
+      <input type="text" value="ajay@mgmail.com" id="user_email_id" class="form-control" placeholder="User email" />                   
+    </div>
+
+    <div class="form-outline mb-4">
+      <label class="form-label" for="company_name">Company Name</label>
+      <input type="text" value="WNS" id="company_name" class="form-control" placeholder="Company Name" /> 
+    </div>
+
+    <div class="form-outline mb-4">
+      <label class="form-label" for="user_contact">Contact Number</label>
+      <input type="text" value="949494994" id="user_contact" class="form-control" placeholder="Contact NUmber" /> 
+    </div>
+
+    <div class="form-outline mb-4">
+      <label class="form-label" for="user_password">Password</label>
+      <input type="password" value="1234567890" id="user_password" class="form-control" /> 
+    </div>
+
+    <div class="text-center">
+      <button class="btn btn-info btn-block   mb-3" onclick="create_new_user()" type="button">Create New Account
+        in</button>
+      
+    </div>
+
+  </form>
+</div>
+
+ 
+
+<script>
+  function create_new_user() {
+
+
+    info = {}
+    info["user_name"] = $("#user_name").val()
+    info["user_password"] =  $("#user_password").val()
+    info["user_email_id"] =  $("#user_email_id").val()
+    info["company_name"] =  $("#company_name").val()
+    info["user_contact"] =  $("#user_contact").val()   
+    info = JSON.stringify(info)
+    console.log(info)
+     
+    var api_url = $("#SITEROOTURL").val() + "/create_new_account";
+    console.log(api_url)
+
+    $.ajax({
+      url: api_url,
+      headers: { "X-CSRFToken": '{{ csrf_token }}', 'Content-Type': undefined },
+      type: "POST",
+      crossDomain: true,
+      dataType: "json",
+      data: { info },
+      success: function (result_outputdata) {
+        console.log(result_outputdata)
+        if (result_outputdata["status"] == "1") {
+          toastr.success(result_outputdata["message"]);
+        }
+        else {
+          toastr.error(result_outputdata["message"]);
+        }
+
+      },
+      error: function (error) {
+        toastr.success("error")
+        console.log(error);
+      }
+    });
+
+
+  }
+</script>
+{% endblock %}

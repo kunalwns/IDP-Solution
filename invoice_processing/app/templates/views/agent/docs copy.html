@@ -1,0 +1,1684 @@
+{% extends "base_ais.html" %}
+
+{% block content %} 
+<div class="container PatientProvider" style="margin-top:60px;">
+         
+    <div class="row">
+       <div class="col-sm-3"> 
+          <i class='fas fa-chevron-left'></i><a href="#" class="backqueue fs-4">Back to queue </a> | <span class="fs-4">109867</span>
+       </div>
+       <div class="col-sm-6">
+          <nav aria-label="breadcrumb ">
+             <ol class="breadcrumb fs-4">
+                <li class="breadcrumb-item active" aria-current="page"><span class="badge">1</span><a href="#">Patient & Provider</a></li>
+                <li class="breadcrumb-item"><span class="badge">2</span><a href="#">Splitting</a></li>
+                <li class="breadcrumb-item" ><span class="badge">3</span><span class="lastelement">Treatment & billing</span></li>
+             </ol>
+          </nav>
+       </div>
+       <div class="col-sm-3 text-right dochistorycontainer"> 
+          <span class="dochistory "></span><a class="splitingheading2" href="#">Document history</a>
+       </div>
+    </div>
+    <div class="row mb-xl-6">
+       <div class="col-sm-6 left-content">
+          <div class="col-md-12 box-shadow1">
+        
+             <div id="jar" style="display:none">
+                <div class="content"><img src="img/detail-form.webp" alt="detail-form"></div>
+                <div class="content"><img src="img/health_insurance_claim.png" alt="health_insurance"></div>
+                <div class="content"><img src="img/insurance_verification_form.png" alt="insurance_verification"></div>
+                <div class="content"><img src="img/Insurance-application-Form.webp" alt="Insurance-application-Form"></div>
+                <div class="content"><img src="img/insurance-proposal-form.webp" alt="insurance-proposal-form"></div>
+                <div class="content"><img src="img/Patient_Detail.jpg" alt="Patient_Detail"></div>
+                <div class="content"><img src="img/policy-form-kotak-life-insurance.jpg" alt="policy-form-insurance"></div>
+             </div>
+             <div class="pagination"></div>
+          </div>
+       </div>
+       <div class="col-sm-6 right-content">
+          <div class="col-md-12 box-shadow2">
+             <div class="row sticky-header">
+                <div class="col-sm-6">Patient & Provider</div>
+                <div class="col-sm-6 text-right"><i class='fas fa-exclamation-circle'></i>
+                   <span >6</span> fields with low accuracy
+                </div>
+             </div>
+             <hr>
+             <div class="row">
+                <h5><span class="badge">1</span>Patient Information</h5>
+                <p class="">Basic details</p>
+                <div class="col-sm-11 pad-left-0">
+                   <fieldset class="scheduler-border">
+                      <legend class="scheduler-border">Patient Name</legend>
+                      <div class="control-group">
+                         <div class="controls">
+                            <input type="text" class="name" id="name" value="John Doe" name="name" />
+                            <i class="icon-time"></i>
+                         </div>
+                      </div>
+                   </fieldset>
+                </div>
+                <div class="col-sm-1 pad-0 validatecheck "><i class="fas fa-check-circle"></i></div>
+                <div class="col-sm-5 pad-left-0">
+                   <fieldset class="scheduler-border">
+                      <legend class="scheduler-border">DOB</legend>
+                      <div class="control-group">
+                         <div class="controls">
+                            <input type="date" class="datePicker" id="datePicker" name="date" />
+                            <i class="icon-time"></i>
+                         </div>
+                      </div>
+                   </fieldset>
+                </div>
+                <div class="col-sm-1 pad-0 validatecheck "><i class="fas fa-check-circle"></i></div>
+                <div class="col-sm-5">
+                   <fieldset class="scheduler-border">
+                      <legend class="scheduler-border">Gender</legend>
+                      <div class="control-group">
+                         <div class="controls">
+                            <select >
+                               <option selected>Male</option>
+                               <option value="1">Female</option>
+                               <option value="2">Others</option>
+                            </select>
+                            <i class="icon-time"></i>
+                         </div>
+                      </div>
+                   </fieldset>
+                </div>
+                <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+             </div>
+             <div class="row">
+                <p class="">Patient Address</p>
+                <div class="col-sm-11 pad-left-0">
+                   <fieldset class="scheduler-border">
+                      <legend class="scheduler-border">Line 1</legend>
+                      <div class="control-group">
+                         <div class="controls">
+                            <input type="text" class="address1" value="34 JCQ" id="address1" name="address1" />
+                            <i class="icon-time"></i>
+                         </div>
+                      </div>
+                   </fieldset>
+                </div>
+                <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+                <div class="col-sm-11 pad-left-0">
+                   <fieldset class="scheduler-border">
+                      <legend class="scheduler-border">Line 2</legend>
+                      <div class="control-group">
+                         <div class="controls">
+                            <input type="text" class="address"2 value="34 JCQ" id="address2" name="address2" />
+                            <i class="icon-time"></i>
+                         </div>
+                      </div>
+                   </fieldset>
+                </div>
+                <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+                <div class="col-sm-5  pad-left-0">
+                   <fieldset class="scheduler-border">
+                      <legend class="scheduler-border">City</legend>
+                      <div class="control-group">
+                         <div class="controls">
+                            <input type="text" class="city" value="California" id="city" name="city" />
+                            <i class="icon-time"></i>
+                         </div>
+                      </div>
+                   </fieldset>
+                </div>
+                <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+                <div class="col-sm-5  pad-left-0">
+                   <fieldset class="scheduler-border">
+                      <legend class="scheduler-border">Zip</legend>
+                      <div class="control-group">
+                         <div class="controls">
+                            <input type="number" class="zip" value="31234" id="zip" name="zip" />
+                            <i class="icon-time"></i>
+                         </div>
+                      </div>
+                   </fieldset>
+                </div>
+                <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+             </div>
+             <div class="row">
+                <h5><span class="badge">2</span>Document Information</h5>
+                <div class="col-sm-5 pad-left-0">
+                   <fieldset class="scheduler-border">
+                      <legend class="scheduler-border">label</legend>
+                      <div class="control-group">
+                         <div class="controls">
+                            <select>
+                               <option selected>Medical Report</option>
+                               <option value="1">One</option>
+                               <option value="2">Two</option>
+                               <option value="3">Three</option>
+                            </select>
+                         </div>
+                      </div>
+                   </fieldset>
+                </div>
+                <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+                <div class="col-sm-5 pad-left-0">
+                   <fieldset class="scheduler-border">
+                      <legend class="scheduler-border">Form Type</legend>
+                      <div class="control-group">
+                         <div class="controls">
+                            <select>
+                               <option selected>CMS</option>
+                               <option value="1">One</option>
+                               <option value="2">Two</option>
+                               <option value="3">Three</option>
+                            </select>
+                            <i class="icon-time"></i>
+                         </div>
+                      </div>
+                   </fieldset>
+                </div>
+                <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+                <div class="col-sm-5 pad-left-0">
+                   <fieldset class="scheduler-border">
+                      <legend class="scheduler-border">Claim No</legend>
+                      <div class="control-group">
+                         <div class="controls">
+                            <input type="number" class="Claimno" value="123456" id="Claimno" name="Claimno" />
+                            <i class="icon-time"></i>
+                         </div>
+                      </div>
+                   </fieldset>
+                </div>
+                <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+                <div class="col-sm-5 pad-left-0">
+                   <fieldset class="scheduler-border">
+                      <legend class="scheduler-border">DOL</legend>
+                      <div class="control-group">
+                         <div class="controls">
+                            <input type="date" class="datePicker" id="datePicker" name="dol" />
+                            <i class="icon-time"></i>
+                         </div>
+                      </div>
+                   </fieldset>
+                </div>
+                <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+                <div class="col-sm-5 pad-left-0">
+                   <fieldset class="scheduler-border">
+                      <legend class="scheduler-border">DOS</legend>
+                      <div class="control-group">
+                         <div class="controls">
+                            <input type="date" class="datePicker" id="datePicker" name="dos" />
+                            <i class="icon-time"></i>
+                         </div>
+                      </div>
+                   </fieldset>
+                </div>
+                <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+                <div class="col-sm-5 pad-right-0">
+                   <div class="control-group">
+                      <div class="controls">
+                         <p>Auto accident ( Box 10b on CMS)</p>
+                         <div class="radio-inline">
+                            <label><input type="radio" name="optradio" checked>Yes</label>
+                         </div>
+                         <div class="radio-inline">
+                            <label><input type="radio" name="optradio">No</label>
+                         </div>
+                         <i class="icon-time"></i>
+                      </div>
+                   </div>
+                </div>
+                <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+             </div>
+             <div class="row">
+                <h5 style="clear: both;"><span class="badge">3</span>Service Provider</h5>
+                <p>Basic Details</p>
+                <div class="col-sm-11 pad-left-0">
+                   <fieldset class="scheduler-border">
+                      <legend class="scheduler-border">Provider Name</legend>
+                      <div class="control-group">
+                         <div class="controls">
+                            <input type="text" class="providername" value="GQ healthcare" id="providername" name="providername" />
+                            <i class="icon-time"></i>
+                         </div>
+                      </div>
+                   </fieldset>
+                </div>
+                <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+                <div class="col-sm-5 pad-left-0">
+                   <fieldset class="scheduler-border">
+                      <legend class="scheduler-border">Group Name</legend>
+                      <div class="control-group">
+                         <div class="controls">
+                            <input type="number" class="groupname" value="75678" id="groupname" name="groupname" />
+                         </div>
+                      </div>
+                   </fieldset>
+                </div>
+                <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+                <div class="col-sm-5 pad-left-0">
+                   <fieldset class="scheduler-border">
+                      <legend class="scheduler-border">TIN</legend>
+                      <div class="control-group">
+                         <div class="controls">
+                            <input type="number" class="tin"  value="45646" id="tin" name="tin" />
+                         </div>
+                      </div>
+                   </fieldset>
+                </div>
+                <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+             </div>
+             <div class="row">
+                <p class="">Provider Address</p>
+                <div class="col-sm-11 pad-left-0">
+                   <fieldset class="scheduler-border error">
+                      <legend class="scheduler-border">Line 1</legend>
+                      <div class="control-group">
+                         <div class="controls">
+                            <input type="text" class="address1" value="34 JCQ" id="address1" name="address1" />
+                            <i class="icon-time"></i>
+                         </div>
+                      </div>
+                   </fieldset>
+                </div>
+                <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-exclamation-circle"></i></div>
+                <div class="col-sm-11 pad-left-0">
+                   <fieldset class="scheduler-border error">
+                      <legend class="scheduler-border">Line 2</legend>
+                      <div class="control-group">
+                         <div class="controls">
+                            <input type="text" class="address2"  value="34 JCQ" id="address2" name="address2" />
+                            <i class="icon-time"></i>
+                         </div>
+                      </div>
+                   </fieldset>
+                </div>
+                <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-exclamation-circle"></i></div>
+                <div class="col-sm-5 pad-left-0">
+                   <fieldset class="scheduler-border error">
+                      <legend class="scheduler-border">City</legend>
+                      <div class="control-group">
+                         <div class="controls">
+                            <input type="text" class="city" value="Kansas" id="city" name="city" />
+                            <i class="icon-time"></i>
+                         </div>
+                      </div>
+                   </fieldset>
+                </div>
+                <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-exclamation-circle"></i></div>
+                <div class="col-sm-5 pad-left-0">
+                   <fieldset class="scheduler-border error">
+                      <legend class="scheduler-border">Zip</legend>
+                      <div class="control-group">
+                         <div class="controls">
+                            <input type="number" class="zip" value="34323" id="zip" name="zip" />
+                            <i class="icon-time"></i>
+                         </div>
+                      </div>
+                   </fieldset>
+                </div>
+                <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-exclamation-circle"></i></div>
+             </div>
+             <div class="row">
+                <h5 style="clear: both;"><span class="badge">4</span>Billing Provider</h5>
+                <p>Basic Details</p>
+                <div class="col-sm-11 pad-left-0">
+                   <fieldset class="scheduler-border">
+                      <legend class="scheduler-border">Provider Name</legend>
+                      <div class="control-group">
+                         <div class="controls">
+                            <input type="text" class="providername" value="GQ helthcare" id="providername" name="providername" />
+                            <i class="icon-time"></i>
+                         </div>
+                      </div>
+                   </fieldset>
+                </div>
+                <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+                <div class="col-sm-5 pad-left-0">
+                   <fieldset class="scheduler-border">
+                      <legend class="scheduler-border">Group Name</legend>
+                      <div class="control-group">
+                         <div class="controls">
+                            <input type="number" class="groupname" value="2354" id="groupname" name="groupname" />
+                            <i class="icon-time"></i>
+                         </div>
+                      </div>
+                   </fieldset>
+                </div>
+                <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+                <div class="col-sm-5 pad-left-0">
+                   <fieldset class="scheduler-border">
+                      <legend class="scheduler-border">TIN</legend>
+                      <div class="control-group">
+                         <div class="controls">
+                            <input type="number" class="tin" value="5684" id="tin" name="tin" />
+                            <i class="icon-time"></i>
+                         </div>
+                      </div>
+                   </fieldset>
+                </div>
+                <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+                <div class="col-sm-5 pad-left-0">
+                   <fieldset class="scheduler-border">
+                      <legend class="scheduler-border">Licese Type</legend>
+                      <div class="control-group">
+                         <div class="controls">
+                            <select>
+                               <option selected>MD</option>
+                               <option value="1">One</option>
+                               <option value="2">Two</option>
+                               <option value="3">Three</option>
+                            </select>
+                            <i class="icon-time"></i>
+                         </div>
+                      </div>
+                   </fieldset>
+                </div>
+                <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+                <div class="col-sm-5 pad-left-0">
+                   <fieldset class="scheduler-border">
+                      <legend class="scheduler-border">Speciality</legend>
+                      <div class="control-group">
+                         <div class="controls">
+                            <select>
+                               <option selected>General Insurance</option>
+                               <option value="1">Life Insurance</option>
+                               <option value="2">car Insurance</option>
+                               <option value="3">stock </option>
+                            </select>
+                            <i class="icon-time"></i>
+                         </div>
+                      </div>
+                   </fieldset>
+                </div>
+                <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+                <div class="col-sm-5 pad-left-0">
+                   <fieldset class="scheduler-border">
+                      <legend class="scheduler-border">Bill Type</legend>
+                      <div class="control-group">
+                         <div class="controls">
+                            <select>
+                               <option selected>Life Insurance</option>
+                               <option value="1">General Insurance</option>
+                               <option value="2">car Insurance</option>
+                               <option value="3">stock </option>
+                            </select>
+                            <i class="icon-time"></i>
+                         </div>
+                      </div>
+                   </fieldset>
+                </div>
+                <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+             </div>
+             <div class="row">
+                <p class="clearclass">Provider Address</p>
+                <div class="col-sm-11 pad-left-0">
+                   <fieldset class="scheduler-border error">
+                      <legend class="scheduler-border">Line 1</legend>
+                      <div class="control-group">
+                         <div class="controls">
+                            <input type="text" class="address1" value="34 JCQ"  id="address1" name="address1" />
+                            <i class="icon-time"></i>
+                         </div>
+                      </div>
+                   </fieldset>
+                </div>
+                <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-exclamation-circle"></i></div>
+                <div class="col-sm-11 pad-left-0 ">
+                   <fieldset class="scheduler-border error">
+                      <legend class="scheduler-border">Line 2</legend>
+                      <div class="control-group">
+                         <div class="controls">
+                            <input type="text" class="address"2 value="34 JCQ" id="address2" name="address2" />
+                            <i class="icon-time"></i>
+                         </div>
+                      </div>
+                   </fieldset>
+                </div>
+                <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-exclamation-circle"></i></div>
+                <div class="col-sm-5 pad-left-0">
+                   <fieldset class="scheduler-border error">
+                      <legend class="scheduler-border">City</legend>
+                      <div class="control-group">
+                         <div class="controls">
+                            <input type="text" class="city" value="34 JCQ"  id="city" name="city" />
+                            <i class="icon-time"></i>
+                         </div>
+                      </div>
+                   </fieldset>
+                </div>
+                <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-exclamation-circle"></i></div>
+                <div class="col-sm-5 pad-left-0 ">
+                   <fieldset class="scheduler-border error">
+                      <legend class="scheduler-border">Zip</legend>
+                      <div class="control-group">
+                         <div class="controls">
+                            <input type="text" class="zip"  value="34 JCQ" id="zip" name="zip" />
+                            <i class="icon-time"></i>
+                         </div>
+                      </div>
+                   </fieldset>
+                </div>
+                <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-exclamation-circle"></i></div>
+             </div>
+             <div class="row">
+                <p class="clearclass">Billing Details</p>
+                <div class="col-sm-5 pad-left-0">
+                   <fieldset class="scheduler-border">
+                      <legend class="scheduler-border">Process Zip Code</legend>
+                      <div class="control-group">
+                         <div class="controls">
+                            <input type="text" class="zip"  value="989836"  id="zip" name="zip" />
+                            <i class="icon-time"></i>
+                         </div>
+                      </div>
+                   </fieldset>
+                </div>
+                <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+                <div class="col-sm-5 pad-left-0">
+                   <fieldset class="scheduler-border">
+                      <legend class="scheduler-border">Pickup Zip Code</legend>
+                      <div class="control-group">
+                         <div class="controls">
+                            <input type="text" class="zip" value="376743" id="zip" name="zip" />
+                            <i class="icon-time"></i>
+                         </div>
+                      </div>
+                   </fieldset>
+                </div>
+                <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+                <div class="col-sm-5 pad-left-0">
+                   <fieldset class="scheduler-border">
+                      <legend class="scheduler-border">Post Mark Date</legend>
+                      <div class="control-group">
+                         <div class="controls">
+                            <input type="date" class="datePicker" value="344343" id="dos" name="dos" />
+                            <i class="icon-time"></i>
+                         </div>
+                      </div>
+                   </fieldset>
+                </div>
+                <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+                <div class="col-sm-5 pad-left-0">
+                   <fieldset class="scheduler-border">
+                      <legend class="scheduler-border">Type of bill </legend>
+                      <div class="control-group">
+                         <div class="controls">
+                            <select>
+                               <option selected>34 JQ</option>
+                               <option value="1">12B</option>
+                               <option value="2">140 CD</option>
+                               <option value="3">stock </option>
+                            </select>
+                            <i class="icon-time"></i>
+                         </div>
+                      </div>
+                   </fieldset>
+                </div>
+                <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+                <div class="col-sm-5 pad-left-0">
+                   <fieldset class="scheduler-border">
+                      <legend class="scheduler-border">Box 14 on UB</legend>
+                      <div class="control-group">
+                         <div class="controls">
+                            <input type="text" class="boxub" value="Abhyu" id="boxub" name="boxub" />
+                            <i class="icon-time"></i>
+                         </div>
+                      </div>
+                   </fieldset>
+                </div>
+                <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+                <div class="col-sm-5 pad-left-0">
+                   <fieldset class="scheduler-border error">
+                      <legend class="scheduler-border">Bill Date</legend>
+                      <div class="control-group">
+                         <div class="controls">
+                            <input type="date" class="billdate" id="billdate" name="billdate" />
+                            <i class="icon-time"></i>
+                         </div>
+                      </div>
+                   </fieldset>
+                </div>
+                <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-exclamation-circle"></i></div>
+                <div class="col-sm-5 pad-left-0">
+                   <fieldset class="scheduler-border">
+                      <legend class="scheduler-border">Tin Suffix</legend>
+                      <div class="control-group">
+                         <div class="controls">
+                            <select>
+                               <option selected>34 JQ</option>
+                               <option value="1">12B</option>
+                               <option value="2">140 CD</option>
+                               <option value="3">stock </option>
+                            </select>
+                            <i class="icon-time"></i>
+                         </div>
+                      </div>
+                   </fieldset>
+                </div>
+                <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+                <div class="col-sm-5 pad-left-0">
+                   <fieldset class="scheduler-border">
+                      <legend class="scheduler-border">NPI no</legend>
+                      <div class="control-group">
+                         <div class="controls">
+                            <input type="number" class="npino" id="npino" name="npino" />
+                            <i class="icon-time"></i>
+                         </div>
+                      </div>
+                   </fieldset>
+                </div>
+                <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+             </div>
+<!-- ......................................................................................................... -->
+          <!-- Code for spliting page -->
+          </div>
+       </div>
+       <div class="col-sm-6 spliting hideelement">
+          <div class="row sticky-header">
+             <div class="col-sm-6 splitingheading1"><b>Splitting Overview</b></div>
+             <div class="col-sm-6 text-right splitingheading2"><i class="fas fa-check-circle"></i>Looks good! High accuracy</div>
+          </div>
+       <div class="row">
+          <div class="col-sm-2 fs-5 font-bold">Total Splits <span class="totalaccordion"> </span></div> |
+          <div class="col-sm-1 fs-5 font-bold">Reason</div>
+          <div class="col-sm-3">
+             <div class="dropdown">
+                <a class="btn btn-secondary dropdown-toggle font-bold" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                   Parent multiple patient
+                </a>
+              
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                   <li><a class="dropdown-item" href="#">Parent multiple patient <span class="pull-right"><i class="fa fa-check"></i></span></a></li>
+                  <li><a class="dropdown-item" href="#">Parent single Patient</a></li>
+                  <li><a class="dropdown-item" href="#">Multiple correspondence types</a></li>
+                  <li><a class="dropdown-item" href="#">CMS box 10 or or 13 variations</a></li>
+                  <li><a class="dropdown-item" href="#">Blank pages</a></li>
+                </ul>
+              </div>
+          </div>
+       </div>
+       <div class="row mt-3 headinglabel">
+          <div class="col-sm-2">Label</div>
+          <div class="col-sm-2">Patient Name</div>
+          <div class="col-sm-2">DOB</div>
+          <div class="col-sm-2">DOL</div>
+          <div class="col-sm-2 p-md-0">Claim No</div>
+          <div class="col-sm-2 p-md-0">Pages</div>
+          <div class="col-sm-2"><span class="arrowicon"></span></div>
+        </div>
+        <hr>
+       <div class="accordion accordion-flush getsplitlastelement" id="accordionFlushExample">
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-headingOne">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                <div class="row content-field">
+                   <div class="col-sm-2 p-md-0">Bill with notes Bill with notes</div>
+                   <div class="col-sm-2 p-md-0">John Dae</div>
+                   <div class="col-sm-2 p-md-0">04/07/2023</div>
+                   <div class="col-sm-2 p-md-0">04/07/2023</div>
+                   <div class="col-sm-2 p-md-0">503</div>
+                   <div class="col-sm-1 p-md-0">1-5</div>
+                   <div class="col-sm-1 p-md-0 text-right"><span class="arrowdown"></span></div>
+                 </div>
+              </button>
+            </h2>
+            <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+             <div class="accordion-body">
+             <h5><span class="badge mb-md-3">1</span>Pages</h5>
+                <div class="row iconimg">
+                   <div class="col-sm-2"><img class="imagebg" src="img/icon/1.jpg" alt="icon"><span>1</span></div>
+                   <div class="col-sm-2"><img src="img/icon/2.png" alt="icon"><span>2</span></div>
+                   <div class="col-sm-2"><img src="img/icon/3.png" alt="icon"><span>3</span></div>
+                   <div class="col-sm-2"><img src="img/icon/4.jpg" alt="icon"><span>4</span></div>
+                   <div class="col-sm-2"><img src="img/icon/5.jpg" alt="icon"><span>5</span></div>
+                </div>
+                <div class="row">
+                <h5><span class="badge mb-md-3">2</span>Docunet</h5>
+                <div class="col-sm-5 pad-left-0">
+                   <fieldset class="scheduler-border">
+                      <legend class="scheduler-border">label</legend>
+                      <div class="control-group">
+                         <div class="controls">
+                            <select>
+                               <option selected>Medical Report</option>
+                               <option value="1">One</option>
+                               <option value="2">Two</option>
+                               <option value="3">Three</option>
+                            </select>
+                         </div>
+                      </div>
+                   </fieldset>
+                </div>
+                 <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+                <div class="col-sm-5 pad-left-0">
+                   <fieldset class="scheduler-border">
+                      <legend class="scheduler-border">Ingenix transaction no</legend>
+                      <div class="control-group">
+                         <div class="controls">
+                            <input type="number" class="Claimno" value="123456" id="Claimno" name="Claimno" />
+                            <i class="icon-time"></i>
+                         </div>
+                      </div>
+                   </fieldset>
+                </div>
+                <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+                <div class="col-sm-5 pad-left-0">
+                   <fieldset class="scheduler-border">
+                      <legend class="scheduler-border">State</legend>
+                      <div class="control-group">
+                         <div class="controls">
+                            <select>
+                               <option selected>CMS</option>
+                               <option value="1">One</option>
+                               <option value="2">Two</option>
+                               <option value="3">Three</option>
+                            </select>
+                            <i class="icon-time"></i>
+                         </div>
+                      </div>
+                   </fieldset>
+                </div>
+                <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+                <div class="col-sm-5 pad-left-0">
+                   <fieldset class="scheduler-border">
+                      <legend class="scheduler-border">Service end date</legend>
+                      <div class="control-group">
+                         <div class="controls">
+                            <input type="date" class="datePicker" id="datePicker" name="date" />
+                            <i class="icon-time"></i>
+                         </div>
+                      </div>
+                   </fieldset>
+                </div>
+                <div class="col-sm-1 pad-0 validatecheck "><i class="fas fa-check-circle"></i></div>
+                
+                <h5><span class="badge mb-md-3">3</span>Medical records</h5>
+                <div class="col-sm-5 pad-left-0">
+                   <fieldset class="scheduler-border">
+                      <legend class="scheduler-border">Provider name</legend>
+                      <div class="control-group">
+                         <div class="controls">
+                            <input type="number" class="Claimno" value="123456" id="Claimno" name="Claimno" />
+                            <i class="icon-time"></i>
+                         </div>
+                      </div>
+                   </fieldset>
+                </div>
+                <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+                <div class="col-sm-5 pad-left-0">
+                   <fieldset class="scheduler-border">
+                      <legend class="scheduler-border">Ingenix transaction no</legend>
+                      <div class="control-group">
+                         <div class="controls">
+                            <input type="number" class="Claimno" value="123456" id="Claimno" name="Claimno" />
+                            <i class="icon-time"></i>
+                         </div>
+                      </div>
+                   </fieldset>
+                </div>
+                <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+                <div class="col-sm-5 pad-left-0">
+                   <fieldset class="scheduler-border">
+                      <legend class="scheduler-border">DOS</legend>
+                      <div class="control-group">
+                         <div class="controls">
+                            <input type="date" class="datePicker" id="datePicker" name="date" />
+                            <i class="icon-time"></i>
+                         </div>
+                      </div>
+                   </fieldset>
+                </div>
+                <div class="col-sm-1 pad-0 validatecheck "><i class="fas fa-check-circle"></i></div>
+                <div class="col-sm-5 pad-left-0">
+                   <fieldset class="scheduler-border">
+                      <legend class="scheduler-border">Service begin date</legend>
+                      <div class="control-group">
+                         <div class="controls">
+                            <input type="date" class="datePicker" id="datePicker" name="date" />
+                            <i class="icon-time"></i>
+                         </div>
+                      </div>
+                   </fieldset>
+                </div>
+                <div class="col-sm-1 pad-0 validatecheck "><i class="fas fa-check-circle"></i></div>
+                <div class="col-sm-5 pad-left-0">
+                   <fieldset class="scheduler-border">
+                      <legend class="scheduler-border">Service end date</legend>
+                      <div class="control-group">
+                         <div class="controls">
+                            <input type="date" class="datePicker" id="datePicker" name="date" />
+                            <i class="icon-time"></i>
+                         </div>
+                      </div>
+                   </fieldset>
+                </div>
+                <div class="col-sm-1 pad-0 validatecheck "><i class="fas fa-check-circle"></i></div>
+                </div>
+             </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-headingTwo">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                <div class="row content-field">
+                   <div class="col-sm-2 p-md-0">Corresponding management</div>
+                   <div class="col-sm-2 p-md-0">Steve Hall</div>
+                   <div class="col-sm-2 p-md-0">01/31/1997</div>
+                   <div class="col-sm-2 p-md-0">12/15/2022</div>
+                   <div class="col-sm-2 p-md-0">12345</div>
+                   <div class="col-sm-1 p-md-0">6-8</div>
+                   <div class="col-sm-1 p-md-0 text-right"><span class="arrowdown"></span></div>
+                 </div>
+              </button>
+            </h2>
+            <div id="flush-collapseTwo" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
+                <div class="accordion-body">
+                   <h5><span class="badge mb-md-3">1</span>Pages</h5>
+                   <div class="row iconimg">
+                      <div class="col-sm-2"><img class="imagebg" src="img/icon/1.jpg" alt="icon"><span>6</span></div>
+                      <div class="col-sm-2"><img src="img/icon/2.png" alt="icon"><span>7</span></div>
+                      <div class="col-sm-2"><img src="img/icon/3.png" alt="icon"><span>8</span></div>
+                   </div>
+                   <div class="row">
+                      <h5><span class="badge mb-md-3">2</span>Document</h5>
+                      <div class="col-sm-5 pad-left-0">
+                         <fieldset class="scheduler-border">
+                            <legend class="scheduler-border">Label</legend>
+                            <div class="control-group">
+                               <div class="controls">
+                                  <select>
+                                     <option selected>India</option>
+                                     <option value="1">12B</option>
+                                     <option value="2">140 CD</option>
+                                     <option value="3">stock </option>
+                                  </select>
+                                  <i class="icon-time"></i>
+                               </div>
+                            </div>
+                         </fieldset>
+                      </div>
+                      <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+                      <div class="col-sm-5 pad-left-0">
+                         <fieldset class="scheduler-border">
+                            <legend class="scheduler-border">Ingenix transaction no</legend>
+                            <div class="control-group">
+                               <div class="controls">
+                                  <input type="number" class="tin" value="1234" id="tin" name="tin" />
+                                  <i class="icon-time"></i>
+                               </div>
+                            </div>
+                         </fieldset>
+                      </div>
+                      <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+                      <div class="col-sm-5 pad-left-0">
+                         <fieldset class="scheduler-border">
+                            <legend class="scheduler-border">State</legend>
+                            <div class="control-group">
+                               <div class="controls">
+                                  <select>
+                                     <option selected>Banglore</option>
+                                     <option value="1">12B</option>
+                                     <option value="2">140 CD</option>
+                                     <option value="3">stock </option>
+                                  </select>
+                                  <i class="icon-time"></i>
+                               </div>
+                            </div>
+                         </fieldset>
+                      </div>
+                      <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+                      <div class="col-sm-5 pad-left-0">
+                         <fieldset class="scheduler-border">
+                            <legend class="scheduler-border">Appeal date</legend>
+                            <div class="control-group">
+                               <div class="controls">
+                                  <input type="date" class="datePicker" id="datePicker" name="date" />
+                                  <i class="icon-time"></i>
+                               </div>
+                            </div>
+                         </fieldset>
+                      </div>
+                      <div class="col-sm-1 pad-0 validatecheck "><i class="fas fa-check-circle"></i></div>
+                      <h5><span class="badge mb-md-3">3</span>Medical records</h5>
+                      <div class="col-sm-5 pad-left-0">
+                         <fieldset class="scheduler-border">
+                            <legend class="scheduler-border">Provider Name</legend>
+                            <div class="control-group">
+                               <div class="controls">
+                                  <input type="text" class="tin" value="1234" id="tin" name="tin" />
+                                  <i class="icon-time"></i>
+                               </div>
+                            </div>
+                         </fieldset>
+                      </div>
+                      <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+                      <div class="col-sm-5 pad-left-0">
+                         <fieldset class="scheduler-border">
+                            <legend class="scheduler-border">Provider Tax ID</legend>
+                            <div class="control-group">
+                               <div class="controls">
+                                  <input type="text" class="tin" value="1234" id="tin" name="tin" />
+                                  <i class="icon-time"></i>
+                               </div>
+                            </div>
+                         </fieldset>
+                      </div>
+                      <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+                      <div class="col-sm-5 pad-left-0">
+                         <fieldset class="scheduler-border">
+                            <legend class="scheduler-border">DOS</legend>
+                            <div class="control-group">
+                               <div class="controls">
+                                  <input type="date" class="datePicker" id="datePicker" name="date" />
+                                  <i class="icon-time"></i>
+                               </div>
+                            </div>
+                         </fieldset>
+                      </div>
+                      <div class="col-sm-1 pad-0 validatecheck "><i class="fas fa-check-circle"></i></div>
+                      <div class="col-sm-5 pad-left-0">
+                         <fieldset class="scheduler-border">
+                            <legend class="scheduler-border">Service begin date</legend>
+                            <div class="control-group">
+                               <div class="controls">
+                                  <input type="date" class="datePicker" id="datePicker" name="date" />
+                                  <i class="icon-time"></i>
+                               </div>
+                            </div>
+                         </fieldset>
+                      </div>
+                      <div class="col-sm-1 pad-0 validatecheck "><i class="fas fa-check-circle"></i></div>
+                      <div class="col-sm-5 pad-left-0">
+                         <fieldset class="scheduler-border">
+                            <legend class="scheduler-border">Service end date</legend>
+                            <div class="control-group">
+                               <div class="controls">
+                                  <input type="date" class="datePicker" id="datePicker" name="date" />
+                                  <i class="icon-time"></i>
+                               </div>
+                            </div>
+                         </fieldset>
+                      </div>
+                      <div class="col-sm-1 pad-0 validatecheck "><i class="fas fa-check-circle"></i></div>
+                   </div>
+                </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-headingThree">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+                <div class="row content-field">
+                   <div class="col-sm-2 p-md-0">Envelope</div>
+                   <div class="col-sm-2 p-md-0">Steve Hall</div>
+                   <div class="col-sm-2 p-md-0">01/31/1994</div>
+                   <div class="col-sm-2 p-md-0">12/15/2022</div>
+                   <div class="col-sm-2 p-md-0">12345</div>
+                   <div class="col-sm-1 p-md-0">9-11, 1, 2</div>
+                   <div class="col-sm-1 p-md-0 text-right"><span class="arrowdown"></span></div>
+                 </div>
+              </button>
+            </h2>
+            <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
+              <div class="accordion-body">
+                <div class="row iconimg">
+                   <h5><span class="badge mb-md-3">1</span>Pages</h5>
+                   <div class="col-sm-2"><img class="imagebg" src="img/icon/1.jpg" alt="icon"><span>9</span></div>
+                   <div class="col-sm-2"><img src="img/icon/2.png" alt="icon"><span>10</span></div>
+                   <div class="col-sm-2"><img src="img/icon/3.png" alt="icon"><span>11</span></div>
+                </div>
+                <div class="row">
+                   <h5><span class="badge mb-md-3">2</span>Document</h5>
+                   <div class="col-sm-5 pad-left-0">
+                      <fieldset class="scheduler-border">
+                         <legend class="scheduler-border">Label</legend>
+                         <div class="control-group">
+                            <div class="controls">
+                               <select>
+                                  <option selected>India</option>
+                                  <option value="1">12B</option>
+                                  <option value="2">140 CD</option>
+                                  <option value="3">stock </option>
+                               </select>
+                               <i class="icon-time"></i>
+                            </div>
+                         </div>
+                      </fieldset>
+                   </div>
+                   <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+                   <div class="col-sm-5 pad-left-0">
+                      <fieldset class="scheduler-border">
+                         <legend class="scheduler-border">Ingenix transaction no</legend>
+                         <div class="control-group">
+                            <div class="controls">
+                               <input type="number" class="tin" value="1234" id="tin" name="tin" />
+                               <i class="icon-time"></i>
+                            </div>
+                         </div>
+                      </fieldset>
+                   </div>
+                   <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+                   <div class="col-sm-5 pad-left-0">
+                      <fieldset class="scheduler-border">
+                         <legend class="scheduler-border">State</legend>
+                         <div class="control-group">
+                            <div class="controls">
+                               <select>
+                                  <option selected>Banglore</option>
+                                  <option value="1">12B</option>
+                                  <option value="2">140 CD</option>
+                                  <option value="3">stock </option>
+                               </select>
+                               <i class="icon-time"></i>
+                            </div>
+                         </div>
+                      </fieldset>
+                   </div>
+                   <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+                   <div class="col-sm-5 pad-left-0">
+                      <fieldset class="scheduler-border">
+                         <legend class="scheduler-border">Appeal date</legend>
+                         <div class="control-group">
+                            <div class="controls">
+                               <input type="date" class="datePicker" id="datePicker" name="date" />
+                               <i class="icon-time"></i>
+                            </div>
+                         </div>
+                      </fieldset>
+                   </div>
+                   <div class="col-sm-1 pad-0 validatecheck "><i class="fas fa-check-circle"></i></div>
+                   <h5><span class="badge mb-md-3">3</span>Medical records</h5>
+                   <div class="col-sm-5 pad-left-0">
+                      <fieldset class="scheduler-border">
+                         <legend class="scheduler-border">Provider Name</legend>
+                         <div class="control-group">
+                            <div class="controls">
+                               <input type="text" class="tin" value="1234" id="tin" name="tin" />
+                               <i class="icon-time"></i>
+                            </div>
+                         </div>
+                      </fieldset>
+                   </div>
+                   <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+                   <div class="col-sm-5 pad-left-0">
+                      <fieldset class="scheduler-border">
+                         <legend class="scheduler-border">Provider Tax ID</legend>
+                         <div class="control-group">
+                            <div class="controls">
+                               <input type="text" class="tin" value="1234" id="tin" name="tin" />
+                               <i class="icon-time"></i>
+                            </div>
+                         </div>
+                      </fieldset>
+                   </div>
+                   <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+                   <div class="col-sm-5 pad-left-0">
+                      <fieldset class="scheduler-border">
+                         <legend class="scheduler-border">DOS</legend>
+                         <div class="control-group">
+                            <div class="controls">
+                               <input type="date" class="datePicker" id="datePicker" name="date" />
+                               <i class="icon-time"></i>
+                            </div>
+                         </div>
+                      </fieldset>
+                   </div>
+                   <div class="col-sm-1 pad-0 validatecheck "><i class="fas fa-check-circle"></i></div>
+                   <div class="col-sm-5 pad-left-0">
+                      <fieldset class="scheduler-border">
+                         <legend class="scheduler-border">Service begin date</legend>
+                         <div class="control-group">
+                            <div class="controls">
+                               <input type="date" class="datePicker" id="datePicker" name="date" />
+                               <i class="icon-time"></i>
+                            </div>
+                         </div>
+                      </fieldset>
+                   </div>
+                   <div class="col-sm-1 pad-0 validatecheck "><i class="fas fa-check-circle"></i></div>
+                   <div class="col-sm-5 pad-left-0">
+                      <fieldset class="scheduler-border">
+                         <legend class="scheduler-border">Service end date</legend>
+                         <div class="control-group">
+                            <div class="controls">
+                               <input type="date" class="datePicker" id="datePicker" name="date" />
+                               <i class="icon-time"></i>
+                            </div>
+                         </div>
+                      </fieldset>
+                   </div>
+                   <div class="col-sm-1 pad-0 validatecheck "><i class="fas fa-check-circle"></i></div>
+                </div>
+             </div>
+            </div>
+          </div>
+        </div>
+       </div>
+    <br>
+    <!-- ......................................................................................................... -->
+    <!-- Code for Treatment & billing -->
+    <div class="col-sm-6 treatmentandbilling hideelement">
+       <div class="row sticky-header">
+          <div class="col-sm-6 billingheading1 font-bold">Treatment & billing</b></div>
+          <div class="col-sm-6 text-right billingheading2"><i class="fas fa-check-circle"></i>Looks good! High accuracy</div>
+       </div>
+       <hr>
+       <div class="row">
+          <div class="col-md-12 font-bold">Validate treatment & billing for each split </div>
+       </div>
+       <div class="row mt-3 headinglabel">
+          <div class="col-sm-2">Label</div>
+          <div class="col-sm-2">Patient Name</div>
+          <div class="col-sm-2">DOB</div>
+          <div class="col-sm-2">DOL</div>
+          <div class="col-sm-2 p-md-0">Claim No</div>
+          <div class="col-sm-2 p-md-0">Postmark date</div>
+          <div class="col-sm-2"></div>
+        </div>
+        <hr>
+        <div class="accordion accordion-flush" id="accordionFlushExample">
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-headingOne-Treatment">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne-Treatment" aria-expanded="false" aria-controls="flush-collapseOne-Treatment">
+                <div class="row content-field">
+                   <div class="col-sm-2 p-md-0">Bill with notes Bill with notes</div>
+                   <div class="col-sm-2 p-md-0">John Dae</div>
+                   <div class="col-sm-2 p-md-0">04/07/2023</div>
+                   <div class="col-sm-2 p-md-0">04/07/2023</div>
+                   <div class="col-sm-2 p-md-0">132543</div>
+                   <div class="col-sm-1 p-md-0">NA</div>
+                   <div class="col-sm-1 p-md-0 text-right"><span class="arrowdown"></span></div>
+                 </div>
+              </button>
+            </h2>
+            <div id="flush-collapseOne-Treatment" class="accordion-collapse collapse" aria-labelledby="flush-headingOne-Treatment" data-bs-parent="#accordionFlushExample">
+              <div class="accordion-body">
+                <div class="row">
+                <h5><span class="badge mb-md-3">1</span>Treatment Details</h5>
+                <div class="col-sm-7 pad-left-0">
+                   <fieldset class="scheduler-border">
+                      <legend class="scheduler-border">Indicator</legend>
+                      <div class="control-group">
+                         <div class="controls">
+                            <input type="number" value="123566" class="npino" id="npino" name="npino" />
+                         </div>
+                      </div>
+                   </fieldset>
+                </div>
+                <div class="col-sm-1 pad-0 validatecheck"><i class="fas fa-check-circle"></i></div>
+             </div>
+             <div class="row">
+                   <div class="col-sm-3 p-md-0">ICD diagnosis code</div>
+                   <div class="col-sm-6 p-md-0">Description</div>
+             </div>
+             <div class="row">
+                <div class="col-sm-3 p-md-0">
+                   <div class="control-group custominput">
+                      <div class="controls">
+                         <input type="number" value="13455" class="npino" id="npino" name="npino" />
+                      </div>
+                   </div>
+                </div>
+                <div class="col-sm-7 p-md-0">
+                      <div class="control-group custominput">
+                         <div class="controls">
+                            <input type="text" value="Unspecified head injury" class="npino" id="npino" name="npino" />
+                         </div>
+                      </div>
+                </div>
+                <div class="col-sm-1 pad-0 custoncheck validatecheck"><i class="fas fa-check-circle"></i></div>
+             </div>
+             <div class="row">
+                <div class="col-sm-3 p-md-0">
+                   <div class="control-group custominput">
+                      <div class="controls">
+                         <input type="number" value="13455" class="npino" id="npino" name="npino" />
+                      </div>
+                   </div>
+                </div>
+                <div class="col-sm-7 p-md-0">
+                      <div class="control-group custominput">
+                         <div class="controls">
+                            <input type="text" value="Dizziness and giddiness" class="npino" id="npino" name="npino" />
+                         </div>
+                      </div>
+                </div>
+                <div class="col-sm-1 pad-0 custoncheck validatecheck"><i class="fas fa-check-circle"></i></div>
+             </div>
+             <div class="row">
+                <div class="col-sm-3 p-md-0">
+                   <div class="control-group custominput">
+                      <div class="controls">
+                         <input type="number" value="13455" class="npino" id="npino" name="npino" />
+                      </div>
+                   </div>
+                </div>
+                <div class="col-sm-7 p-md-0">
+                      <div class="control-group custominput">
+                         <div class="controls">
+                            <input type="text" value="Nausea" class="npino" id="npino" name="npino" />
+                         </div>
+                      </div>
+                </div>
+                <div class="col-sm-1 pad-0 custoncheck validatecheck"><i class="fas fa-check-circle"></i></div>
+                <div class="col-sm-7 pad-left-0">
+                   <fieldset class="scheduler-border">
+                      <legend class="scheduler-border">Discharge status</legend>
+                      <div class="control-group">
+                         <div class="controls">
+                            <select>
+                               <option selected>S13455A</option>
+                               <option value="1">One</option>
+                               <option value="2">Two</option>
+                               <option value="3">Three</option>
+                            </select>
+                         </div>
+                      </div>
+                   </fieldset>
+                </div>
+                <div class="col-sm-1 pad-0  validatecheck"><i class="fas fa-check-circle"></i></div>
+                <h5><span class="badge mb-md-3">2</span>Billing Details</h5>
+                <div class="table-responsive billinginfo">
+                   <table class="table table-bordered">
+                     <thead>
+                       <tr>
+                         <th>Page no</th>
+                         <th>DOS From - To</th>
+                         <th>POS</th>
+                         <th>CPT</th>
+                         <th>Modifier</th>
+                         <th>Indicator</th>
+                         <th>Pointer</th>
+                         <th>Charges</th>
+                         <th>Units</th>
+                         <th></th>
+                         </tr>
+                     </thead>
+                     <tbody>
+                       <tr>
+                         <td>  
+                            <div class="col-sm-6 p-md-0">
+                            <div class="control-group">
+                               <div class="controls">
+                                  <input type="number" value="11"  name="npino" class="pageno"/>
+                               </div>
+                            </div>
+                         </div>
+                         </td>
+                         <td>
+                            <div class="col-sm-12 p-md-0">
+                               <div class="control-group">
+                                  <div class="controls daterange">
+                                     <input type="date" name="myDate" max="1989-10-29" class="datePicker fromdate">
+                                     <input type="date" name="myDate" min="2001-01-02" class="datePicker todate">
+                                  </div>
+                               </div>
+                            </div>
+                         </td>
+                         <td>
+                            <div class="col-sm-12 p-md-0">
+                               <div class="control-group">
+                                  <div class="controls">
+                                     <input type="number" value="11"  name="npino" class="pageno"/>
+                                  </div>
+                               </div>
+                            </div>
+                         </td>
+                         <td>
+                            <div class="col-sm-12 p-md-0">
+                               <div class="control-group">
+                                  <div class="controls">
+                                     <input type="number" value="97163"  name="npino" class="cpt"/>
+                                  </div>
+                               </div>
+                            </div>
+                         </td>
+                         <td>
+                            <div class="control-group">
+                               <div class="controls">
+                                  <input type="number" value="97163"  name="npino" class="Modifier"/>
+                               </div>
+                            </div>
+                         </td>
+                         <td>  
+                            <div class="control-group">
+                            <div class="controls">
+                               <input type="number" value="97163"  name="npino" class="Indicator" />
+                            </div>
+                         </div>
+                         </td>
+                         <td>
+                            <div class="control-group">
+                               <div class="controls">
+                                  <input type="number" value="97163"  name="npino" class="pointer"/>
+                               </div>
+                            </div>
+                         </td>
+                         <td>
+                            <div class="control-group">
+                               <div class="controls">
+                                  <input type="text" value="$46"  name="npino" class="charge"/>
+                               </div>
+                            </div>
+                         </td>
+                         <td>
+                            <div class="control-group">
+                               <div class="controls">
+                                  <input type="number" value="1"  name="npino" class="unitcount"/>
+                               </div>
+                            </div>
+                          </td>
+                         <td>
+                            <div class="col-sm-1 pad-0  validatecheck"><i class="fas fa-check-circle"></i></div>
+                         </td>
+                       </tr>
+                       <tr>
+                         <td>  
+                            <div class="col-sm-6 p-md-0">
+                            <div class="control-group">
+                               <div class="controls">
+                                  <input type="number" value="33"  name="npino" class="pageno"/>
+                               </div>
+                            </div>
+                         </div>
+                         </td>
+                         <td>
+                            <div class="col-sm-12 p-md-0">
+                               <div class="control-group">
+                                  <div class="controls daterange">
+                                     <input type="date" name="myDate" max="1989-10-29" class="datePicker fromdate">
+                                     <input type="date" name="myDate" min="2001-01-02" class="datePicker todate">
+                                  </div>
+                               </div>
+                            </div>
+                         </td>
+                         <td>
+                            <div class="col-sm-12 p-md-0">
+                               <div class="control-group">
+                                  <div class="controls">
+                                     <input type="number" value="11"  name="npino" class="pageno"/>
+                                  </div>
+                               </div>
+                            </div>
+                         </td>
+                         <td>
+                            <div class="col-sm-12 p-md-0">
+                               <div class="control-group">
+                                  <div class="controls">
+                                     <input type="number" value="97163"  name="npino" class="cpt"/>
+                                  </div>
+                               </div>
+                            </div>
+                         </td>
+                         <td>
+                            <div class="control-group">
+                               <div class="controls">
+                                  <input type="number" value="97163"  name="npino" class="Modifier"/>
+                               </div>
+                            </div>
+                         </td>
+                         <td>  
+                            <div class="control-group">
+                            <div class="controls">
+                               <input type="number" value="97163"  name="npino" class="Indicator" />
+                            </div>
+                         </div>
+                         </td>
+                         <td>
+                            <div class="control-group">
+                               <div class="controls">
+                                  <input type="number" value="97163"  name="npino" class="pointer"/>
+                               </div>
+                            </div>
+                         </td>
+                         <td>
+                            <div class="control-group">
+                               <div class="controls">
+                                  <input type="text" value="$46"  name="npino" class="charge"/>
+                               </div>
+                            </div>
+                         </td>
+                         <td>
+                            <div class="control-group">
+                               <div class="controls">
+                                  <input type="number" value="1"  name="npino" class="unitcount"/>
+                               </div>
+                            </div>
+                         </td>
+                         <td>
+                            <div class="col-sm-1 pad-0  validatecheck"><i class="fas fa-check-circle"></i></div>
+                         </td>
+                       </tr>
+                       <tr>
+                         <td>  
+                            <div class="col-sm-6 p-md-0">
+                            <div class="control-group">
+                               <div class="controls">
+                                  <input type="number" value="11"  name="npino" class="pageno"/>
+                               </div>
+                            </div>
+                         </div>
+                         </td>
+                         <td>
+                            <div class="col-sm-12 p-md-0">
+                               <div class="control-group">
+                                  <div class="controls daterange">
+                                     <input type="date" name="myDate" max="1989-10-29" class="datePicker fromdate">
+                                     <input type="date" name="myDate" min="2001-01-02"  class="datePicker todate">
+                                  </div>
+                               </div>
+                            </div>
+                         </td>
+                         <td>
+                            <div class="col-sm-12 p-md-0">
+                               <div class="control-group">
+                                  <div class="controls">
+                                     <input type="number" value="11"  name="npino" class="pageno"/>
+                                  </div>
+                               </div>
+                            </div>
+                         </td>
+                         <td>
+                            <div class="col-sm-12 p-md-0">
+                               <div class="control-group">
+                                  <div class="controls">
+                                     <input type="number" value="97163"  name="npino" class="cpt"/>
+                                  </div>
+                               </div>
+                            </div>
+                         </td>
+                         <td>
+                            <div class="control-group">
+                               <div class="controls">
+                                  <input type="number" value="97163"  name="npino" class="Modifier"/>
+                               </div>
+                            </div>
+                         </td>
+                         <td>  
+                            <div class="control-group">
+                            <div class="controls">
+                               <input type="number" value="97163"  name="npino" class="Indicator" />
+                            </div>
+                         </div>
+                         </td>
+                         <td>
+                            <div class="control-group">
+                               <div class="controls">
+                                  <input type="number" value="97163"  name="npino" class="pointer"/>
+                               </div>
+                            </div>
+                         </td>
+                         <td>
+                            <div class="control-group">
+                               <div class="controls">
+                                  <input type="text" value="$46"  name="npino" class="charge"/>
+                               </div>
+                            </div>
+                         </td>
+                         <td>
+                            <div class="control-group">
+                               <div class="controls">
+                                  <input type="number" value="1"  name="npino" class="unitcount"/>
+                               </div>
+                            </div>
+                         </td>
+                         <td>
+                            <div class="col-sm-1 pad-0  validatecheck"><i class="fas fa-check-circle"></i></div>
+                         </td>
+                       </tr>
+                     </tbody>
+                   </table>
+                 </div>
+                  <h5 style="margin-top: 1rem;"><span class="badge mb-md-3">3</span>Anesthesia bill line</h5>
+                  <div class="table-responsive billinginfo">
+                   <table class="table table-bordered">
+                     <thead>
+                       <tr>
+                         <th>CPT</th>
+                         <th>Description</th>
+                         <th>Start date - End date</th>
+                         <th>Start Time- End time</th>
+                         <th>Physical Status</th>
+                         <th>Administered by</th>
+                         <th>Minuts</th>
+                         <th>Time Units</th>
+                         <th>Charges</th>
+                         <th></th>
+                         </tr>
+                     </thead>
+                     <tbody>
+                       <tr>
+                         <td>  
+                            <div class="col-sm-6 p-md-0">
+                            <div class="control-group">
+                               <div class="controls">
+                                  <input type="number" value="11"  name="npino" class="pageno"/>
+                               </div>
+                            </div>
+                         </div>
+                         </td>
+                         <td>
+                            <div class="col-sm-12 p-md-0">
+                               <div class="">
+                                  <div class="controls">
+                                     <input type="text" value=""  name="npino" class="charge"/>
+                                  </div>
+                               </div>
+                            </div>
+                         </td>
+                         <td>
+                            <div class="col-sm-12 p-md-0">
+                               <div class="control-group">
+                                  <div class="controls daterange gettimeformate">
+                                    <input type="date" name="myDate" max="1989-10-29" class="datePicker fromdate">
+                                    <input type="date" name="myDate" min="2001-01-02" class="datePicker todate">
+                                  </div>
+                               </div>
+                            </div>
+                         </td>
+                         <td>
+                            <div class="col-sm-12 p-md-0">
+                               <div class="control-group gettimeformate">
+                                  <div class="controls daterange">
+                                    <input type="time" name="myDate" max="1989-10-29" class=" fromdate">
+                                    <input type="time" name="myDate" min="2001-01-02" class=" todate">
+                                  </div>
+                               </div>
+                            </div>
+                         </td>
+                         <td>
+                            <div class="control-group">
+                               <div class="controls">
+                                  <input type="number" value="97163"  name="npino" class="Modifier"/>
+                               </div>
+                            </div>
+                         </td>
+                         <td>  
+                            <div class="control-group">
+                                 <div class="controls gettimeformate">
+                                    <select >
+                                       <option selected>Male</option>
+                                       <option value="1">Female</option>
+                                       <option value="2">Others</option>
+                                    </select>
+                                    <i class="icon-time"></i>
+                                 </div>
+                      </div>
+                         </td>
+                         <td>
+                            <div class="control-group">
+                               <div class="controls">
+                                  <input type="number" value="97163"  name="npino" class="pointer"/>
+                               </div>
+                            </div>
+                         </td>
+                         <td>
+                            <div class="control-group">
+                               <div class="controls">
+                                  <input type="text" value="$46"  name="npino" class="charge"/>
+                               </div>
+                            </div>
+                         </td>
+                         <td>
+                            <div class="control-group">
+                               <div class="controls">
+                                  <input type="number" value="1"  name="npino" class="unitcount"/>
+                               </div>
+                            </div>
+                          </td>
+                         <td>
+                            <div class="col-sm-1 pad-0  validatecheck"><i class="fas fa-check-circle"></i></div>
+                         </td>
+                       </tr>
+                     </tbody>
+                   </table>
+                 </div>
+                 <h5 style="margin-top: 1rem;"><span class="badge mb-md-3">4</span>Total Charges</h5>
+                 <label>Charge</label>
+                 <div class="row">
+                   <div class="col-sm-5 p-md-0">
+                      <div class="control-group">
+                         <div class="controls">
+                            <input type="text" value="$46" name="npino" class="totlcharge">
+                         </div>
+                      </div>
+                   </div>
+                </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-headingTwo-Treatment">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo-Treatment" aria-expanded="false" aria-controls="flush-collapseTwo-Treatment">
+                <div class="row content-field">
+                   <div class="col-sm-2 p-md-0">Corresponding m..</div>
+                   <div class="col-sm-2 p-md-0">Steve Hall</div>
+                   <div class="col-sm-2 p-md-0">11/04/2021</div>
+                   <div class="col-sm-2 p-md-0">12/15/2022</div>
+                   <div class="col-sm-2 p-md-0">132543</div>
+                   <div class="col-sm-1 p-md-0">NA</div>
+                   <div class="col-sm-1 p-md-0 text-right"><span class="arrowdown"></span></div>
+                 </div>
+              </button>
+            </h2>
+            <div id="flush-collapseTwo-Treatment" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo-Treatment" data-bs-parent="#accordionFlushExample">
+              <div class="accordion-body">
+                <div class="row">
+                 <h5><span class="badge mb-md-3">1</span>Treatment Details</h5>
+                <div class="col-sm-5 pad-left-0">
+                   <fieldset class="scheduler-border">
+                      <legend class="scheduler-border">Indicator</legend>
+                      <div class="control-group">
+                         <div class="controls">
+                            <select>
+                               <option selected>1234</option>
+                               <option value="1">54546</option>
+                               <option value="2">767865</option>
+                               <option value="3">54536</option>
+                            </select>
+                         </div>
+                      </div>
+                   </fieldset>
+                </div> 
+                <div class="col-sm-1 pad-0  validatecheck"><i class="fas fa-check-circle"></i></div>
+             </div>  
+             <div class="row">
+                <div class="col-sm-3 p-md-0">ICD diagnosis code</div>
+                <div class="col-sm-6 p-md-0">Description</div>
+          </div>
+             <div class="row">
+                <div class="col-sm-3 p-md-0">
+                   <div class="control-group custominput">
+                      <div class="controls">
+                         <input type="number" value="13455" class="npino" id="npino" name="npino" />
+                      </div>
+                   </div>
+                </div>
+                <div class="col-sm-7 p-md-0">
+                      <div class="control-group custominput">
+                         <div class="controls">
+                            <input type="text" value="Unspecified head injury" class="npino" id="npino" name="npino" />
+                         </div>
+                      </div>
+                </div>
+                <div class="col-sm-1 pad-0 custoncheck validatecheck"><i class="fas fa-check-circle"></i></div>
+             </div>
+             <div class="row">
+                <div class="col-sm-3 p-md-0">
+                   <div class="control-group custominput">
+                      <div class="controls">
+                         <input type="number" value="13455" class="npino" id="npino" name="npino" />
+                      </div>
+                   </div>
+                </div>
+                <div class="col-sm-7 p-md-0">
+                      <div class="control-group custominput">
+                         <div class="controls">
+                            <input type="text" value="Unspecified head injury" class="npino" id="npino" name="npino" />
+                         </div>
+                      </div>
+                </div>
+                <div class="col-sm-1 pad-0 custoncheck validatecheck"><i class="fas fa-check-circle"></i></div>
+             </div>
+             <div class="row">
+                <div class="col-sm-3 p-md-0">
+                   <div class="control-group custominput">
+                      <div class="controls">
+                         <input type="number" value="13455" class="npino" id="npino" name="npino" />
+                      </div>
+                   </div>
+                </div>
+                <div class="col-sm-7 p-md-0">
+                      <div class="control-group custominput">
+                         <div class="controls">
+                            <input type="text" value="Unspecified head injury" class="npino" id="npino" name="npino" />
+                         </div>
+                      </div>
+                </div>
+                <div class="col-sm-1 pad-0 custoncheck validatecheck"><i class="fas fa-check-circle"></i></div>
+                  <div class="col-sm-7 pad-left-0">
+                   <fieldset class="scheduler-border">
+                      <legend class="scheduler-border">Discharge status</legend>
+                      <div class="control-group">
+                         <div class="controls">
+                            <select>
+                               <option selected>S13455A</option>
+                               <option value="1">One</option>
+                               <option value="2">Two</option>
+                               <option value="3">Three</option>
+                            </select>
+                         </div>
+                      </div>
+                   </fieldset>
+                </div>
+             </div>
+             </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="flush-headingThree-Treatment">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree-Treatment" aria-expanded="false" aria-controls="flush-collapseThree-Treatment">
+                <div class="row content-field">
+                   <div class="col-sm-2 p-md-0">Envelope</div>
+                   <div class="col-sm-2 p-md-0">Steve Hall</div>
+                   <div class="col-sm-2 p-md-0">01/31/1994</div>
+                   <div class="col-sm-2 p-md-0">12/15/2022</div>
+                   <div class="col-sm-2 p-md-0">132543</div>
+                   <div class="col-sm-1 p-md-0">01/15/2022</div>
+                   <!-- <div class="col-sm-1 p-md-0 text-right"><span class="arrowdown"></span></div> -->
+                 </div>
+              </button>
+            </h2>
+            <!-- <div id="flush-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
+              <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the third item's accordion body. Nothing more exciting happening here in terms of content, but just filling up the space to make it look, at least at first glance, a bit more representative of how this would look in a real-world application.</div>
+            </div> -->
+          </div>
+        </div>
+    </div>  
+    <div class="row Treatmentandbill">
+       <div class="col-sm-12 text-right">
+          <button type="button" class="btn btn-default">Revert to Supervisor</button>
+          <button type="button" class="btn btn-default billing" disabled>Next</button>
+       </div>
+    </div>
+ </div>
+ </div>
+ {% endblock %}

@@ -1,0 +1,137 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<style>
+
+</style>
+<div class="midde_cont">
+   <div class="container-fluid">
+      <div class="row column_title">
+         <div class="col-md-12">
+            <div class="page_title">
+               <h2>Media List to Process</h2>
+            </div>
+         </div>
+      </div>
+      <!-- row -->
+      <div class="row">
+         <!-- table section -->
+         <div class="col-md-12">
+            <div class="white_shd full margin_bottom_30">
+
+               <div class="table_section padding_infor_info" style="padding: 15px 15px;margin-top: 20px;">
+                  <div class="table-responsive-sm">
+                     <table class="table" style="font-size: 20px;">
+                        <thead>
+                           <tr>
+                              <th>Document Name</th>
+                              <th style="text-align:center;">Type</th>
+                              <th>Uploaded Date</th>
+                              <th>Uploaded By</th>
+                              <th style="text-align:center;">Status</th>
+                              <th style="text-align:center;">Action</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           
+                           {% for doc_item in doc_list.result %}
+                           <tr class="odd">
+                              <td class="dtr-control sorting_1" tabindex="0">
+                                 <input type="hidden" id="hdn_{{doc_item.id}}" value="{{doc_item.doc_name}}" >
+                                 {{doc_item.doc_name}}</td>
+                              <td style="text-align:center;">
+                                 {{doc_item.doc_type}}
+                              </td>
+
+                              <td>{{doc_item.uploaded_date|date:'Y/m/d'}}</td>
+                              <td>{{doc_item.username}}</td>
+                              <td style="text-align: center">
+
+                                 {% if doc_item.status == "0" %}
+                                 <i class="fa fa-circle-o" title="Inactive" style='font-size:32px;color:#000000'></i>
+                                 {% elif doc_item.status == "1" %}
+                                 <i class="fa fa-spinner" title="In Progress"
+                                    style='font-size:32px;color:#ffc107;font-weight: 600;'></i>
+                                 {% elif doc_item.status == "2" %}
+                                 <i class="fa fa-check-circle-o" title="Completed"
+                                    style='font-size:32px;color:green'></i>
+                                 {% endif %}
+                              </td>
+                              <td style="text-align:center">
+
+                                 <i class="fa fa-rocket" onclick="create_object('{{doc_item.id}}')"
+                                    style="margin-left: 10px;cursor: pointer;font-size:32px;color:crimson"></i>
+
+                              </td>
+                           </tr>
+                           {% endfor %}
+
+                        </tbody>
+                     </table>
+                  </div>
+               </div>
+            </div>
+         </div>
+
+      </div>
+   </div>
+   <!-- footer -->
+
+</div>
+
+<script>
+
+   function create_object(doc_id)
+   {
+   
+    info = {} 
+    info["document_name"] = $("#hdn_"+doc_id).val()    
+    info["doc_id"] = doc_id
+    info = JSON.stringify(info)
+
+    console.log(info)
+    raise_new_audio_request(info)
+   }
+
+
+   function raise_new_audio_request(info) {
+
+      var api_url = $("#SITEROOTURL").val() + "/run_audio_extraction";
+      $.ajax({
+         url: api_url,
+         headers: { "X-CSRFToken": '{{ csrf_token }}', 'Content-Type': undefined },
+         type: "POST",
+         crossDomain: true,
+         dataType: "json",
+         data: { info },
+         success: function (result_outputdata) {
+            console.log(result_outputdata)
+            if (result_outputdata["status"] == "1") {
+               toastr.success(result_outputdata["message"]);
+            }
+            else {
+               if (result_outputdata.message.indexOf("Failed to") >= 0) {
+                  toastr.error("Document Process Api is down please check the connection end point")
+               }
+               if (result_outputdata.message.indexOf.indexOf("timeout") >= 0) {
+                  toastr.success("Request Raised Successfully.")
+               }
+               else {
+                  toastr.error(result_outputdata.message)
+               }
+            }
+
+         },
+         error: function (error) {
+
+            toastr.error(error)
+
+         }
+      });
+
+
+   }
+
+
+</script>
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>Upload Documents</h1>
+  
+  <form enctype="multipart/form-data">
+            
+    <div class="input-group my-3">
+
+        <div class="custom-file">
+            <input type="file" class="custom-file-input" id="upload_file" name="upload_file[]"
+                onchange="preview_image();" multiple aria-describedby="inputGroupFileAddon01">
+            <label class="custom-file-label" for="upload_file">Browse Document</label>
+        </div>
+    </div>
+</form>
+
+<script>
+
+
+function upload_request(fd) {
+         console.log("UPlaod File_id " + file_id + "**************************")
+         var UPLOAD_URL = $("#SITEROOTURL").val() + "/uploadfile/";
+         
+         $.ajax({
+             url: UPLOAD_URL,
+             type: 'POST',
+             data: fd,
+             crossDomain: true,
+             processData: false,
+             contentType: false,
+             headers: { "X-CSRFToken": '{{csrf_token}}', 'Content-Type': undefined },
+ 
+             success: function (result) {
+                 console.log(result)
+                 $('#uuid_' + result.fileindex).html(result.uuid)
+                 $('#file_' + result.fileindex).width("100%")
+                 $('#small_' + result.fileindex).html("100% Completed")
+                 $('#btndelete_file_' + result.fileindex).show()
+                 $('#btncancel_file_' + result.fileindex).hide()
+ 
+             }
+         });
+     }
+
+</script>
+{% endblock %}

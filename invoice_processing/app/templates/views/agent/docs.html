@@ -1,0 +1,216 @@
+{% extends "base_ais.html" %}
+
+{% block content %}
+<style>
+   .green {
+      background-color: #abebc6;
+      text-align: center;
+      font-size: 11px;
+      padding: 7px;
+      font-weight: 600;
+      color: #323232;
+   }
+
+   .red {
+      background-color: #fdebd0;
+      text-align: center;
+      font-size: 11px;
+      padding: 7px;
+      font-weight: 600;
+      color: #323232;
+   }
+   .txt_css {font-family: 'poppins';
+font-size: 11px;
+text-align: left;
+font-weight: 600;
+color: #151515;}
+
+.val_css {font-family: 'poppins';
+font-size: 13px;
+text-align: left;
+ 
+color: #151515;}
+
+.green_border{border-color: #389e0d;}
+.red_border{border-color: #c10d0d;}
+
+table thead th {font-size: 15px;}
+table tbody tr td {font-size: 14px;}
+</style>
+<div class="" style="margin-top:10px;">
+
+   <input id="hdn_document_id" type="hidden" value="{{document_id}}" />
+   <input id="hdn_config_id" type="hidden" value="{{config_id}}" />
+   <input id="hdn_CONFIDENCE_LIMIT" type="hidden" value="{{CONFIDENCE_LIMIT}}" />
+
+
+   <div class="row mb-xl-6">
+      <div class="col-sm-7 left-content">
+         <a href="/app/documents/" class="btn" style="font-size: 15px;padding-left: 0px;">Back to List</a>  
+         <div class="col-md-12" style="border: solid 1px #ababab;background-color: #323232;padding:20px;">
+            <div id="img_panel"  class="white_shd full margin_bottom_30" style="border: solid 1px #ababab;">
+              
+               <img id="img_src" style="width: 100%;" src="">
+               <embed id="pdf_src" src="" type="application/pdf"   height="700px" width="100%">
+            </div>
+           
+            <input type="hidden" id="hdn_file_name" value="{{file_name}}" > 
+            <input type="hidden" id="root_page_path" value="{{root_page_path}}" > 
+             
+         </div>
+      </div>
+      <div class="col-sm-5 right-content">
+         <div style="margin-bottom: 20px;">
+            <h3><b>Invoice Extracted Information</b></h3>
+         </div>
+         <form>             
+            <div id="form_fields" style="padding-left: 20px;"> 
+               <div class="form-group row">
+                  <label   for="$FIELD_ID$" class="col-sm-4 col-form-label txt_css" >$LABEL$</label>
+                  <div class="col-sm-8">
+                     <input type="text" class="form-control val_css $BORDER$" id="$FIELD_ID$" placeholder="" value="$FIELD_VALUE$">
+                      
+                  </div>
+                   
+               </div>
+            </div>
+         </form>
+      </div>
+   </div>
+   <div class="row">
+      <div style="padding: 20px;">
+      <div>
+         <h2><b>Line Items</b></h2>
+      </div>
+      <div style="margin-top: 20px;">
+         <table id="doc_list" class="table">
+            <thead id="tbl_header">
+               
+            </thead>
+            <tbody id="tbl_rows">
+
+            </tbody>
+         </table>
+      </div>
+   </div>
+   </div>
+</div>
+
+<script>
+
+   get_extracted_output()
+   bind_file()
+   function bind_file()
+   {
+      var_file = $("#hdn_file_name").val()
+      var_root = "/static/media/document/3/1" //$("#root_page_path").val()
+
+      fileExt = var_file.split('.').pop().toLowerCase();
+      
+      console.log(var_root)
+      if(fileExt == 'pdf')
+      {
+          
+         $("#pdf_src").attr("src",(var_root + "/" +var_file)) 
+         $("#pdf_src").show()
+         $("#img_src").hide()
+      }
+      else{ 
+         $("#img_src").attr("src",(var_root + "/" +var_file)) 
+         $("#pdf_src").hide()
+         $("#img_src").show()
+      }
+   }
+
+   function sentenceCase(str) {
+      if ((str === null) || (str === ''))
+         return false;
+      else
+         str = str.toString();
+
+      return str.replace(/\w\S*/g,
+         function (txt) {
+            return txt.charAt(0).toUpperCase() +
+               txt.substr(1).toLowerCase();
+         });
+   }
+   function dynamic_form_design(lst_fields) {
+
+      conf_thresold = $("#hdn_CONFIDENCE_LIMIT").val()
+      _html_field_template = $("#form_fields").html()
+
+      $("#form_fields").html("")
+
+      $.each(lst_fields, function (key, val) {
+         console.log(key)
+         if(key != "items" && key != "keyValuePairs")
+         { 
+            field_id = key
+            field_label = sentenceCase(field_id.replace(/_/g, " "))
+            generated_html = _html_field_template.replace("$LABEL$", field_label)
+            generated_html = generated_html.replace("$FIELD_ID$", field_id)
+            generated_html = generated_html.replace("$FIELD_VALUE$", val)
+         }
+          
+ 
+          
+         $("#form_fields").append(generated_html)
+      });
+
+   }
+   
+   function dynamic_table_design(line_items)
+   {
+
+      console.log(line_items)
+      // iterate for columns
+      $.each(line_items[0], function (key, val) {
+         console.log(key)
+         if(key != "rawText")
+         { 
+            formated_key = sentenceCase(key.replace(/_/g, " "))
+            $("#tbl_header").append("<th>"+ formated_key + "</th>")
+         }
+      });
+      $.each(line_items, function (index, item) {
+         row = ""
+         $.each(item, function(key,val){
+            if(key != "rawText")
+            { 
+               row = row + "<td><div>"+ val + "</div></td>"         
+            }
+            
+         });
+         $("#tbl_rows").append("<tr>" + row + "</tr>")
+      });
+
+   }
+   function get_extracted_output() {
+      var api_url = $("#SITEROOTURL").val() + "/get_document_field_data";
+      info = {}
+      info["config_id"] = $("#hdn_config_id").val()
+      info["document_id"] = $("#hdn_document_id").val()
+      info = JSON.stringify(info)
+      $.ajax({
+         url: api_url,
+         headers: { "X-CSRFToken": '{{ csrf_token }}', 'Content-Type': undefined },
+         type: "POST",
+         crossDomain: true,
+         dataType: "json",
+         data: { info },
+         success: function (result_outputdata) {
+            
+            invoice_fields = result_outputdata.data.invoiceData
+            line_items = result_outputdata.data.invoiceData.items
+            dynamic_form_design(invoice_fields)
+            dynamic_table_design(line_items)
+            console.log(result_outputdata)
+         },
+         error: function (error) {
+            toastr.success("error")
+            console.log(error);
+         }
+      });
+   }
+</script>
+{% endblock %}

@@ -1,0 +1,352 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+<style>
+  .lbl {
+    color: #323232;
+    font-size: 15px;
+  }
+
+  tbody tr td {
+    font-size: 15px !important;
+    color: #323232;
+  }
+</style>
+<div class="midde_cont">
+  <div class="container-fluid">
+    <div class="row column_title">
+      <div class="col-md-12">
+        <div class="page_title">
+          <h2 style="font-size:18px;"><i class="fa fa-rocket red_color"
+              style="font: size 18px;margin-top:4px;margin-right: 15px;"></i>Raise New Request</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+    <div class="content-header">
+      <div class="card">
+        <div class="breadcomb-list"> 
+          <div class="full graph_head">
+            <div class="heading1 margin_0">
+              <h2>Document Ready to Process <b>({{doc_list.result|length}})</b></h2>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div style="height:340px;overflow-y: scroll;">
+              <table id="doc_list" class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 5%;" class="mailbox-subject" style="text-align:left">Type
+                    </th>
+                    <th style="width:90%;"  class="mailbox-star">Document Name</th>
+                    <th class="mailbox-name" style="display: none;">Template/Layout</th>
+                  
+                    <th class="mailbox-attachment" style="display: none;">Uploaded Date</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                 
+                  {% for doc_item in doc_list.result %}
+
+                  <tr id="row_{{doc_item.id}}">
+                    <td id="item_doc_type_{{doc_item.id}}" style="text-align:left;vertical-align: middle;">
+
+                      {% if doc_item.doc_type == 'pdf' %}
+                      <i class="fa fa-file-pdf-o" style="font-size:16px;"></i>
+
+                      {% else %}
+                      <i class="fa fa-file-picture-o" style="font-size:16px;"></i>
+                      {% endif %}
+                    </td>
+                    <td style="cursor: pointer;"  id="item_doc_name_{{doc_item.id}}">
+                      <div id="btn_{{doc_item.id}}" onclick="get_detail(this)" style="color:#000;font-size:14px;">
+                        {{doc_item.doc_name}} <span style="font-size: 14px;font-weight: 600;"> ({{doc_item.display_name}})</span>
+                        
+                        </div>
+                      <div style="font-size: 14px;">
+                        {{doc_item.uploaded_date|date:"SHORT_DATE_FORMAT"}} {{doc_item.uploaded_date|time:"h:i a"}}
+                      </div>
+                    </td>
+                    <td id="item_config_name_{{doc_item.id}}" style="display: none;">{{doc_item.display_name}}
+                    </td>
+                   
+                    <td  style="display: none;" id="item_uploaded_date_{{doc_item.id}}" class="mailbox-attachment">
+
+                      <input type="hidden" value="{{doc_item.config_id}}" id="hdn_config_id_{{doc_item.id}}">
+                      <input type="hidden" value="{{doc_item.doc_name}}" id="hdn_doc_name_{{doc_item.id}}">
+                      <input type="hidden" value="{{doc_item.id}}" id="hdn_doc_id_{{doc_item.id}}">
+                      <input type="hidden" value="{{doc_item.username}}" id="hdn_username_{{doc_item.id}}">
+                      <input type="hidden" value="{{doc_item.doc_type}}" id="hdn_doc_type_{{doc_item.id}}">
+                      <input type="hidden" value="{{doc_item.status}}" id="hdn_status_{{doc_item.id}}">
+                    </td>
+                    <td style="text-align: center">
+
+                      {% if doc_item.status == 0 %}
+                      <i class="fa fa-circle black_color" title="Ready to Process"></i>
+                      {% elif doc_item.status == 1 %}
+                      <i class="fa fa-circle" title="In Progress" style='color:#ffc107'></i>
+                      {% elif doc_item.status == 2 %}
+                      <i class="fa fa-circle green_color" title="Completed"></i>
+                      {% endif %}
+                    </td>
+
+                  </tr>
+                  {% endfor %}
+                   
+                </tbody>
+              </table>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+    <div class="content-header">
+      <div class="card">
+        <div class="breadcomb-list">
+          <div class="full graph_head">
+            <div class="heading1 margin_0">
+              <h2>Document Details</h2>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <table class="table">
+                <tbody>
+                  <tr>
+                    <td style="width:40%">Document</td>
+                    <td>
+                      <div id="doc_name" class="lbl"></div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Document Type</td>
+                    <td>
+                      <div id="doc_type" class="lbl"></div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Layout / Template:</td>
+                    <td>
+                      <div id="doc_layout" class="lbl"></div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Uploaded Date</td>
+                    <td>
+                      <div id="doc_uploaded" class="lbl"></div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Uploaded By</td>
+                    <td>
+                      <div id="doc_uploaded_by" class="lbl"></div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Process Status</td>
+                    <td>
+                      <div id="doc_process_status" class="lbl"></div>
+                    </td>
+                  </tr>
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 " style="padding:20px">
+              <button type="button" id="btn_run" onclick="iterate_request()" class="btn  btn-danger btn-sm float-right"
+                style="margin-right: 5px;display: none;">
+                <i class="fa fa-cogs"></i> Run Extraction
+              </button>
+
+              <button onclick="test_fun()" type="button" class="btn btn-sm  float-right" style="margin-right: 5px">
+                Reset
+              </button>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <input type="hidden" value="" id="current_selected">
+</div>
+
+
+
+<script>
+
+
+  function test_fun()
+  {
+      var api_url = $("#SITEROOTURL").val() + "/check_api";
+      info = {}
+      info["config_id"] = "TAR"
+      info["document_id"] = "KUM"
+      info = JSON.stringify(info)
+      $.ajax({
+         url: api_url,
+         headers: { "X-CSRFToken": '{{ csrf_token }}', 'Content-Type': undefined },
+         type: "POST",
+         crossDomain: true,
+         dataType: "json",
+         data: { info },
+         success: function (result_outputdata) {
+           
+            console.log(result_outputdata)
+         },
+         error: function (error) {
+            toastr.success("error")
+            console.log(error);
+         }
+      });
+      
+  }
+
+  function get_detail(selected_id) {
+    id = selected_id.id.replace("btn_", "")
+    
+    $("#current_selected").val(id)
+    $("#doc_name").html($("#hdn_doc_name_" + id).val())
+    $("#doc_type").html($("#item_doc_type_" + id).html() + "      " + $("#hdn_doc_type_" + id).val().toUpperCase())
+    $("#doc_uploaded").html($("#item_uploaded_date_" + id).html())
+    $("#doc_layout").html($("#item_config_name_" + id).html())
+    $("#doc_uploaded_by").html($("#hdn_username_" + id).val())
+
+    if ($("#hdn_status_" + id).val() == "0") {
+      $("#btn_run").css("display", "block")
+      $("#doc_process_status").html("Ready to Process")
+    }
+    if ($("#hdn_status_" + id).val() == "1") {
+      $("#btn_run").css("display", "block")
+      $("#doc_process_status").html("In Progress")
+    }
+    else if ($("#hdn_status_" + id).val() == "2") {
+      $("#btn_run").css("display", "none")
+      $("#doc_process_status").html("Completed")
+    }
+
+
+
+  }
+  function set_checked_items(item) {
+
+    prev_items = $("#current_selected").val()
+    if (prev_items == "") {
+      $("#current_selected").val($(item).attr("value"))
+    }
+    else {
+      $("#current_selected").val(prev_items + "," + $(item).attr("value"))
+    }
+  }
+  function get_items(objselected) {
+
+
+    config_id = $("#hdn_config_id_" + objselected).val()
+     
+    doc_name = $("#hdn_doc_name_" + objselected).val()
+    doc_id = $("#hdn_doc_id_" + objselected).val()
+    user_id = $("#hdn_user_id_" + objselected).val()
+    company_id = $("#hdn_company_id_" + objselected).val()
+
+    info = {}
+    info["config_id"] = config_id
+    info["user_id"] = user_id
+    info["document_name"] = doc_name
+    info["organization_id"] = company_id
+    info["doc_id"] = doc_id
+    info = JSON.stringify(info)
+    console.log(info)
+    return info
+
+  }
+
+  function iterate_request() {
+    if ($("#current_selected").val() != "") {
+      var array = $("#current_selected").val().split(',');
+      console.log(array)
+      var i;
+      for (i = 0; i < array.length; ++i) {
+        params_json = get_items(array[i]);
+        raise_new_request(params_json)
+      }
+    }
+    else {
+      toastr.error("Please select atleast one document to process");
+    }
+
+  }
+  function raise_new_request(info) {
+
+    var api_url = $("#SITEROOTURL").val() + "/run_extraction";
+    $.ajax({
+      url: api_url,
+      headers: { "X-CSRFToken": '{{ csrf_token }}', 'Content-Type': undefined },
+      type: "POST",
+      crossDomain: true,
+      dataType: "json",
+      data: { info },
+      success: function (result_outputdata) {
+        console.log("Tarun")
+        console.log(result_outputdata)
+        if (result_outputdata["status"] == "1") {
+          window.location.href = "/app/documents"
+          toastr.success(result_outputdata["message"]); 
+        }
+        else {
+          if (result_outputdata.message.indexOf("Failed to") >= 0) {
+            toastr.error("Document Process Api is down please check the connection end point")
+          }
+          if (result_outputdata.message.indexOf("timeout") >= 0) {
+            toastr.success("Request Raised Successfully.")
+            window.location.href = "/app/documents"
+          }
+          else {
+            toastr.error(result_outputdata.message)
+          }
+        }
+
+      },
+      error: function (error) {
+
+        toastr.error(error)
+
+      }
+    });
+
+
+  }
+
+
+</script>
+
+
+<script>
+  $(function () {
+
+    $('#doc_list').DataTable({
+      "paging": false,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": false,
+      "info": false,
+      "autoWidth": false,
+      "responsive": false,
+    });
+  });
+</script>
+{% endblock %}

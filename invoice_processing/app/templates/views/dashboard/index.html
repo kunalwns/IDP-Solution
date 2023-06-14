@@ -1,0 +1,319 @@
+{% extends "base_generic.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="row mt-4">
+   <div class="col-sm-3">
+      <div class="small-box bg-info">
+         <div class="inner">
+            <p>Uploaded</p>
+            <h3>{{doc_stats.result.uploaded}}</h3>
+         </div>
+         <div class="icon">
+            <i class="fa fa-file-o"></i>
+         </div>
+
+      </div>
+   </div>
+   <div class="col-sm-3">
+      <div class="small-box bg-warning">
+         <div class="inner">
+            <p>In Progress</p>
+            <h3>{{doc_stats.result.inprogress}}</h3>
+         </div>
+         <div class="icon">
+            <i class="fa fa-file-powerpoint-o"></i>
+         </div>
+
+      </div>
+   </div>
+   <div class="col-sm-3">
+      <div class="small-box bg-success">
+         <div class="inner">
+            <p>Docs processed</p>
+            <h3>{{doc_stats.result.processed}}</h3>
+         </div>
+         <div class="icon">
+            <i class="fa fa-file-text" aria-hidden="true"></i>
+         </div>
+
+      </div>
+   </div>
+   <div class="col-sm-3">
+      <div class="small-box bg-danger">
+         <div class="inner">
+            <p>Failed</p>
+            <h3>{{doc_stats.result.failed}}</h3>
+         </div>
+         <div class="icon">
+            <i class="fa fa-bullseye" aria-hidden="true"></i>
+         </div>
+
+      </div>
+   </div>
+</div>
+<div class="row " style="margin-top: 20px;">
+   <input id="graph_doc_type" type="hidden" value="{{doc_stats.graph_data.doc_type}}">
+   <input id="graph_template" type="hidden" value="{{doc_stats.graph_data.template}}">
+   <input id="table_doc_date" type="hidden" value="{{doc_stats.tbl_data}}">
+
+   <div class="col-sm-4">
+      <div class="card">
+         <div class="card-header">
+            <strong> Last 7 Days Doc Processed</strong>
+         </div>
+         <div class="table_section">
+            <div class="table-responsive-sm" style="height:250px;overflow-y: auto;">
+               <table class="table">
+                  <thead>
+                     <tr>
+                        <th>Process Date</th>
+                        <th style="text-align: right;">Doc Count</th>
+
+                     </tr>
+                  </thead>
+                  <tbody id="tr_date_doc">
+
+                  </tbody>
+               </table>
+            </div>
+         </div>
+      </div>
+
+   </div>
+   <div class="col-sm-8">
+      <div class="card">
+         <div class="card-header">
+            <strong>Doc Configuration </strong>
+         </div>
+         <div id="doc_bar" style="width: 100%;height:250px;"></div>
+      </div>
+
+   </div>
+   <div class="col-sm-6">
+      <div class="card">
+         <div class="card-header">
+            <strong>Doc Configuration </strong>
+         </div>
+         <div id="doc_template" style="width: 100%;height:250px;"></div>
+      </div>
+
+   </div>
+   <div class="col-sm-6">
+      <div class="card">
+         <div class="card-header">
+            <strong>Doc Type Processed</strong>
+         </div>
+         <div id="doc_chart" style="width: 100%;height:250px;"></div>
+      </div>
+
+   </div>
+
+
+</div>
+
+<script>
+   var pie_template = []
+   var pie_doc_type = []
+   var bar_lable = []
+   var bar_data = []
+
+   function bar_data_prepare()
+   {
+
+   }
+   function prepare_pie_data(chart_for, pie_data) {
+      if (chart_for == "template") {
+         $.each(JSON.parse(pie_data), function (item_key, item_value) {
+            j_obj = { value: item_value.value, name: item_value.name }
+            pie_template.push(j_obj)
+         });
+         console.log(pie_template)
+      }
+      if (chart_for == "doctype") {
+         $.each(JSON.parse(pie_data), function (item_key, item_value) {
+            j_obj = { value: item_value.value, name: item_value.name }
+            pie_doc_type.push(j_obj)
+         });
+         console.log(pie_doc_type)
+      }
+
+   }
+
+
+   function bin_tbl_doc_date() {
+      items = $("#table_doc_date").val()
+      $.each(JSON.parse(items), function (item_key, item_value) {
+         obj = item_value
+         bar_data.push(obj.rec_count)
+         bar_lable.push(obj.p_date)
+         $("#tr_date_doc").append("<tr><td>" + obj.p_date + "</td><td style='text-align:right'>" + obj.rec_count + "</td></tr>")
+      });
+
+   }
+
+   $(document).ready(function () {
+
+      prepare_pie_data("doctype", $("#graph_doc_type").val())
+      prepare_pie_data("template", $("#graph_template").val())
+
+      console.log($("#graph_template").val())
+      bin_tbl_doc_date()
+      draw_pie_template()
+      draw_pie_doc_type()
+      draw_bar()
+
+
+   });
+   function draw_bar() {
+      // Pie Chat
+
+      var dom = document.getElementById('doc_bar');
+      var myChart = echarts.init(dom, null, {
+         renderer: 'canvas',
+         useDirtyRect: false
+      });
+
+
+      var app = {};
+
+      var option;
+
+      option = {
+         xAxis: {
+            type: 'category',
+            data: bar_lable
+         },
+         yAxis: {
+            type: 'value'
+         },
+         series: [
+            {
+               data: bar_data,
+               type: 'bar'
+            }
+         ]
+      };
+      if (option && typeof option === 'object') {
+         myChart.setOption(option);
+      }
+
+      window.addEventListener('resize', myChart.resize);
+
+   }
+   function draw_pie_template() {
+      // Pie Chat
+
+      var dom = document.getElementById('doc_template');
+      var myChart = echarts.init(dom, null, {
+         renderer: 'canvas',
+         useDirtyRect: false
+      });
+
+
+      var app = {};
+
+      var option;
+
+      option = {
+         tooltip: {
+            trigger: 'item'
+         },
+         legend: {
+            orient: 'vertical',
+            right: 10,
+            top: '2%'
+         },
+         series: [
+            {
+               name: 'Access From',
+               type: 'pie',
+               radius: ['40%', '60%'],
+               avoidLabelOverlap: false,
+               label: {
+                  show: false,
+                  position: 'center'
+               },
+               emphasis: {
+                  label: {
+                     show: true,
+                     fontSize: 20,
+                     fontWeight: 'bold'
+                  }
+               },
+               labelLine: {
+                  show: false
+               },
+               data: pie_template
+            }
+         ]
+      };
+
+      if (option && typeof option === 'object') {
+         myChart.setOption(option);
+      }
+
+      window.addEventListener('resize', myChart.resize);
+
+
+   }
+   function draw_pie_doc_type() {
+      // Pie Chat
+
+      var dom = document.getElementById('doc_chart');
+      var myChart = echarts.init(dom, null, {
+         renderer: 'canvas',
+         useDirtyRect: false
+      });
+
+
+      var app = {};
+
+      var option;
+
+      option = {
+         tooltip: {
+            trigger: 'item'
+         },
+         legend: {
+            orient: 'vertical',
+            right: 10,
+            top: '2%'
+         },
+         series: [
+            {
+               name: 'Access From',
+               type: 'pie',
+               radius: ['40%', '60%'],
+               avoidLabelOverlap: false,
+               label: {
+                  show: false,
+                  position: 'center'
+               },
+               emphasis: {
+                  label: {
+                     show: true,
+                     fontSize: 20,
+                     fontWeight: 'bold'
+                  }
+               },
+               labelLine: {
+                  show: false
+               },
+               data: pie_doc_type
+            }
+         ]
+      };
+
+      if (option && typeof option === 'object') {
+         myChart.setOption(option);
+      }
+
+      window.addEventListener('resize', myChart.resize);
+
+
+   }
+
+</script>
+{% endblock %}

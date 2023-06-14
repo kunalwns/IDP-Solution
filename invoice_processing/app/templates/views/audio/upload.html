@@ -1,0 +1,212 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<style>
+
+   input[type="file"] {
+      display: none;
+   }
+
+   .custom-file-upload {
+      border: 1px solid #ccc;
+      display: inline-block;
+      padding: 20px;
+      cursor: pointer;
+      width: 100%;
+      font-size: 23px;
+   }
+</style>
+
+<div class="midde_cont">
+   <div class="container-fluid">
+      <div class="row column_title">
+         <div class="col-md-12">
+            <div class="page_title">
+               <h1> <i class="fa fa-cloud-upload green_color"  style="font-size:22px;margin-top:4px;"></i> Upload Audio</h1>
+            </div>
+         </div>
+      </div>
+      <!-- row -->
+      <div class="row column4 graph">
+         <div class="col-md-5">
+            <div class="white_shd full margin_bottom_30">
+               <div class="full graph_head">
+                  <div class="heading1 margin_0">
+                     <h2>Select Audio files to Upload</h2>
+                  </div>
+               </div>
+               <div class="full progress_bar_inner">
+                 
+                  <div class="row">
+                     <div class="col-md-12">
+                        <div class="msg_section">
+                           <div class="msg_list_main">
+                              <ul class="msg_list">
+                                 <li>
+                                    <label for="file-upload" class="custom-file-upload">
+                                       <i class="fa fa-cloud-upload"></i> Audio Upload ( mp3/Wav )
+                                    </label>
+                                    <input id="file-upload" name="file-upload[]" multiple aria-describedby="inputGroupFileAddon01" onchange="preview_image()" type="file" style="width: 100%;" />
+                                 </li>
+                                 <li>
+                                    <div style="text-align: right;width:100%;">
+                                       <button onclick="start_upload()" type="button" style="padding:10px;background-color: #ff5722;color:#fff;"
+                                          class="btn btn-warning">Start Upload</button>
+                                    </div>
+                                 </li>
+
+                              </ul>
+                           </div>
+
+                        </div>
+                     </div>
+
+                  </div>
+
+               </div>
+            </div>
+            
+         </div>
+         <div class="col-md-7">
+            <div class="white_shd full margin_bottom_30">
+               <div class="full graph_head">
+                  <div class="heading1 margin_0">
+                     <h2>Uploaded Files</h2>
+                  </div>
+               </div>
+               <div class="table_section padding_infor_info">
+                  <div class="table-responsive-sm">
+                     <table class="table" style="color:#000;font-size: 1.3em">
+                        <thead>
+                           <tr>
+                              <th style="width: 60px;">#</th>
+                              <th> File Name </th>
+                              <th> File Size </th>
+                              <th> Upload Progress</th>
+                              <th style="width: 100px;"> Action </th>
+                           </tr>
+                        </thead>
+                        <tbody id="image_preview">
+                           
+                        </tbody>
+                     </table>
+                  </div>
+               </div>
+            </div>
+         </div>
+
+
+      </div>
+   </div>
+
+</div>
+
+<script>
+     var dyn_id = 1;
+  var upl_id = 1;
+   function randomIntFromInterval(min, max) { // min and max included 
+     return Math.floor(Math.random() * (max - min + 1) + min);
+   }
+   function getExtension(filename) {
+     return filename.split('.').pop().toLowerCase();
+   }
+ 
+   function preview_image() {
+     var total_file = document.getElementById("file-upload").files.length; 
+       for (var i = 0; i < total_file; i++) {
+ 
+         var uploadRow = '';
+         var _size = event.target.files[i].size;
+         var fSExt = new Array('Bytes', 'KB', 'MB', 'GB'),
+           s = 0; while (_size > 900) { _size /= 1024; s++; }
+         var exactSize = (Math.round(_size * 100) / 100) + ' ' + fSExt[s];
+ 
+         var fileExt = getExtension(event.target.files[i].name).toLowerCase();
+ 
+         if (fileExt == 'mp3' || fileExt == 'mp4' || fileExt == 'wav') {
+           id = "file_" + (upl_id)
+           file_name = "tr_" + (upl_id)
+           small_id = "small_" + (upl_id)
+           rec_id = "uuid_" + (upl_id)
+           span_file_name = "uuid_" + (upl_id)
+           progressbar = "<td class='project_progress'><div class='progress progress-sm'><div class='progress-bar bg-green' id = '" + id + "' role='progressbar' style='width: 0%' aria-volumemax='100' aria-volumemin='0'></div></div><small id=" + small_id + ">0% Complete</small><span id= span_" + rec_id + " style='display:none'>" + event.target.files[i].name + "</span><span  style='display:none' id= " + rec_id + "></span></td>"
+           uploadRow += "<tr id = " + file_name + " ><td><div >" + (upl_id) + "</div> </td><td >" + event.target.files[i].name + "</td><td>" + exactSize + " </td>" + progressbar + "<td style='text-align:center'> <i style='display:none' id='btndelete_" + id + "' onclick = Delete_file('" + rec_id + "')  class='fa fa-remove'></i>  <i id='btncancel_" + id + "' class='fa fa-remove'></i></td></tr>";
+ 
+         } else {
+           alert("Only .MP3, .MP4, .WAV file allowed.");
+         }
+ 
+         $('#image_preview').append(uploadRow);
+         upl_id = upl_id + 1
+ 
+ 
+        
+     }
+ 
+   }
+ 
+   function start_upload() {
+   
+     upload_files()
+   }
+   function upload_files() {
+ 
+     var total_file = document.getElementById("file-upload").files.length;
+ 
+     for (var filestart = 0; filestart < total_file; filestart++) {
+       calc_percentage = "";
+       var file_data = $("#file-upload").prop("files")[filestart];
+       file_id = "file_" + dyn_id
+       small_id = "small_" + dyn_id
+ 
+       calc_percentage = randomIntFromInterval(30, 80) + "%"
+       $('#' + file_id).width(calc_percentage)
+       $('#' + small_id).html(calc_percentage + "Completed")
+       var fd = new FormData();
+       console.log("File_id " + file_id + "**************************")
+       fd.append("file", file_data);
+       fd.append("file_index", (dyn_id));
+       fd.append("config_id", ($("#selected_config").val()));
+ 
+       upload_request(fd)
+ 
+       dyn_id = dyn_id + 1;
+     }
+ 
+   }
+   function upload_request(fd) 
+   {
+  
+     var UPLOAD_URL = $("#SITEROOTURL").val() + "/upload_audio_file";
+     alert(UPLOAD_URL)
+     $.ajax({
+       url: UPLOAD_URL,
+       type: 'POST',
+       data: fd,
+       crossDomain: true,
+       processData: false,
+       contentType: false,
+       headers: { "X-CSRFToken": '{{csrf_token}}', 'Content-Type': undefined },
+ 
+       success: function (result) {
+         console.log(result)
+         if (result.status = "1") {
+           $('#uuid_' + result.fileindex).html(result.uuid)
+           $('#file_' + result.fileindex).width("100%")
+           $('#small_' + result.fileindex).html("100% Completed")
+           $('#btndelete_file_' + result.fileindex).show()
+           $('#btncancel_file_' + result.fileindex).hide()
+ 
+         }
+         else {
+           toastr.error(result.message)
+         }
+ 
+ 
+       }
+     });
+   }
+ 
+ 
+ </script>
+{% endblock %}
